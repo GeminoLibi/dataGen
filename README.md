@@ -247,6 +247,32 @@ MIT License - See LICENSE file for details
 
 This tool is for training and educational purposes only. Generated data is fictional and should not be used for actual law enforcement purposes.
 
+## AI Evaluation
+
+The project includes an AI evaluation system for analyzing generated cases. See `AI_EVALUATION_PROMPT.md` for the evaluation criteria and `evaluate_case_ai.py` for the evaluation tool.
+
+### Quick Evaluation
+
+```bash
+# Generate evaluation prompt (for manual use with any AI)
+python evaluate_case_ai.py cases/CASE-XXXXX
+
+# Use with OpenAI
+python evaluate_case_ai.py cases/CASE-XXXXX --ai openai --api-key YOUR_KEY
+
+# Use with Anthropic Claude
+python evaluate_case_ai.py cases/CASE-XXXXX --ai anthropic --api-key YOUR_KEY
+```
+
+The evaluation assesses:
+- Internal consistency (entities, timelines, locations)
+- Crime-type appropriateness
+- Realism and authenticity
+- Narrative coherence
+- Technical accuracy
+- Investigation quality
+- Hidden gems and subtle clues
+
 ## Support
 
 For issues, questions, or contributions, please open an issue on GitHub.
