@@ -833,14 +833,21 @@ def run_case_generation(crime_type_num, complexity, modifier_nums, subject_statu
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        crime_type = request.form.get('crime_type')
-        complexity = request.form.get('complexity')
-        subject_status = request.form.get('subject_status', 'Known')
-        modifiers = request.form.getlist('modifiers')
-        generate_trend = request.form.get('generate_trend', 'no')
-        ai_mode = request.form.get('ai_mode', 'none')
-        api_key = request.form.get('api_key', '')
-        local_model_name = request.form.get('local_model_name', 'llama2')
+        # Safely get form data with defaults
+        try:
+            crime_type = request.form.get('crime_type', '')
+            complexity = request.form.get('complexity', 'Medium')
+            subject_status = request.form.get('subject_status', 'Known')
+            modifiers = request.form.getlist('modifiers') if hasattr(request.form, 'getlist') else []
+            generate_trend = request.form.get('generate_trend', 'no')
+            ai_mode = request.form.get('ai_mode', 'none')
+            api_key = request.form.get('api_key', '')
+            local_model_name = request.form.get('local_model_name', 'llama2')
+        except Exception as e:
+            return render_template_string(HTML_TEMPLATE, 
+                status='error',
+                message=f'Error reading form data: {str(e)}',
+                output='')
         
         if not crime_type or not complexity:
             return render_template_string(HTML_TEMPLATE,
@@ -887,8 +894,38 @@ def index():
     return render_template_string(HTML_TEMPLATE)
 
 if __name__ == '__main__':
-    print("🌐 Starting Law Enforcement Case Generator Web Interface...")
-    print("📱 Open your browser to: http://localhost:5000")
-    print("❌ Press Ctrl+C to stop the server")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    import webbrowser
+    import threading
+    
+    print("=" * 60)
+    print("Case Data Generator - Web Interface")
+    print("=" * 60)
+    print("Server starting on http://localhost:5000")
+    print("Browser should open automatically...")
+    print("Press Ctrl+C to stop the server")
+    print("=" * 60)
+    print()
+    
+    # Open browser after a short delay
+    def open_browser():
+        import time
+        time.sleep(1.5)
+        try:
+            webbrowser.open('http://localhost:5000')
+        except Exception as e:
+            print(f"Could not open browser automatically: {e}")
+            print("Please navigate to http://localhost:5000 manually")
+    
+    # Start browser opener in background
+    threading.Thread(target=open_browser, daemon=True).start()
+    
+    try:
+        app.run(debug=False, host='127.0.0.1', port=5000, use_reloader=False)
+    except Exception as e:
+        print(f"ERROR: Failed to start server: {e}")
+        print("\nTroubleshooting:")
+        print("1. Make sure port 5000 is not in use")
+        print("2. Check firewall settings")
+        print("3. Try running as administrator")
+        input("\nPress Enter to exit...")
 

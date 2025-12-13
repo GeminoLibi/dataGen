@@ -101,6 +101,10 @@ dist/
 *.exe
 *.app
 
+# But keep releases folder
+!releases/
+!releases/*.exe
+
 # Temporary files
 *.tmp
 *.temp
