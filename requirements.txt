@@ -1,0 +1,10 @@
+faker
+rich
+flask
+pyinstaller
+anthropic
+openai
+google-generativeai
+xai
+requests
+
