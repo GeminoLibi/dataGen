@@ -5,6 +5,7 @@ from rich.panel import Panel
 from rich.markdown import Markdown
 from rich.table import Table
 from src.generators import CaseGenerator
+from src.config import CRIME_TYPES, COMPLEXITY_LEVELS, SUBJECT_STATUS_OPTIONS, SUBJECT_CLARITY_OPTIONS, INVESTIGATIVE_MODIFIERS, TREND_TYPES, AI_MODELS
 
 console = Console()
 
@@ -37,7 +38,16 @@ def main():
         num_cases = IntPrompt.ask("How many related cases to generate?", default=5)
         complexity = Prompt.ask("Select [bold yellow]Complexity[/bold yellow]", choices=["Low", "Medium", "High"], default="Medium")
         subject_status = Prompt.ask("Select [bold cyan]Subject Status[/bold cyan]", choices=["Known", "Unknown", "Partially Known"], default="Known")
-        
+
+        # Subject identification clarity for unknown cases
+        subject_clarity = None
+        if subject_status == "Unknown":
+            console.print("\n[bold magenta]Subject Identification Clarity:[/bold magenta]")
+            for key, desc in SUBJECT_CLARITY_OPTIONS.items():
+                console.print(f"[cyan]{key}[/cyan]: {desc}")
+            subject_clarity = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta]",
+                                       choices=list(SUBJECT_CLARITY_OPTIONS.keys()), default="Embedded")
+
         identification_status = Prompt.ask(
             "\n[bold magenta]Identification Status[/bold magenta]",
             choices=["Identified", "Unidentified"],
@@ -80,7 +90,7 @@ def main():
         
         with console.status("Processing trend generation...", spinner="dots"):
             trend_gen = TrendGenerator()
-            cases, registry = trend_gen.generate_trend(trend_type, num_cases, complexity, final_modifiers, subject_status, identification_status)
+            cases, registry = trend_gen.generate_trend(trend_type, num_cases, complexity, final_modifiers, subject_status, subject_clarity, identification_status)
         
         console.clear()
         console.print(Panel(f"[bold]{trend_type} Trend[/bold]\nTrend ID: {registry.trend_id}\nCases Generated: {len(cases)}", title="Trend Generation Complete", border_style="blue"))
@@ -137,7 +147,16 @@ def main():
     
     # Subject status (known vs unknown)
     subject_status = Prompt.ask("Select [bold cyan]Subject Status[/bold cyan]", choices=["Known", "Unknown", "Partially Known"], default="Known")
-    
+
+    # Subject identification clarity for unknown cases
+    subject_clarity = None
+    if subject_status == "Unknown":
+        console.print("\n[bold magenta]Subject Identification Clarity:[/bold magenta]")
+        for key, desc in SUBJECT_CLARITY_OPTIONS.items():
+            console.print(f"[cyan]{key}[/cyan]: {desc}")
+        subject_clarity = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta]",
+                                   choices=list(SUBJECT_CLARITY_OPTIONS.keys()), default="Embedded")
+
     # Available modifiers with descriptions
     modifier_options = {
         "1": ("Phone data pull", "Extract phone records, texts, and call logs"),
@@ -174,7 +193,7 @@ def main():
     
     with console.status("Processing procedural generation...", spinner="dots"):
         generator = CaseGenerator()
-        case = generator.generate_case(crime_type, complexity, final_modifiers, subject_status=subject_status)
+        case = generator.generate_case(crime_type, complexity, final_modifiers, subject_status=subject_status, subject_clarity=subject_clarity)
 
     # Output
     console.clear()

@@ -351,7 +351,7 @@ class CaseGenerator:
         self.timeline_manager = None
         self.location_manager = None
 
-    def generate_case(self, crime_type: str, complexity: str, modifiers: List[str], subject_status: str = "Known") -> Case:
+    def generate_case(self, crime_type: str, complexity: str, modifiers: List[str], subject_status: str = "Known", subject_clarity: str = None) -> Case:
         """Generate a complete case with comprehensive error handling."""
         try:
             # 1. Timeline Anchor (Time Zero)
@@ -462,7 +462,10 @@ class CaseGenerator:
             
             # Adjust for subject status
             if subject_status == "Unknown":
-                self._make_subjects_unknown()
+                if subject_clarity == "Investigative":
+                    self._create_investigative_unknown_subjects()
+                else:
+                    self._make_subjects_unknown()
             elif subject_status == "Partially Known":
                 self._make_subjects_partial()
 
@@ -2829,7 +2832,74 @@ Date: {wreck_time.strftime('%Y-%m-%d %H:%M:%S')}
                 suspect.email = ""
             if random.random() < 0.3:
                 suspect.phone_number = None
-    
+
+    def _create_investigative_unknown_subjects(self):
+        """Create multiple potential suspects for investigative scenarios.
+
+        Instead of a single unknown suspect, create 3-5 potential persons of interest,
+        each with varying levels of suspicious activity but no definitive proof.
+        This creates realistic investigative challenges where analysts must
+        evaluate multiple leads."""
+        # Remove the current suspect role
+        suspects = [p for p in self.case.persons if p.role == Role.SUSPECT]
+        for suspect in suspects:
+            suspect.role = Role.WITNESS  # Convert to witness - they might be suspects but not confirmed
+
+        # Create 3-5 potential persons of interest
+        num_potential_suspects = random.randint(3, 5)
+
+        for i in range(num_potential_suspects):
+            # Create a new person with suspicious but inconclusive evidence
+            person = generate_person(Role.WITNESS)  # Start as witness, but add suspicious elements
+
+            # Add varying levels of suspicious activity
+            suspicion_level = random.random()
+
+            if suspicion_level < 0.3:  # Low suspicion - minor connections
+                person.notes = f"Person of interest #{i+1}: Minor connection to incident. " \
+                              f"Located in general vicinity around time of crime. " \
+                              f"Possible witness or coincidental presence."
+                # Add one piece of weak evidence
+                if random.random() < 0.5:
+                    person.devices.append(generate_device(person.id, "Phone"))
+                person.suspicious_activities = ["Proximity to crime scene"]
+
+            elif suspicion_level < 0.7:  # Medium suspicion - some concerning behavior
+                person.notes = f"Person of interest #{i+1}: Demonstrated suspicious behavior. " \
+                              f"Multiple connections to elements of the case. " \
+                              f"Requires further investigation to rule in/out."
+                # Add moderate evidence
+                person.devices.append(generate_device(person.id, "Phone"))
+                if random.random() < 0.6:
+                    person.vehicles.append(generate_vehicle(person.id, person.address))
+                person.suspicious_activities = random.sample([
+                    "Frequent location changes", "Cash transactions", "Late night activity",
+                    "Association with known contacts", "Digital footprint in area"
+                ], random.randint(1, 3))
+
+            else:  # High suspicion - significant red flags
+                person.notes = f"Person of interest #{i+1}: HIGH PRIORITY. " \
+                              f"Multiple red flags and connections to case elements. " \
+                              f"Strong investigative lead requiring immediate follow-up."
+                # Add substantial evidence
+                person.devices.append(generate_device(person.id, "Phone"))
+                person.vehicles.append(generate_vehicle(person.id, person.address))
+                if random.random() < 0.7:
+                    person.weapons.append(generate_weapon(person.id, person.address))
+                person.suspicious_activities = random.sample([
+                    "Direct connection to victim", "Financial transactions with suspect",
+                    "Digital communications with involved parties", "Physical evidence links",
+                    "Alibi inconsistencies", "Prior similar incidents"
+                ], random.randint(2, 4))
+
+            # Add to case as person of interest (witness role but with suspicious notes)
+            self.case.add_person(person)
+
+        # Add a case note about the investigative approach
+        self.case.description += "\n\nINVESTIGATIVE APPROACH: Multiple persons of interest identified. " \
+                                "None definitively identified as perpetrator. " \
+                                "Requires analysis of multiple leads and elimination of suspects."
+
     # --- MASSIVE DATA GENERATORS ---
     
     def _generate_massive_phone_dump(self):

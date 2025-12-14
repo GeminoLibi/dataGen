@@ -128,6 +128,7 @@ class TrendGenerator:
         base_complexity: str,
         base_modifiers: List[str],
         subject_status: str = "Known",
+        subject_clarity: str = None,
         identification_status: str = "Identified"
     ) -> Tuple[List[Case], TrendRegistry]:
         """
@@ -190,6 +191,7 @@ class TrendGenerator:
                 complexity=complexity,
                 modifiers=modifiers,
                 subject_status=subject_status,
+                subject_clarity=subject_clarity,
                 shared_suspect=serial_suspect,
                 crime_date=crime_date,
                 case_number=i + 1
@@ -235,12 +237,13 @@ class TrendGenerator:
             crime_type = config["crime_types"][i % len(config["crime_types"])]
             crime_date = start_date + timedelta(days=i * random.randint(*config["case_spacing_days"]))
             case_members = random.sample(organization, k=random.randint(2, min(3, len(organization))))
-            
+
             case = self._generate_related_case(
                 crime_type=crime_type,
                 complexity=complexity,
                 modifiers=modifiers,
                 subject_status=subject_status,
+                subject_clarity=subject_clarity,
                 shared_suspects=case_members,
                 shared_vehicle=shared_vehicle if random.random() < 0.6 else None,
                 shared_device=shared_phone if random.random() < 0.5 else None,
@@ -292,12 +295,13 @@ class TrendGenerator:
             
             shared_account = random.choice(shared_accounts) if random.random() < 0.4 else None
             shared_devices = random.sample(shared_phones, k=random.randint(1, 2)) if random.random() < 0.5 else []
-            
+
             case = self._generate_related_case(
                 crime_type=crime_type,
                 complexity=complexity,
                 modifiers=modifiers,
                 subject_status=subject_status,
+                subject_clarity=subject_clarity,
                 shared_suspects=case_members,
                 shared_accounts=[shared_account] if shared_account else [],
                 shared_devices=shared_devices,
@@ -341,6 +345,7 @@ class TrendGenerator:
                 complexity=complexity,
                 modifiers=modifiers,
                 subject_status=subject_status,
+                subject_clarity=subject_clarity,
                 shared_victim=repeat_victim,
                 crime_date=crime_date,
                 case_number=i + 1
@@ -397,6 +402,7 @@ class TrendGenerator:
                 complexity=complexity,
                 modifiers=modifiers,
                 subject_status=subject_status,
+                subject_clarity=subject_clarity,
                 fixed_location=base_location,
                 fixed_coords=location_variation,
                 crime_date=crime_date,
@@ -544,6 +550,7 @@ class TrendGenerator:
         complexity: str,
         modifiers: List[str],
         subject_status: str,
+        subject_clarity: str = None,
         crime_date: datetime,
         case_number: int,
         shared_suspect: Optional[Person] = None,
@@ -558,7 +565,7 @@ class TrendGenerator:
     ) -> Case:
         """Generate a single case with shared entities."""
         # Generate base case
-        case = self.case_generator.generate_case(crime_type, complexity, modifiers, subject_status)
+        case = self.case_generator.generate_case(crime_type, complexity, modifiers, subject_status, subject_clarity)
         
         # Override crime date
         if crime_date:

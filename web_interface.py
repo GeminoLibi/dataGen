@@ -411,6 +411,18 @@ HTML_TEMPLATE = """
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group" id="subject_clarity_group" style="display: none;">
+                    <label>Subject Identification Approach:</label>
+                    <select name="subject_clarity" id="subject_clarity">
+                        <option value="Embedded">Embedded Solution (Traditional)</option>
+                        <option value="Investigative">Investigative Challenge (Multiple Suspects)</option>
+                    </select>
+                    <div class="help-text">
+                        <strong>Embedded:</strong> Solution is embedded in case data<br>
+                        <strong>Investigative:</strong> Create multiple persons of interest for analysis
+                    </div>
+                </div>
             </div>
 
             <div class="section">
@@ -601,6 +613,24 @@ HTML_TEMPLATE = """
                     }
                 }
             }
+
+            function toggleSubjectClarity() {
+                const unknownRadio = document.getElementById('unknown');
+                const subjectClarityGroup = document.getElementById('subject_clarity_group');
+                if (unknownRadio.checked) {
+                    subjectClarityGroup.style.display = 'block';
+                } else {
+                    subjectClarityGroup.style.display = 'none';
+                }
+            }
+
+            // Add event listeners to subject status radios
+            document.addEventListener('DOMContentLoaded', function() {
+                const radios = document.querySelectorAll('input[name="subject_status"]');
+                radios.forEach(radio => {
+                    radio.addEventListener('change', toggleSubjectClarity);
+                });
+            });
         </script>
 
         {% if case_path %}
@@ -646,7 +676,7 @@ Files created:
 </html>
 """
 
-def run_trend_generation(trend_type, num_cases, complexity, modifier_nums, subject_status, identification_status):
+def run_trend_generation(trend_type, num_cases, complexity, modifier_nums, subject_status, subject_clarity, identification_status):
     """Run trend generation process."""
     try:
         from src.trend_generator import TrendGenerator
@@ -673,6 +703,7 @@ def run_trend_generation(trend_type, num_cases, complexity, modifier_nums, subje
             base_complexity=complexity,
             base_modifiers=modifiers,
             subject_status=subject_status,
+            subject_clarity=subject_clarity,
             identification_status=identification_status
         )
         
@@ -787,7 +818,7 @@ def run_case_generation(crime_type_num, complexity, modifier_nums, subject_statu
         
         # Generate case directly
         generator = CaseGenerator()
-        case = generator.generate_case(crime_type, complexity, modifiers, subject_status=subject_status)
+        case = generator.generate_case(crime_type, complexity, modifiers, subject_status=subject_status, subject_clarity=subject_clarity)
         
         # Enhance documents with AI if available
         if ai_enhancer and case:
@@ -862,6 +893,7 @@ def index():
             crime_type = request.form.get('crime_type', '')
             complexity = request.form.get('complexity', 'Medium')
             subject_status = request.form.get('subject_status', 'Known')
+            subject_clarity = request.form.get('subject_clarity', 'Embedded') if subject_status == 'Unknown' else None
             modifiers = request.form.getlist('modifiers') if hasattr(request.form, 'getlist') else []
             generate_trend = request.form.get('generate_trend', 'no')
             ai_mode = request.form.get('ai_mode', 'none')
@@ -884,8 +916,8 @@ def index():
             num_cases = int(request.form.get('num_cases', 3))
             identification_status = request.form.get('identification_status', 'Identified')
             
-            result = run_trend_generation(trend_type, num_cases, complexity, modifiers, 
-                                       subject_status, identification_status)
+            result = run_trend_generation(trend_type, num_cases, complexity, modifiers,
+                                       subject_status, subject_clarity, identification_status)
             
             if result['success']:
                 return render_template_string(HTML_TEMPLATE,
