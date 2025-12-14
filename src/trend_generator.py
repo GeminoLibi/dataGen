@@ -158,7 +158,7 @@ class TrendGenerator:
         }
         
         generator = trend_generators.get(trend_type, self._generate_mixed_trend)
-        cases = generator(num_cases, base_complexity, base_modifiers, subject_status)
+        cases = generator(num_cases, base_complexity, base_modifiers, subject_status, subject_clarity)
         
         # Generate master investigation file (only for Identified trends)
         if identification_status == "Identified":
@@ -174,7 +174,8 @@ class TrendGenerator:
         num_cases: int,
         complexity: str,
         modifiers: List[str],
-        subject_status: str
+        subject_status: str,
+        subject_clarity: str = None
     ) -> List[Case]:
         """Generate cases with same suspect committing multiple crimes."""
         serial_suspect = self._create_equipped_suspect(min_age=25, max_age=45)
@@ -221,7 +222,8 @@ class TrendGenerator:
         num_cases: int,
         complexity: str,
         modifiers: List[str],
-        subject_status: str
+        subject_status: str,
+        subject_clarity: str = None
     ) -> List[Case]:
         """Generate cases with multiple suspects working together."""
         num_members = random.randint(3, 5)
@@ -276,7 +278,8 @@ class TrendGenerator:
         num_cases: int,
         complexity: str,
         modifiers: List[str],
-        subject_status: str
+        subject_status: str,
+        subject_clarity: str = None
     ) -> List[Case]:
         """Generate cases with network of suspects, various crime types."""
         num_members = random.randint(5, 8)
@@ -324,7 +327,8 @@ class TrendGenerator:
         num_cases: int,
         complexity: str,
         modifiers: List[str],
-        subject_status: str
+        subject_status: str,
+        subject_clarity: str = None
     ) -> List[Case]:
         """Generate cases where same victim is targeted multiple times."""
         repeat_victim = generate_person(Role.VICTIM, min_age=30, max_age=70)
@@ -375,7 +379,8 @@ class TrendGenerator:
         num_cases: int,
         complexity: str,
         modifiers: List[str],
-        subject_status: str
+        subject_status: str,
+        subject_clarity: str = None
     ) -> List[Case]:
         """Generate cases at same/similar locations."""
         base_location = fake.address().replace('\n', ', ')
@@ -427,7 +432,8 @@ class TrendGenerator:
         num_cases: int,
         complexity: str,
         modifiers: List[str],
-        subject_status: str
+        subject_status: str,
+        subject_clarity: str = None
     ) -> List[Case]:
         """Generate cases with mixed patterns."""
         shared_suspect = self._create_equipped_suspect(min_age=30, max_age=45)
