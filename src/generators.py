@@ -2885,7 +2885,7 @@ Date: {wreck_time.strftime('%Y-%m-%d %H:%M:%S')}
                 person.devices.append(generate_device(person.id, "Phone"))
                 person.vehicles.append(generate_vehicle(person.id, person.address))
                 if random.random() < 0.7:
-                    person.weapons.append(generate_weapon(person.id, person.address))
+                    person.weapons.append(generate_weapon(person.id))
                 person.suspicious_activities = random.sample([
                     "Direct connection to victim", "Financial transactions with suspect",
                     "Digital communications with involved parties", "Physical evidence links",
