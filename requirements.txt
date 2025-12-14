@@ -8,4 +8,7 @@ google-generativeai
 xai
 requests
 python-docx
+reportlab
+openpyxl
+Pillow
 

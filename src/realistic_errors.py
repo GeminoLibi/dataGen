@@ -294,6 +294,7 @@ def generate_error_message(event_type: EventType, severity: ErrorSeverity,
         # If context missing, use template as-is or with defaults
         defaults = {
             'date': 'unknown',
+            'actual_date': datetime.now().strftime('%Y-%m-%d'),
             'page': random.randint(1, 10),
             'section': 'unknown',
             'word': 'unknown',
