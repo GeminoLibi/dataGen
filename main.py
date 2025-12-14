@@ -70,6 +70,26 @@ def main():
         trend_choice = Prompt.ask("\nSelect [bold red]Trend Type[/bold red]", default="1")
         trend_type = trend_types.get(trend_choice, "Serial Offender")
         
+        # Crime type selection for trend
+        console.print("\n[bold]Crime Types (for trend cases):[/bold]")
+        for key, crime in CRIME_TYPES.items():
+            console.print(f"{key}. {crime}")
+        
+        crime_type_input = Prompt.ask("\nSelect crime type(s) (comma-separated numbers, or leave empty for variety)", default="")
+        
+        selected_crime_types = []
+        if crime_type_input.strip():
+            choices = [choice.strip() for choice in crime_type_input.split(",")]
+            for choice in choices:
+                if choice in CRIME_TYPES:
+                    selected_crime_types.append(CRIME_TYPES[choice])
+                elif choice.isdigit() and choice in CRIME_TYPES:
+                    selected_crime_types.append(CRIME_TYPES[choice])
+        
+        # If no crime types selected, use variety (will be handled by trend generator)
+        if not selected_crime_types:
+            selected_crime_types = None  # Signal to use default variety
+        
         num_cases = IntPrompt.ask("How many related cases to generate?", default=5)
 
         # Complexity selection for trend
@@ -141,7 +161,7 @@ def main():
         try:
             with console.status("Processing trend generation...", spinner="dots"):
                 trend_gen = TrendGenerator()
-                cases, registry = trend_gen.generate_trend(trend_type, num_cases, complexity, final_modifiers, subject_status, subject_clarity, identification_status)
+                cases, registry = trend_gen.generate_trend(trend_type, num_cases, complexity, final_modifiers, subject_status, subject_clarity, identification_status, selected_crime_types)
             
             if not cases:
                 console.print("[red]Error: No cases were generated.[/red]")

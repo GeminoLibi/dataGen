@@ -129,7 +129,8 @@ class TrendGenerator:
         base_modifiers: List[str],
         subject_status: str = "Known",
         subject_clarity: str = None,
-        identification_status: str = "Identified"
+        identification_status: str = "Identified",
+        crime_types: List[str] = None
     ) -> Tuple[List[Case], TrendRegistry]:
         """
         Generate a trend of related cases.
@@ -158,7 +159,7 @@ class TrendGenerator:
         }
         
         generator = trend_generators.get(trend_type, self._generate_mixed_trend)
-        cases = generator(num_cases, base_complexity, base_modifiers, subject_status, subject_clarity)
+        cases = generator(num_cases, base_complexity, base_modifiers, subject_status, subject_clarity, crime_types)
         
         # Generate master investigation file (only for Identified trends)
         if identification_status == "Identified":
@@ -175,16 +176,20 @@ class TrendGenerator:
         complexity: str,
         modifiers: List[str],
         subject_status: str,
-        subject_clarity: str = None
+        subject_clarity: str = None,
+        crime_types: List[str] = None
     ) -> List[Case]:
         """Generate cases with same suspect committing multiple crimes."""
         serial_suspect = self._create_equipped_suspect(min_age=25, max_age=45)
         config = self.TREND_TYPES["Serial Offender"]
         start_date = datetime.now() - timedelta(days=random.randint(*config["time_span_days"]))
         
+        # Use provided crime types or fall back to config defaults
+        available_crime_types = crime_types if crime_types else config["crime_types"]
+        
         cases = []
         for i in range(num_cases):
-            crime_type = config["crime_types"][min(i, len(config["crime_types"]) - 1)]
+            crime_type = available_crime_types[i % len(available_crime_types)]
             crime_date = start_date + timedelta(days=i * random.randint(*config["case_spacing_days"]))
             
             case = self._generate_related_case(
@@ -223,7 +228,8 @@ class TrendGenerator:
         complexity: str,
         modifiers: List[str],
         subject_status: str,
-        subject_clarity: str = None
+        subject_clarity: str = None,
+        crime_types: List[str] = None
     ) -> List[Case]:
         """Generate cases with multiple suspects working together."""
         num_members = random.randint(3, 5)
@@ -234,9 +240,12 @@ class TrendGenerator:
         config = self.TREND_TYPES["Organized Crime"]
         start_date = datetime.now() - timedelta(days=random.randint(*config["time_span_days"]))
         
+        # Use provided crime types or fall back to config defaults
+        available_crime_types = crime_types if crime_types else config["crime_types"]
+        
         cases = []
         for i in range(num_cases):
-            crime_type = config["crime_types"][i % len(config["crime_types"])]
+            crime_type = available_crime_types[i % len(available_crime_types)]
             crime_date = start_date + timedelta(days=i * random.randint(*config["case_spacing_days"]))
             case_members = random.sample(organization, k=random.randint(2, min(3, len(organization))))
 
@@ -279,7 +288,8 @@ class TrendGenerator:
         complexity: str,
         modifiers: List[str],
         subject_status: str,
-        subject_clarity: str = None
+        subject_clarity: str = None,
+        crime_types: List[str] = None
     ) -> List[Case]:
         """Generate cases with network of suspects, various crime types."""
         num_members = random.randint(5, 8)
@@ -290,9 +300,12 @@ class TrendGenerator:
         config = self.TREND_TYPES["Crime Ring"]
         start_date = datetime.now() - timedelta(days=random.randint(*config["time_span_days"]))
         
+        # Use provided crime types or fall back to config defaults
+        available_crime_types = crime_types if crime_types else config["crime_types"]
+        
         cases = []
         for i in range(num_cases):
-            crime_type = config["crime_types"][i % len(config["crime_types"])]
+            crime_type = available_crime_types[i % len(available_crime_types)]
             crime_date = start_date + timedelta(days=i * random.randint(*config["case_spacing_days"]))
             case_members = random.sample(ring_members, k=random.randint(1, 3))
             
@@ -328,7 +341,8 @@ class TrendGenerator:
         complexity: str,
         modifiers: List[str],
         subject_status: str,
-        subject_clarity: str = None
+        subject_clarity: str = None,
+        crime_types: List[str] = None
     ) -> List[Case]:
         """Generate cases where same victim is targeted multiple times."""
         repeat_victim = generate_person(Role.VICTIM, min_age=30, max_age=70)
@@ -339,9 +353,12 @@ class TrendGenerator:
         config = self.TREND_TYPES["Victim Pattern"]
         start_date = datetime.now() - timedelta(days=random.randint(*config["time_span_days"]))
         
+        # Use provided crime types or fall back to config defaults
+        available_crime_types = crime_types if crime_types else config["crime_types"]
+        
         cases = []
         for i in range(num_cases):
-            crime_type = config["crime_types"][i % len(config["crime_types"])]
+            crime_type = available_crime_types[i % len(available_crime_types)]
             crime_date = start_date + timedelta(days=i * random.randint(*config["case_spacing_days"]))
             
             case = self._generate_related_case(
@@ -380,7 +397,8 @@ class TrendGenerator:
         complexity: str,
         modifiers: List[str],
         subject_status: str,
-        subject_clarity: str = None
+        subject_clarity: str = None,
+        crime_types: List[str] = None
     ) -> List[Case]:
         """Generate cases at same/similar locations."""
         base_location = fake.address().replace('\n', ', ')
@@ -396,9 +414,12 @@ class TrendGenerator:
         config = self.TREND_TYPES["Location Pattern"]
         start_date = datetime.now() - timedelta(days=random.randint(*config["time_span_days"]))
         
+        # Use provided crime types or fall back to config defaults
+        available_crime_types = crime_types if crime_types else config["crime_types"]
+        
         cases = []
         for i in range(num_cases):
-            crime_type = config["crime_types"][i % len(config["crime_types"])]
+            crime_type = available_crime_types[i % len(available_crime_types)]
             crime_date = start_date + timedelta(days=i * random.randint(*config["case_spacing_days"]))
             location_variation = geo_mgr.get_coords_in_radius(base_lat, base_lon, 0.1)
             
@@ -433,7 +454,8 @@ class TrendGenerator:
         complexity: str,
         modifiers: List[str],
         subject_status: str,
-        subject_clarity: str = None
+        subject_clarity: str = None,
+        crime_types: List[str] = None
     ) -> List[Case]:
         """Generate cases with mixed patterns."""
         shared_suspect = self._create_equipped_suspect(min_age=30, max_age=45)
@@ -441,11 +463,12 @@ class TrendGenerator:
         shared_location = fake.address().replace('\n', ', ')
         
         start_date = datetime.now() - timedelta(days=random.randint(180, 365))
-        crime_types = ["Burglary", "Robbery", "Fraud", "Assault", "Theft", "Burglary"]
+        # Use provided crime types or fall back to defaults
+        available_crime_types = crime_types if crime_types else ["Burglary", "Robbery", "Fraud", "Assault", "Theft", "Burglary"]
         
         cases = []
         for i in range(num_cases):
-            crime_type = crime_types[i % len(crime_types)]
+            crime_type = available_crime_types[i % len(available_crime_types)]
             crime_date = start_date + timedelta(days=i * random.randint(14, 42))
             pattern = random.choice(["suspect", "victim", "location", "none"])
             
