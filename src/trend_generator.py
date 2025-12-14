@@ -618,11 +618,97 @@ Pattern analysis ongoing.
             modifiers=[]
         )
         
+        # Aggregate all persons from all cases (preserving physical descriptions and driver's license info)
+        aggregated_persons = self._aggregate_persons_across_cases(cases)
+        for person in aggregated_persons:
+            master_case.add_person(person)
+        
+        # Aggregate all vehicles and link to owners
+        aggregated_vehicles = self._aggregate_vehicles_across_cases(cases)
+        for vehicle in aggregated_vehicles:
+            # Find owner if owner_id is set
+            if vehicle.owner_id:
+                for person in master_case.persons:
+                    if person.id == vehicle.owner_id:
+                        if vehicle not in person.vehicles:
+                            person.vehicles.append(vehicle)
+                        break
+        
         # Generate master investigation document
         doc = self._build_master_investigation_document(cases)
         master_case.documents.append(doc)
         
         return master_case
+    
+    def _aggregate_persons_across_cases(self, cases: List[Case]) -> List[Person]:
+        """Aggregate persons across all cases, merging data and preserving physical descriptions."""
+        person_map = {}  # full_name -> Person
+        
+        for case in cases:
+            for person in case.persons:
+                key = person.full_name.lower()
+                if key not in person_map:
+                    # First occurrence - add to map
+                    person_map[key] = person
+                else:
+                    # Person already exists - merge data (preserve most complete data)
+                    existing = person_map[key]
+                    # Merge physical descriptions (prefer non-empty values)
+                    if not existing.height and person.height:
+                        existing.height = person.height
+                    if not existing.weight and person.weight > 0:
+                        existing.weight = person.weight
+                    if not existing.hair_color and person.hair_color:
+                        existing.hair_color = person.hair_color
+                    if not existing.eye_color and person.eye_color:
+                        existing.eye_color = person.eye_color
+                    if not existing.facial_hair and person.facial_hair:
+                        existing.facial_hair = person.facial_hair
+                    if not existing.build and person.build:
+                        existing.build = person.build
+                    if not existing.gender and person.gender:
+                        existing.gender = person.gender
+                    # Merge driver's license (prefer non-empty)
+                    if not existing.driver_license_number and person.driver_license_number:
+                        existing.driver_license_number = person.driver_license_number
+                        existing.driver_license_state = person.driver_license_state
+                    # Merge other data
+                    if not existing.email and person.email:
+                        existing.email = person.email
+                    if not existing.address and person.address:
+                        existing.address = person.address
+                    if not existing.phone_number and person.phone_number:
+                        existing.phone_number = person.phone_number
+                    # Merge aliases
+                    for alias in person.aliases:
+                        if alias not in existing.aliases:
+                            existing.aliases.append(alias)
+                    # Merge vehicles
+                    for vehicle in person.vehicles:
+                        if vehicle not in existing.vehicles:
+                            existing.vehicles.append(vehicle)
+                    # Merge devices
+                    for device in person.devices:
+                        if device not in existing.devices:
+                            existing.devices.append(device)
+                    # Merge criminal history
+                    for history in person.criminal_history:
+                        if history not in existing.criminal_history:
+                            existing.criminal_history.append(history)
+        
+        return list(person_map.values())
+    
+    def _aggregate_vehicles_across_cases(self, cases: List[Case]) -> List[Vehicle]:
+        """Aggregate vehicles across all cases."""
+        vehicle_map = {}  # license_plate -> Vehicle
+        
+        for case in cases:
+            for person in case.persons:
+                for vehicle in person.vehicles:
+                    if vehicle.license_plate and vehicle.license_plate not in vehicle_map:
+                        vehicle_map[vehicle.license_plate] = vehicle
+        
+        return list(vehicle_map.values())
     
     def _build_master_investigation_document(self, cases: List[Case]) -> str:
         """Build the master investigation document content."""
@@ -684,12 +770,15 @@ SUSPECTS APPEARING IN MULTIPLE CASES:
             person = suspect_entry['person']
             case_ids = suspect_entry['case_ids']
             doc += f"""
-- {person.full_name} (DOB: {fake.date_of_birth(minimum_age=person.age, maximum_age=person.age).strftime('%Y-%m-%d')})
+- {person.full_name} (Age: {person.age}, DOB: {fake.date_of_birth(minimum_age=person.age, maximum_age=person.age).strftime('%Y-%m-%d')})
+  Gender: {person.gender.title() if person.gender else 'Unknown'}
   Phone: {person.phone_number}
   Email: {person.email if person.email else 'N/A'}
   Address: {person.address}
+  Physical Description: {person.physical_description if person.physical_description != 'Description not available' else 'Not available'}
+  Driver's License: {person.driver_license_number} ({person.driver_license_state}) if person.driver_license_number else 'Not on file'
   Appears in Cases: {', '.join(case_ids)}
-  Vehicles: {', '.join([v.license_plate for v in person.vehicles]) if person.vehicles else 'None'}
+  Vehicles: {', '.join([f'{v.year} {v.make} {v.model} ({v.license_plate})' for v in person.vehicles]) if person.vehicles else 'None'}
   Devices: {', '.join([d.phone_number or d.imei for d in person.devices if d.phone_number or d.imei]) if person.devices else 'None'}
 """
         

@@ -1,0 +1,164 @@
+--- NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK (NIBIN) REPORT ---
+
+DEPARTMENT OF JUSTICE
+BUREAU OF ALCOHOL, TOBACCO, FIREARMS AND EXPLOSIVES
+NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK
+
+REPORT NUMBER: NIBIN-767850
+DATE GENERATED: December 13, 2025
+REQUESTING AGENCY: Barnettland Police Department
+SUBMITTING ANALYST: ATF Special Agent Tran
+
+================================================================================
+EVIDENCE SUBMISSION DETAILS
+================================================================================
+
+Evidence Item 1: Spent Cartridge Case
+- NIBIN Entry ID: cbb0901f-f22f-405c-a119-7a79707aeb71
+- Caliber: None
+- Case Type: Rimless
+- Primer Type: Boxer
+- Headstamp: FED
+
+Evidence Item 2: Suspect Firearm
+- NIBIN Entry ID: e466d6ba-3999-4e38-9a19-ef6d35b70090
+- Make/Model: Generic/Kitchen Knife
+- Serial Number: 95582709
+- Caliber: None
+- Action Type: Pump action
+
+================================================================================
+MICROSCOPIC COMPARISON ANALYSIS
+================================================================================
+
+RIFLING CHARACTERISTICS:
+- Number of Lands/Grooves: 8 lands and 5 grooves, left twist
+- Rifling Twist: 1.06 inches per turn
+- Barrel Length: 7 inches
+- Groove Depth: 0.0025 inches
+
+STRIATION ANALYSIS:
+- Breech face marks: 93% correlation
+- Firing pin impressions: 97% correlation
+- Extractor marks: 84% correlation
+- Ejector marks: 80% correlation
+
+CLASS CHARACTERISTICS:
+- Land impressions width: 0.096 inches
+- Groove width: 0.094 inches
+- Land/groove ratio: 1.02
+
+================================================================================
+DATABASE COMPARISON RESULTS
+================================================================================
+
+NIBIN Database Query Results:
+Total cases searched: 195,641
+Time period: Last 10 years
+Geographic scope: National database
+
+COMPARISON SUMMARY:
+Case #338159: IDENTIFIED MATCH (97% confidence)
+Case #540431: POSSIBLE MATCH (79% confidence)
+Case #253793: POSSIBLE MATCH (87% confidence)
+Case #413582: ELIMINATED (6% confidence)
+Case #811561: ELIMINATED (67% confidence)
+Case #826600: ELIMINATED (19% confidence)
+Case #361603: ELIMINATED (67% confidence)
+Case #384336: ELIMINATED (45% confidence)
+Case #255645: ELIMINATED (70% confidence)
+Case #449704: ELIMINATED (19% confidence)
+Case #618443: ELIMINATED (33% confidence)
+Case #584117: ELIMINATED (9% confidence)
+Case #281240: ELIMINATED (70% confidence)
+
+================================================================================
+PRIMARY MATCH ANALYSIS
+================================================================================
+
+SUSPECTED FIREARM IDENTIFICATION:
+Firearm NIBIN ID: e466d6ba-3999-4e38-9a19-ef6d35b70090
+Suspect Name: Sandra Dillon
+Recovery Date: 07/25/2025
+Recovery Location: 117 Lisa Lake, Lozanotown, MN 11348
+
+BALLISTIC MATCH CONFIDENCE:
+- Overall correlation: 95%
+- Individual characteristics match: 25/25
+- Statistical significance: p < 0.0001
+- Error rate: < 0.001%
+
+================================================================================
+IMAGING AND DIGITAL ANALYSIS
+================================================================================
+
+MICROSCOPIC IMAGING:
+- Magnification used: 20x - 80x
+- Lighting: Coaxial illumination
+- Image capture: Olympus BX51M microscope
+- Digital resolution: 3072 x 2304 pixels
+
+3D TOPOGRAPHIC MAPPING:
+- Surface deviation mapping completed
+- Depth analysis: 0.00061 inches
+- Profile correlation coefficient: 0.920
+
+DIGITAL COMPARISON SOFTWARE:
+- Program: IBIS Trail v5.3
+- Correlation algorithm: Congruent Matching Cells (CMC)
+- Minimum correlation threshold: 10 CMC points
+- Actual correlation: 15 CMC points
+
+================================================================================
+QUALITY ASSURANCE AND VERIFICATION
+================================================================================
+
+ANALYSIS PERFORMED BY:
+Primary Examiner: ATF Special Agent Hester
+- Certification: Certified Firearms Examiner
+- Experience: 17 years
+- Case load: 126 ballistic cases annually
+
+VERIFICATION BY:
+Technical Review Officer: ATF Special Agent Lopez
+- Independent microscopic examination completed
+- Digital correlation analysis verified
+- Statistical analysis reviewed
+
+================================================================================
+CONCLUSION AND OPINION
+================================================================================
+
+OPINION: The microscopic examination and digital comparison analysis reveals
+that the cartridge case submitted as evidence (NIBIN ID: cbb0901f-f22f-405c-a119-7a79707aeb71) was fired
+from the submitted suspect firearm (NIBIN ID: e466d6ba-3999-4e38-9a19-ef6d35b70090).
+
+This identification is based on the agreement of all discernible class and
+individual microscopic characteristics between the evidence cartridge case
+and the test fires from the suspect firearm.
+
+The probability that this cartridge case could have been fired from another
+firearm of similar class characteristics is extremely remote.
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+This identification provides strong scientific evidence linking the suspect
+firearm to the crime scene. The match is based on multiple independent
+ballistic signatures and has been verified through independent examination.
+
+REPORT STATUS: FINAL
+DATE COMPLETED: December 13, 2025
+
+________________________________________
+ATF Special Agent Walter
+Certified Firearms Examiner
+Bureau of Alcohol, Tobacco, Firearms and Explosives
+
+CONFIDENTIAL - LAW ENFORCEMENT SENSITIVE
+NOT FOR PUBLIC DISCLOSURE
+
+================================================================================
+END OF NIBIN BALLISTIC ANALYSIS REPORT
+================================================================================

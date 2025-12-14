@@ -15,6 +15,8 @@ a = Analysis(
         'src.trend_generator',
         'src.crime_specific_generators',
         'src.ai_enhancer',
+        'src.consistency_managers',
+        'src.case_analyzer',
         'faker',
         'rich',
         'flask',

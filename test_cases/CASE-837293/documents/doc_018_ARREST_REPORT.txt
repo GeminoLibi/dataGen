@@ -1,0 +1,9 @@
+--- ARREST REPORT ---
+Arrest #: AR-15761063
+Date: 2025-12-07
+Suspect: Michael Andersen
+Charges: DUI
+Location: 01075 Hill Pines Suite 832, Janettown, NC 50994
+Officer: Robert Randall
+Status: Released on Citation
+

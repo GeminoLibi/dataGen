@@ -1,0 +1,36 @@
+========================================
+        CORNER STORE
+========================================
+Store #750 - 95911 Joseph Crossroad Suite 677, Davidtown, NH 20711
+
+Date: 11/29/2025
+Time: 09:16 AM
+Register: 7
+Clerk: Steven
+Receipt #: 314027
+
+----------------------------------------
+QTY  ITEM                 PRICE    TOTAL
+----------------------------------------
+1    Tracfone             $ 34.21 $  34.21
+1    30 MIN AIRTIME     $  3.00 $   3.00
+
+----------------------------------------
+SUBTOTAL:                $     37.21
+TAX (8.75%):             $      3.26
+----------------------------------------
+TOTAL:                   $     40.47
+
+========================================
+PAID BY: CASH
+CHANGE:  $0.00
+
+NO REFUNDS OR EXCHANGES
+KEEP RECEIPT FOR WARRANTY
+
+========================================
+BUYER DESCRIPTION: Male, 30s, wearing black hoodie, baseball cap
+TIME OF PURCHASE: 09:16:37 AM
+
+Thank you for shopping at Corner Store!
+========================================

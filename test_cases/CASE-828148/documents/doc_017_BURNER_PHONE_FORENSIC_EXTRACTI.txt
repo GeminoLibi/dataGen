@@ -1,0 +1,95 @@
+--- BURNER PHONE FORENSIC EXTRACTION REPORT ---
+Device: Nokia 1100 (Prepaid/Burner Phone)
+IMEI: 994140899334765
+SIM Card ICCID: 89015369948696695
+Phone Number: 845.762.8079
+Carrier: T-Mobile Prepaid
+Activation Date: 2025-12-05 14:16:38.573247
+Extraction Date: 2025-12-13 16:16:38
+Forensic Tool: Cellebrite UFED 7.63.0.27
+Analyst: Detective Adams
+
+INITIAL CELL TOWER CONNECTIONS:
+[2025-12-05 14:16:38] Connected to Tower 8450 - Jamesview, WV
+[2025-12-05 15:16:38] Connected to Tower 3554 - North Ruth, KY
+[2025-12-05 16:16:38] Connected to Tower 634 - Gutierrezberg, TX
+
+CELL TOWER PINGS DURING RELEVANT TIMEFRAME:
+[2025-12-07 11:23:38] Tower 1073 - Lat:16.222263 Lon:93.451426
+[2025-12-07 11:28:38] Tower 3749 - Lat:16.188627 Lon:93.453824
+[2025-12-07 11:38:38] Tower 3840 - Lat:16.219505 Lon:93.470795
+[2025-12-07 11:50:38] Tower 8485 - Lat:16.170678 Lon:93.481781
+[2025-12-07 12:15:38] Tower 863 - Lat:16.185567 Lon:93.493473
+[2025-12-07 12:30:38] Tower 6334 - Lat:16.189749 Lon:93.477767
+[2025-12-07 12:35:38] Tower 7434 - Lat:16.204043 Lon:93.499746
+[2025-12-07 12:40:38] Tower 7572 - Lat:16.163332 Lon:93.472691
+[2025-12-07 12:49:38] Tower 2192 - Lat:16.188288 Lon:93.479177
+[2025-12-07 13:07:38] Tower 2507 - Lat:16.230453 Lon:93.489602
+[2025-12-07 13:16:38] Tower 2488 - Lat:16.245279 Lon:93.454361
+[2025-12-07 13:31:38] Tower 7497 - Lat:16.199958 Lon:93.418158
+[2025-12-07 13:41:38] Tower 3840 - Lat:16.196233 Lon:93.430295
+[2025-12-07 13:56:38] Tower 1407 - Lat:16.238259 Lon:93.485449
+[2025-12-07 14:20:38] Tower 4907 - Lat:16.165000 Lon:93.454242
+[2025-12-07 14:25:38] Tower 7929 - Lat:16.197285 Lon:93.424092
+[2025-12-07 15:01:38] Tower 3759 - Lat:16.171262 Lon:93.484243
+[2025-12-07 15:16:38] Tower 1964 - Lat:16.234956 Lon:93.470455
+
+CONTACTS (6 entries):
+• Jeffrey Smith: 959-581-3570
+• Vernon Hanna: +1-316-620-4195
+• Kristina Martinez: 2268608491
+
+CALL LOG (11 calls):
+TIME                    | TYPE       | NUMBER           | DURATION | TOWER
+------------------------|------------|------------------|----------|------
+2025-12-04 21:16:38 | OUTGOING   | 531-216-1008x6536 | 1:36     | 4858
+2025-12-07 07:16:38 | INCOMING   | 001-727-761-9171x99247 | 1:35     | 6759
+2025-12-05 02:16:38 | MISSED     | +1-826-225-3267x3142 | -        | 6155
+2025-12-07 03:16:38 | OUTGOING   | 001-374-713-7645x696 | 1:34     | 7241
+2025-12-03 16:16:38 | OUTGOING   | (349)422-4144x599 | 0:36     | 608
+2025-12-06 03:16:38 | INCOMING   | +1-316-620-4195  | 0:29     | 6986
+2025-12-05 20:16:38 | OUTGOING   | 211.237.9851     | 3:14     | 9186
+2025-12-03 17:16:38 | OUTGOING   | +1-614-755-8652x7739 | 3:13     | 6250
+2025-12-05 22:16:38 | INCOMING   | 991.925.9951x00117 | 3:21     | 3122
+
+TEXT MESSAGES (16 messages):
+[2025-12-05 19:16:38] SENT     | 2268608491       | Change of plans - different location
+[2025-12-07 01:16:38] RECEIVED | 959-581-3570     | Location changed
+[2025-12-04 15:16:38] RECEIVED | 001-738-738-1431x8796 | Understood
+[2025-12-07 06:16:38] SENT     | (288)302-8959x123 | Change of plans - different location
+[2025-12-06 18:16:38] SENT     | 959-581-3570     | Burn this phone after
+[2025-12-03 17:16:38] SENT     | 221-213-2403     | Bring the tools
+[2025-12-06 20:16:38] SENT     | 2268608491       | Need to lay low for a bit
+[2025-12-06 21:16:38] RECEIVED | +1-316-620-4195  | Will do
+[2025-12-05 14:16:38] RECEIVED | +1-732-323-3501x0594 | Will do
+[2025-12-05 19:16:38] SENT     | 2268608491       | Meet me at the spot tonight
+[2025-12-06 18:16:38] RECEIVED | 959-581-3570     | Understood
+[2025-12-04 14:16:38] SENT     | 959-581-3570     | Everything set for tomorrow?
+[2025-12-05 07:16:38] RECEIVED | +1-316-620-4195  | Location changed
+[2025-12-06 09:16:38] SENT     | 696.265.2495x719 | Job's on
+[2025-12-04 02:16:38] SENT     | 2268608491       | Got the address
+[2025-12-04 00:16:38] RECEIVED | 2268608491       | Will do
+[2025-12-04 23:16:38] SENT     | 959-581-3570     | Change of plans - different location
+[2025-12-06 11:16:38] SENT     | +1-903-804-3621  | Need to lay low for a bit
+[2025-12-05 04:16:38] RECEIVED | 959-581-3570     | Location changed
+[2025-12-07 03:16:38] SENT     | 6293505616       | Need to lay low for a bit
+[2025-12-05 13:16:38] SENT     | 282.806.6972     | Burn this phone after
+[2025-12-07 09:16:38] RECEIVED | 9567429590       | What time?
+
+DEVICE INFORMATION:
+• Model: Nokia 1100
+• OS: Nokia OS v1.0
+• Memory: 1MB internal
+• Battery Level at Seizure: 38%
+• Last Backup: Never
+• Screen Lock: None
+• PIN Code: Not set
+• Auto-lock: Disabled
+
+FORENSIC NOTES:
+• Device was powered on at time of seizure
+• No encryption detected
+• SIM card removed and preserved separately
+• Device photographed in place before extraction
+• Chain of custody maintained throughout process
+• Data integrity verified with MD5 hash: d781bdac837b740809785964eccf683d

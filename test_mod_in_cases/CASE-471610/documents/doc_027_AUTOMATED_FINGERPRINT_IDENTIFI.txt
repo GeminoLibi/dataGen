@@ -1,0 +1,56 @@
+--- AUTOMATED FINGERPRINT IDENTIFICATION SYSTEM (AFIS) REPORT ---
+
+Case Number: AFIS-680188
+Report Date: December 13, 2025
+Submitting Agency: Walkerside Police Department
+Analyst: Technician Jones
+
+LATENT PRINT ANALYSIS SUMMARY:
+
+Source: Crime Scene Evidence - Latent Print #LP-6786
+Location: Door handle, driver's side
+Surface: Metal
+Development Method: Ninhydrin/CAB
+Quality Assessment: High quality print
+Pattern Type: Whorl pattern
+
+FINGERPRINT COMPARISON RESULTS:
+
+Primary Match: Dylan Franklin (87% confidence)
+Possible Match: Jennifer Thompson (84% confidence)
+Possible Match: Darrell Johnson (84% confidence)
+Possible Match: Mr. Joseph Gray (73% confidence)
+Possible Match: Brittney Wells (70% confidence)
+Possible Match: Mr. Bob Brown (61% confidence)
+
+PRIMARY MATCH DETAILS:
+Name: Dylan Franklin
+DOB: 12/29/1961
+Last Known Address: 73676 Clark Ridges Apt. 809, South Jacobfurt, AR 03103
+Criminal History: None
+
+Fingerprint Classification:
+Henry Classification: 10/28/16/3
+
+Minutiae Points Analyzed: 16
+Matching Points: 18
+False Rejection Rate: < 0.01%
+False Acceptance Rate: < 0.001%
+
+DIGITAL IMAGING:
+Scanner: CrossMatch L-Scan Guardian
+Resolution: 500 PPI
+Compression: WSQ (15:1)
+Image Quality Score: 85/100
+
+VERIFICATION PROCESS:
+- Automated comparison completed: 12/13/2025 19:00:16
+- Manual verification by certified technician
+- Quality assurance review completed
+
+CONCLUSION:
+The latent fingerprint from the crime scene matches the known fingerprint of Dylan Franklin with high confidence.
+
+Analyst Signature: _______________________________
+King, Certified Latent Print Examiner
+Date: December 13, 2025

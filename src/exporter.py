@@ -15,6 +15,15 @@ class CaseExporter:
         docs_dir = os.path.join(case_dir, "documents")
         os.makedirs(docs_dir, exist_ok=True)
 
+        # Generate and write MOD-IN case analysis
+        try:
+            from .case_analyzer import generate_mod_in_for_case
+            mod_in = generate_mod_in_for_case(case)
+            with open(os.path.join(case_dir, "MOD-IN_CASE_ANALYSIS.md"), "w", encoding="utf-8") as f:
+                f.write(mod_in)
+        except Exception as e:
+            console.print(f"[yellow]Warning: Could not generate MOD-IN analysis: {e}[/yellow]")
+        
         # Write Case Briefing
         with open(os.path.join(case_dir, "CASE_BRIEFING.md"), "w", encoding="utf-8") as f:
             f.write(f"# {case.title}\n")

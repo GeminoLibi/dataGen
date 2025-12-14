@@ -1,0 +1,31 @@
+--- 911 DISPATCH TRANSCRIPT ---
+Date: 2025-12-06 09:11:16
+Caller: Kayla Washington
+Caller Phone: 001-547-249-2796x9638
+ANI/ALI: 001-547-249-2796x9638
+PSAP: North Eric Emergency Communications Center
+Dispatcher ID: 2696
+Dispatcher: Rickey H.
+Call Priority: Priority 1
+
+TRANSCRIPT:
+============================================================
+[SYSTEM] Call received: 2025-12-13 19:00:16
+[SYSTEM] ANI: 417.451.2264
+CALLER: 911? I need help!
+DISPATCH: 911, what's your emergency?
+CALLER: Help! I've been attacked at 69324 Adam Cape, Lake Gilbert, NY 63676!
+DISPATCH: Are you injured? What's your condition?
+CALLER: My face hurts, I think my nose is broken. He hit me and ran off.
+DISPATCH: Okay, help is coming. Can you describe the attacker?
+CALLER: White male, 6 feet tall, wearing a black hoodie. He had tattoos on his hands.
+DISPATCH: Did you know this person?
+CALLER: No, he came up from behind. I was walking home from work.
+DISPATCH: Alright, stay where you are. Officers are responding.
+[SYSTEM] Call duration: 110 seconds
+[SYSTEM] Transferred to responding unit
+============================================================
+
+CALL DISPOSITION: Transferred to responding agency
+RESPONDING UNITS: Patrol Unit 415-ADAM
+NOTES: Caller was upset. Witnessed incident in progress.

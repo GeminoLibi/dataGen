@@ -1,0 +1,160 @@
+--- NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK (NIBIN) REPORT ---
+
+DEPARTMENT OF JUSTICE
+BUREAU OF ALCOHOL, TOBACCO, FIREARMS AND EXPLOSIVES
+NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK
+
+REPORT NUMBER: NIBIN-785003
+DATE GENERATED: December 13, 2025
+REQUESTING AGENCY: Karaside Police Department
+SUBMITTING ANALYST: ATF Special Agent Smith
+
+================================================================================
+EVIDENCE SUBMISSION DETAILS
+================================================================================
+
+Evidence Item 1: Spent Cartridge Case
+- NIBIN Entry ID: 89ae6b99-a501-4f2e-b25e-794c90b0c7a2
+- Caliber: None
+- Case Type: Rimless
+- Primer Type: Boxer
+- Headstamp: FED
+
+Evidence Item 2: Suspect Firearm
+- NIBIN Entry ID: 6f28f08d-9607-44f3-9a95-8d1e0eb70139
+- Make/Model: Generic/Kitchen Knife
+- Serial Number: 29485374
+- Caliber: None
+- Action Type: Semi-automatic
+
+================================================================================
+MICROSCOPIC COMPARISON ANALYSIS
+================================================================================
+
+RIFLING CHARACTERISTICS:
+- Number of Lands/Grooves: 6 lands and 6 grooves, right twist
+- Rifling Twist: 1.37 inches per turn
+- Barrel Length: 5 inches
+- Groove Depth: 0.0020 inches
+
+STRIATION ANALYSIS:
+- Breech face marks: 89% correlation
+- Firing pin impressions: 91% correlation
+- Extractor marks: 90% correlation
+- Ejector marks: 70% correlation
+
+CLASS CHARACTERISTICS:
+- Land impressions width: 0.095 inches
+- Groove width: 0.128 inches
+- Land/groove ratio: 0.98
+
+================================================================================
+DATABASE COMPARISON RESULTS
+================================================================================
+
+NIBIN Database Query Results:
+Total cases searched: 136,650
+Time period: Last 10 years
+Geographic scope: National database
+
+COMPARISON SUMMARY:
+Case #970898: IDENTIFIED MATCH (96% confidence)
+Case #275601: POSSIBLE MATCH (90% confidence)
+Case #920309: POSSIBLE MATCH (82% confidence)
+Case #968026: ELIMINATED (24% confidence)
+Case #632268: ELIMINATED (39% confidence)
+Case #729448: ELIMINATED (4% confidence)
+Case #562053: ELIMINATED (60% confidence)
+Case #947146: ELIMINATED (36% confidence)
+Case #739145: ELIMINATED (57% confidence)
+
+================================================================================
+PRIMARY MATCH ANALYSIS
+================================================================================
+
+SUSPECTED FIREARM IDENTIFICATION:
+Firearm NIBIN ID: 6f28f08d-9607-44f3-9a95-8d1e0eb70139
+Suspect Name: Xavier Martin
+Recovery Date: 11/01/2025
+Recovery Location: 66477 Amanda Creek, Josephmouth, MO 69549
+
+BALLISTIC MATCH CONFIDENCE:
+- Overall correlation: 94%
+- Individual characteristics match: 24/21
+- Statistical significance: p < 0.0001
+- Error rate: < 0.001%
+
+================================================================================
+IMAGING AND DIGITAL ANALYSIS
+================================================================================
+
+MICROSCOPIC IMAGING:
+- Magnification used: 20x - 80x
+- Lighting: Coaxial illumination
+- Image capture: Olympus BX51M microscope
+- Digital resolution: 3072 x 2304 pixels
+
+3D TOPOGRAPHIC MAPPING:
+- Surface deviation mapping completed
+- Depth analysis: 0.00015 inches
+- Profile correlation coefficient: 0.942
+
+DIGITAL COMPARISON SOFTWARE:
+- Program: IBIS Trail v6.7
+- Correlation algorithm: Congruent Matching Cells (CMC)
+- Minimum correlation threshold: 6 CMC points
+- Actual correlation: 24 CMC points
+
+================================================================================
+QUALITY ASSURANCE AND VERIFICATION
+================================================================================
+
+ANALYSIS PERFORMED BY:
+Primary Examiner: ATF Special Agent Bond
+- Certification: Certified Firearms Examiner
+- Experience: 13 years
+- Case load: 79 ballistic cases annually
+
+VERIFICATION BY:
+Technical Review Officer: ATF Special Agent Sellers
+- Independent microscopic examination completed
+- Digital correlation analysis verified
+- Statistical analysis reviewed
+
+================================================================================
+CONCLUSION AND OPINION
+================================================================================
+
+OPINION: The microscopic examination and digital comparison analysis reveals
+that the cartridge case submitted as evidence (NIBIN ID: 89ae6b99-a501-4f2e-b25e-794c90b0c7a2) was fired
+from the submitted suspect firearm (NIBIN ID: 6f28f08d-9607-44f3-9a95-8d1e0eb70139).
+
+This identification is based on the agreement of all discernible class and
+individual microscopic characteristics between the evidence cartridge case
+and the test fires from the suspect firearm.
+
+The probability that this cartridge case could have been fired from another
+firearm of similar class characteristics is extremely remote.
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+This identification provides strong scientific evidence linking the suspect
+firearm to the crime scene. The match is based on multiple independent
+ballistic signatures and has been verified through independent examination.
+
+REPORT STATUS: FINAL
+DATE COMPLETED: December 13, 2025
+
+________________________________________
+ATF Special Agent Johnson
+Certified Firearms Examiner
+Bureau of Alcohol, Tobacco, Firearms and Explosives
+
+CONFIDENTIAL - LAW ENFORCEMENT SENSITIVE
+NOT FOR PUBLIC DISCLOSURE
+
+================================================================================
+END OF NIBIN BALLISTIC ANALYSIS REPORT
+================================================================================

@@ -1,0 +1,94 @@
+--- BURNER PHONE FORENSIC EXTRACTION REPORT ---
+Device: Nokia 1100 (Prepaid/Burner Phone)
+IMEI: 666398754468219
+SIM Card ICCID: 89011870697947916
+Phone Number: 431.205.7647x35629
+Carrier: Tracfone
+Activation Date: 2025-11-27 21:17:57.478732
+Extraction Date: 2025-12-13 19:17:57
+Forensic Tool: Cellebrite UFED 7.63.0.27
+Analyst: Detective Roberts
+
+INITIAL CELL TOWER CONNECTIONS:
+[2025-11-27 21:17:57] Connected to Tower 4426 - Matthewstad, ID
+[2025-11-27 22:17:57] Connected to Tower 1738 - Thompsonport, MD
+[2025-11-27 23:17:57] Connected to Tower 5193 - North Christopherfurt, NE
+
+CELL TOWER PINGS DURING RELEVANT TIMEFRAME:
+[2025-11-29 18:30:57] Tower 5622 - Lat:43.844879 Lon:6.066949
+[2025-11-29 18:50:57] Tower 5416 - Lat:43.802777 Lon:6.003256
+[2025-11-29 18:57:57] Tower 5385 - Lat:43.788929 Lon:6.064770
+[2025-11-29 19:24:57] Tower 1501 - Lat:43.855059 Lon:6.053812
+[2025-11-29 19:45:57] Tower 8100 - Lat:43.826249 Lon:6.059028
+[2025-11-29 19:59:57] Tower 1708 - Lat:43.815908 Lon:6.010739
+[2025-11-29 20:24:57] Tower 2305 - Lat:43.797824 Lon:6.056501
+[2025-11-29 20:52:57] Tower 5081 - Lat:43.812280 Lon:6.000982
+[2025-11-29 21:01:57] Tower 8416 - Lat:43.853768 Lon:6.030145
+[2025-11-29 21:21:57] Tower 7888 - Lat:43.815138 Lon:6.049811
+[2025-11-29 21:55:57] Tower 2869 - Lat:43.832724 Lon:6.061099
+
+CONTACTS (5 entries):
+• Monica Griffin: (942)405-5941
+• Jennifer Salazar: +1-934-552-6388x329
+• Joan Mcguire: +1-284-320-5826x9188
+• Sherri Newton: (439)886-4532x9785
+• Anthony Collins: (711)744-5973
+• Juan Taylor: 992.399.8892
+• Kevin Bryant: 001-965-954-8079x0145
+• Amy Salinas: +1-812-918-4201
+
+CALL LOG (13 calls):
+TIME                    | TYPE       | NUMBER           | DURATION | TOWER
+------------------------|------------|------------------|----------|------
+2025-11-26 17:17:57 | OUTGOING   | 992.399.8892     | 0:02     | 5236
+2025-11-29 06:17:57 | INCOMING   | 992.399.8892     | 1:13     | 8534
+2025-11-28 08:17:57 | INCOMING   | +1-284-320-5826x9188 | 1:52     | 4594
+2025-11-26 18:17:57 | MISSED     | +1-812-918-4201  | -        | 3940
+2025-11-29 11:17:57 | MISSED     | (711)744-5973    | -        | 423
+2025-11-26 04:17:57 | MISSED     | (581)706-6601    | -        | 9332
+2025-11-29 00:17:57 | INCOMING   | (795)427-1312x267 | 1:00     | 8424
+2025-11-26 03:17:57 | OUTGOING   | +1-397-768-1669x30034 | 1:52     | 2017
+2025-11-28 22:17:57 | OUTGOING   | +1-934-552-6388x329 | 1:11     | 4878
+2025-11-27 00:17:57 | OUTGOING   | 001-965-954-8079x0145 | 3:25     | 6439
+
+TEXT MESSAGES (25 messages):
+[2025-11-29 02:17:57] RECEIVED | (439)886-4532x9785 | Got the tools ready
+[2025-11-26 18:17:57] SENT     | (942)405-5941    | Change of plans - different location
+[2025-11-29 00:17:57] SENT     | +1-934-552-6388x329 | What time works for you?
+[2025-11-29 20:17:57] RECEIVED | 708.855.1155x874 | Payment received
+[2025-11-28 23:17:57] SENT     | +1-934-552-6388x329 | Burn this phone after
+[2025-11-27 03:17:57] SENT     | (718)461-6074    | Got the address
+[2025-11-28 11:17:57] RECEIVED | (711)744-5973    | Package secured
+[2025-11-28 03:17:57] RECEIVED | +1-812-918-4201  | Package secured
+[2025-11-27 11:17:57] SENT     | (439)886-4532x9785 | Bring the tools
+[2025-11-28 23:17:57] RECEIVED | (711)744-5973    | Will do
+[2025-11-26 09:17:57] SENT     | (711)744-5973    | You got the package?
+[2025-11-28 13:17:57] SENT     | (334)784-7707    | Change of plans - different location
+[2025-11-28 10:17:57] RECEIVED | (439)886-4532x9785 | Same place as usual?
+[2025-11-26 14:17:57] RECEIVED | +1-812-918-4201  | Got the tools ready
+[2025-11-28 09:17:57] RECEIVED | 001-965-954-8079x0145 | Will do
+[2025-11-26 00:17:57] RECEIVED | +1-284-320-5826x9188 | Payment received
+[2025-11-29 15:17:57] SENT     | (369)547-5629    | Meet me at the spot tonight
+[2025-11-27 15:17:57] SENT     | +1-284-320-5826x9188 | Everything set for tomorrow?
+[2025-11-27 20:17:57] SENT     | (942)405-5941    | Change of plans - different location
+[2025-11-27 13:17:57] RECEIVED | (439)886-4532x9785 | Will do
+[2025-11-26 04:17:57] RECEIVED | 992.399.8892     | Address confirmed
+[2025-11-28 02:17:57] SENT     | +1-812-918-4201  | Burn this phone after
+
+DEVICE INFORMATION:
+• Model: Nokia 1100
+• OS: Nokia OS v1.0
+• Memory: 1MB internal
+• Battery Level at Seizure: 78%
+• Last Backup: Never
+• Screen Lock: None
+• PIN Code: Not set
+• Auto-lock: Disabled
+
+FORENSIC NOTES:
+• Device was powered on at time of seizure
+• No encryption detected
+• SIM card removed and preserved separately
+• Device photographed in place before extraction
+• Chain of custody maintained throughout process
+• Data integrity verified with MD5 hash: 078fe037431e620c9bd23c6ca5f9e6c1

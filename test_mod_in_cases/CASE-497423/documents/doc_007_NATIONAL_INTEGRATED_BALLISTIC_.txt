@@ -1,0 +1,161 @@
+--- NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK (NIBIN) REPORT ---
+
+DEPARTMENT OF JUSTICE
+BUREAU OF ALCOHOL, TOBACCO, FIREARMS AND EXPLOSIVES
+NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK
+
+REPORT NUMBER: NIBIN-180417
+DATE GENERATED: December 13, 2025
+REQUESTING AGENCY: Thomaston Police Department
+SUBMITTING ANALYST: ATF Special Agent Buckley
+
+================================================================================
+EVIDENCE SUBMISSION DETAILS
+================================================================================
+
+Evidence Item 1: Spent Cartridge Case
+- NIBIN Entry ID: b774bbb8-9127-41e1-8c0e-db9356bc2ad4
+- Caliber: None
+- Case Type: Rimless
+- Primer Type: Boxer
+- Headstamp: WIN
+
+Evidence Item 2: Suspect Firearm
+- NIBIN Entry ID: aaff6b86-a24e-426b-bd3f-60d36589159f
+- Make/Model: Generic/Hammer
+- Serial Number: 63302948
+- Caliber: None
+- Action Type: Revolver
+
+================================================================================
+MICROSCOPIC COMPARISON ANALYSIS
+================================================================================
+
+RIFLING CHARACTERISTICS:
+- Number of Lands/Grooves: 6 lands and 8 grooves, right twist
+- Rifling Twist: 1.29 inches per turn
+- Barrel Length: 5 inches
+- Groove Depth: 0.0029 inches
+
+STRIATION ANALYSIS:
+- Breech face marks: 85% correlation
+- Firing pin impressions: 90% correlation
+- Extractor marks: 78% correlation
+- Ejector marks: 80% correlation
+
+CLASS CHARACTERISTICS:
+- Land impressions width: 0.108 inches
+- Groove width: 0.100 inches
+- Land/groove ratio: 0.99
+
+================================================================================
+DATABASE COMPARISON RESULTS
+================================================================================
+
+NIBIN Database Query Results:
+Total cases searched: 107,765
+Time period: Last 10 years
+Geographic scope: National database
+
+COMPARISON SUMMARY:
+Case #198310: IDENTIFIED MATCH (98% confidence)
+Case #291977: POSSIBLE MATCH (92% confidence)
+Case #487100: POSSIBLE MATCH (89% confidence)
+Case #718916: ELIMINATED (70% confidence)
+Case #300260: ELIMINATED (67% confidence)
+Case #631229: ELIMINATED (30% confidence)
+Case #737114: ELIMINATED (25% confidence)
+Case #888347: ELIMINATED (71% confidence)
+Case #506144: ELIMINATED (69% confidence)
+Case #788364: ELIMINATED (30% confidence)
+
+================================================================================
+PRIMARY MATCH ANALYSIS
+================================================================================
+
+SUSPECTED FIREARM IDENTIFICATION:
+Firearm NIBIN ID: aaff6b86-a24e-426b-bd3f-60d36589159f
+Suspect Name: Joel Hampton
+Recovery Date: 12/07/2025
+Recovery Location: 5660 Gloria Mission, West Rachelmouth, LA 11277
+
+BALLISTIC MATCH CONFIDENCE:
+- Overall correlation: 96%
+- Individual characteristics match: 22/25
+- Statistical significance: p < 0.0001
+- Error rate: < 0.001%
+
+================================================================================
+IMAGING AND DIGITAL ANALYSIS
+================================================================================
+
+MICROSCOPIC IMAGING:
+- Magnification used: 20x - 80x
+- Lighting: Coaxial illumination
+- Image capture: Olympus BX51M microscope
+- Digital resolution: 3072 x 2304 pixels
+
+3D TOPOGRAPHIC MAPPING:
+- Surface deviation mapping completed
+- Depth analysis: 0.00016 inches
+- Profile correlation coefficient: 0.936
+
+DIGITAL COMPARISON SOFTWARE:
+- Program: IBIS Trail v4.2
+- Correlation algorithm: Congruent Matching Cells (CMC)
+- Minimum correlation threshold: 12 CMC points
+- Actual correlation: 21 CMC points
+
+================================================================================
+QUALITY ASSURANCE AND VERIFICATION
+================================================================================
+
+ANALYSIS PERFORMED BY:
+Primary Examiner: ATF Special Agent Webb
+- Certification: Certified Firearms Examiner
+- Experience: 14 years
+- Case load: 71 ballistic cases annually
+
+VERIFICATION BY:
+Technical Review Officer: ATF Special Agent Robertson
+- Independent microscopic examination completed
+- Digital correlation analysis verified
+- Statistical analysis reviewed
+
+================================================================================
+CONCLUSION AND OPINION
+================================================================================
+
+OPINION: The microscopic examination and digital comparison analysis reveals
+that the cartridge case submitted as evidence (NIBIN ID: b774bbb8-9127-41e1-8c0e-db9356bc2ad4) was fired
+from the submitted suspect firearm (NIBIN ID: aaff6b86-a24e-426b-bd3f-60d36589159f).
+
+This identification is based on the agreement of all discernible class and
+individual microscopic characteristics between the evidence cartridge case
+and the test fires from the suspect firearm.
+
+The probability that this cartridge case could have been fired from another
+firearm of similar class characteristics is extremely remote.
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+This identification provides strong scientific evidence linking the suspect
+firearm to the crime scene. The match is based on multiple independent
+ballistic signatures and has been verified through independent examination.
+
+REPORT STATUS: FINAL
+DATE COMPLETED: December 13, 2025
+
+________________________________________
+ATF Special Agent Wilcox
+Certified Firearms Examiner
+Bureau of Alcohol, Tobacco, Firearms and Explosives
+
+CONFIDENTIAL - LAW ENFORCEMENT SENSITIVE
+NOT FOR PUBLIC DISCLOSURE
+
+================================================================================
+END OF NIBIN BALLISTIC ANALYSIS REPORT
+================================================================================

@@ -1,0 +1,36 @@
+========================================
+        BUDGET MART
+========================================
+Store #635 - 7808 Teresa Mission, North Alicia, NV 12907
+
+Date: 12/04/2025
+Time: 09:00 AM
+Register: 7
+Clerk: Christy
+Receipt #: 561843
+
+----------------------------------------
+QTY  ITEM                 PRICE    TOTAL
+----------------------------------------
+1    Nokia 1100           $ 24.67 $  24.67
+1    30 MIN AIRTIME     $  3.00 $   3.00
+
+----------------------------------------
+SUBTOTAL:                $     27.67
+TAX (8.75%):             $      2.42
+----------------------------------------
+TOTAL:                   $     30.09
+
+========================================
+PAID BY: CASH
+CHANGE:  $0.00
+
+NO REFUNDS OR EXCHANGES
+KEEP RECEIPT FOR WARRANTY
+
+========================================
+BUYER DESCRIPTION: Male, 30s, wearing black hoodie, baseball cap
+TIME OF PURCHASE: 09:00:16 AM
+
+Thank you for shopping at Budget Mart!
+========================================

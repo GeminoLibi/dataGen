@@ -1,0 +1,19 @@
+--- DATA RECOVERY LOG ---
+File: evidence_img_20.jpg
+Sector: 42601
+Status: CORRUPTED / UNREADABLE HEADER
+Action: Recovery Failed
+Attempted Methods: File carving
+Result: Unable to recover image data
+
+PARTIAL METADATA RECOVERED (FRAGMENTED):
+- File Type: JPEG
+- Camera: Nikon D850
+- Date Taken: 2025:11:27 20:17:57
+- GPS Coordinates: 43.469440, 5.951644 (RECOVERED FROM EXIF)
+- GPS Altitude: 359 meters
+- Camera Settings: ISO 688, f/4.0, 1/366s
+
+Note: Image data unrecoverable, but EXIF metadata partially extracted.
+Technician: Matthew Woods
+Date: 2025-12-12

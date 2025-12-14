@@ -761,17 +761,29 @@ def run_case_generation(crime_type_num, complexity, modifier_nums, subject_statu
         ai_enhancer = None
         if ai_mode and ai_mode != 'none':
             try:
-                from src.ai_enhancer import AIEnhancer
+                from src.ai_enhancer import AIEnhancer, debug_print
+                debug_print(f"Web Interface: Initializing AI enhancer with mode='{ai_mode}'")
+                
                 kwargs = {}
-                if ai_mode == 'local':
+                if ai_mode == 'local' or ai_mode == 'ollama':
                     kwargs['base_url'] = api_key if api_key else 'http://localhost:11434'
-                    kwargs['model_name'] = local_model_name
-                    ai_enhancer = AIEnhancer(model_type=ai_mode, **kwargs)
+                    kwargs['model_name'] = local_model_name if local_model_name else 'llama2'
+                    debug_print(f"Web Interface: Local model config - base_url={kwargs['base_url']}, model={kwargs['model_name']}")
+                    ai_enhancer = AIEnhancer(model_type='local', **kwargs)
                 else:
+                    if not api_key:
+                        debug_print(f"Web Interface: WARNING - No API key provided for {ai_mode}")
+                        raise ValueError(f"API key required for {ai_mode}")
+                    debug_print(f"Web Interface: API key provided (length={len(api_key)})")
                     ai_enhancer = AIEnhancer(model_type=ai_mode, api_key=api_key)
+                debug_print(f"Web Interface: AI enhancer initialized successfully")
             except Exception as e:
-                # If AI fails, continue without it
-                pass
+                # Log the error but continue without AI
+                import traceback
+                error_msg = f"Failed to initialize AI enhancer: {type(e).__name__}: {str(e)}"
+                print(f"[ERROR] {error_msg}", file=sys.stderr, flush=True)
+                print(f"[ERROR] Traceback: {traceback.format_exc()}", file=sys.stderr, flush=True)
+                ai_enhancer = None
         
         # Generate case directly
         generator = CaseGenerator()
@@ -779,11 +791,23 @@ def run_case_generation(crime_type_num, complexity, modifier_nums, subject_statu
         
         # Enhance documents with AI if available
         if ai_enhancer and case:
+            from src.ai_enhancer import debug_print
+            debug_print(f"Web Interface: Starting AI enhancement of {len(case.documents)} documents")
             enhanced_docs = []
-            for doc in case.documents:
-                enhanced = ai_enhancer.enhance_document(doc, crime_type)
-                enhanced_docs.append(enhanced)
+            for i, doc in enumerate(case.documents, 1):
+                debug_print(f"Web Interface: Enhancing document {i}/{len(case.documents)}")
+                try:
+                    enhanced = ai_enhancer.enhance_document(doc, crime_type)
+                    enhanced_docs.append(enhanced)
+                    debug_print(f"Web Interface: Document {i} enhanced successfully")
+                except Exception as e:
+                    debug_print(f"Web Interface: ERROR enhancing document {i} - {type(e).__name__}: {str(e)}")
+                    # Use original if enhancement fails
+                    enhanced_docs.append(doc)
             case.documents = enhanced_docs
+            debug_print(f"Web Interface: AI enhancement complete - {len(enhanced_docs)} documents processed")
+        elif ai_enhancer is None and ai_mode and ai_mode != 'none':
+            print(f"[WARNING] AI mode '{ai_mode}' was requested but enhancer is None", file=sys.stderr, flush=True)
 
         if not case:
             return {

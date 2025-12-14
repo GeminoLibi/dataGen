@@ -1,0 +1,161 @@
+--- NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK (NIBIN) REPORT ---
+
+DEPARTMENT OF JUSTICE
+BUREAU OF ALCOHOL, TOBACCO, FIREARMS AND EXPLOSIVES
+NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK
+
+REPORT NUMBER: NIBIN-825398
+DATE GENERATED: December 13, 2025
+REQUESTING AGENCY: West Abigailview Police Department
+SUBMITTING ANALYST: ATF Special Agent Everett
+
+================================================================================
+EVIDENCE SUBMISSION DETAILS
+================================================================================
+
+Evidence Item 1: Spent Cartridge Case
+- NIBIN Entry ID: 06ba2626-8a88-451e-aa7c-356ae227ae5d
+- Caliber: 9mm
+- Case Type: Rimless
+- Primer Type: Boxer
+- Headstamp: FED
+
+Evidence Item 2: Suspect Firearm
+- NIBIN Entry ID: adedcc01-f79b-41ea-857c-098f04d8c481
+- Make/Model: Ruger/SR9
+- Serial Number: 14746898
+- Caliber: 9mm
+- Action Type: Pump action
+
+================================================================================
+MICROSCOPIC COMPARISON ANALYSIS
+================================================================================
+
+RIFLING CHARACTERISTICS:
+- Number of Lands/Grooves: 5 lands and 6 grooves, left twist
+- Rifling Twist: 1.27 inches per turn
+- Barrel Length: 4 inches
+- Groove Depth: 0.0024 inches
+
+STRIATION ANALYSIS:
+- Breech face marks: 94% correlation
+- Firing pin impressions: 96% correlation
+- Extractor marks: 82% correlation
+- Ejector marks: 70% correlation
+
+CLASS CHARACTERISTICS:
+- Land impressions width: 0.089 inches
+- Groove width: 0.121 inches
+- Land/groove ratio: 0.98
+
+================================================================================
+DATABASE COMPARISON RESULTS
+================================================================================
+
+NIBIN Database Query Results:
+Total cases searched: 55,414
+Time period: Last 10 years
+Geographic scope: National database
+
+COMPARISON SUMMARY:
+Case #152895: IDENTIFIED MATCH (97% confidence)
+Case #446428: POSSIBLE MATCH (92% confidence)
+Case #567577: POSSIBLE MATCH (82% confidence)
+Case #948800: ELIMINATED (37% confidence)
+Case #121525: ELIMINATED (49% confidence)
+Case #543455: ELIMINATED (21% confidence)
+Case #261816: ELIMINATED (52% confidence)
+Case #149793: ELIMINATED (12% confidence)
+Case #967613: ELIMINATED (8% confidence)
+Case #740741: ELIMINATED (52% confidence)
+
+================================================================================
+PRIMARY MATCH ANALYSIS
+================================================================================
+
+SUSPECTED FIREARM IDENTIFICATION:
+Firearm NIBIN ID: adedcc01-f79b-41ea-857c-098f04d8c481
+Suspect Name: Tyler Nielsen
+Recovery Date: 04/13/2025
+Recovery Location: 3820 Bailey Course, Lake Samantha, PA 12882
+
+BALLISTIC MATCH CONFIDENCE:
+- Overall correlation: 97%
+- Individual characteristics match: 23/19
+- Statistical significance: p < 0.0001
+- Error rate: < 0.001%
+
+================================================================================
+IMAGING AND DIGITAL ANALYSIS
+================================================================================
+
+MICROSCOPIC IMAGING:
+- Magnification used: 20x - 80x
+- Lighting: Coaxial illumination
+- Image capture: Olympus BX51M microscope
+- Digital resolution: 3072 x 2304 pixels
+
+3D TOPOGRAPHIC MAPPING:
+- Surface deviation mapping completed
+- Depth analysis: 0.00033 inches
+- Profile correlation coefficient: 0.876
+
+DIGITAL COMPARISON SOFTWARE:
+- Program: IBIS Trail v6.5
+- Correlation algorithm: Congruent Matching Cells (CMC)
+- Minimum correlation threshold: 10 CMC points
+- Actual correlation: 19 CMC points
+
+================================================================================
+QUALITY ASSURANCE AND VERIFICATION
+================================================================================
+
+ANALYSIS PERFORMED BY:
+Primary Examiner: ATF Special Agent Nguyen
+- Certification: Certified Firearms Examiner
+- Experience: 13 years
+- Case load: 58 ballistic cases annually
+
+VERIFICATION BY:
+Technical Review Officer: ATF Special Agent Steele
+- Independent microscopic examination completed
+- Digital correlation analysis verified
+- Statistical analysis reviewed
+
+================================================================================
+CONCLUSION AND OPINION
+================================================================================
+
+OPINION: The microscopic examination and digital comparison analysis reveals
+that the cartridge case submitted as evidence (NIBIN ID: 06ba2626-8a88-451e-aa7c-356ae227ae5d) was fired
+from the submitted suspect firearm (NIBIN ID: adedcc01-f79b-41ea-857c-098f04d8c481).
+
+This identification is based on the agreement of all discernible class and
+individual microscopic characteristics between the evidence cartridge case
+and the test fires from the suspect firearm.
+
+The probability that this cartridge case could have been fired from another
+firearm of similar class characteristics is extremely remote.
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+This identification provides strong scientific evidence linking the suspect
+firearm to the crime scene. The match is based on multiple independent
+ballistic signatures and has been verified through independent examination.
+
+REPORT STATUS: FINAL
+DATE COMPLETED: December 13, 2025
+
+________________________________________
+ATF Special Agent Ayers
+Certified Firearms Examiner
+Bureau of Alcohol, Tobacco, Firearms and Explosives
+
+CONFIDENTIAL - LAW ENFORCEMENT SENSITIVE
+NOT FOR PUBLIC DISCLOSURE
+
+================================================================================
+END OF NIBIN BALLISTIC ANALYSIS REPORT
+================================================================================

@@ -1,0 +1,163 @@
+--- NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK (NIBIN) REPORT ---
+
+DEPARTMENT OF JUSTICE
+BUREAU OF ALCOHOL, TOBACCO, FIREARMS AND EXPLOSIVES
+NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK
+
+REPORT NUMBER: NIBIN-521121
+DATE GENERATED: December 13, 2025
+REQUESTING AGENCY: South Carlos Police Department
+SUBMITTING ANALYST: ATF Special Agent Nunez
+
+================================================================================
+EVIDENCE SUBMISSION DETAILS
+================================================================================
+
+Evidence Item 1: Spent Cartridge Case
+- NIBIN Entry ID: 3cd618f7-b976-40d6-9947-3c73ded953c6
+- Caliber: None
+- Case Type: Rimless
+- Primer Type: Boxer
+- Headstamp: REM
+
+Evidence Item 2: Suspect Firearm
+- NIBIN Entry ID: 083ae6d2-6826-483e-881f-1c0fb5564158
+- Make/Model: Generic/Kitchen Knife
+- Serial Number: 20027661
+- Caliber: None
+- Action Type: Semi-automatic
+
+================================================================================
+MICROSCOPIC COMPARISON ANALYSIS
+================================================================================
+
+RIFLING CHARACTERISTICS:
+- Number of Lands/Grooves: 4 lands and 4 grooves, left twist
+- Rifling Twist: 1.36 inches per turn
+- Barrel Length: 4 inches
+- Groove Depth: 0.0029 inches
+
+STRIATION ANALYSIS:
+- Breech face marks: 91% correlation
+- Firing pin impressions: 98% correlation
+- Extractor marks: 81% correlation
+- Ejector marks: 74% correlation
+
+CLASS CHARACTERISTICS:
+- Land impressions width: 0.103 inches
+- Groove width: 0.100 inches
+- Land/groove ratio: 1.01
+
+================================================================================
+DATABASE COMPARISON RESULTS
+================================================================================
+
+NIBIN Database Query Results:
+Total cases searched: 139,240
+Time period: Last 10 years
+Geographic scope: National database
+
+COMPARISON SUMMARY:
+Case #635535: IDENTIFIED MATCH (98% confidence)
+Case #280160: POSSIBLE MATCH (75% confidence)
+Case #835330: POSSIBLE MATCH (84% confidence)
+Case #615623: ELIMINATED (22% confidence)
+Case #108876: ELIMINATED (15% confidence)
+Case #424791: ELIMINATED (4% confidence)
+Case #246804: ELIMINATED (24% confidence)
+Case #231545: ELIMINATED (54% confidence)
+Case #280015: ELIMINATED (62% confidence)
+Case #786947: ELIMINATED (26% confidence)
+Case #824029: ELIMINATED (70% confidence)
+Case #837274: ELIMINATED (49% confidence)
+
+================================================================================
+PRIMARY MATCH ANALYSIS
+================================================================================
+
+SUSPECTED FIREARM IDENTIFICATION:
+Firearm NIBIN ID: 083ae6d2-6826-483e-881f-1c0fb5564158
+Suspect Name: Dylan Franklin
+Recovery Date: 12/09/2025
+Recovery Location: 19923 Charles Hill Suite 755, East Kyleburgh, RI 17854
+
+BALLISTIC MATCH CONFIDENCE:
+- Overall correlation: 95%
+- Individual characteristics match: 25/22
+- Statistical significance: p < 0.0001
+- Error rate: < 0.001%
+
+================================================================================
+IMAGING AND DIGITAL ANALYSIS
+================================================================================
+
+MICROSCOPIC IMAGING:
+- Magnification used: 20x - 80x
+- Lighting: Coaxial illumination
+- Image capture: Olympus BX51M microscope
+- Digital resolution: 3072 x 2304 pixels
+
+3D TOPOGRAPHIC MAPPING:
+- Surface deviation mapping completed
+- Depth analysis: 0.00056 inches
+- Profile correlation coefficient: 0.868
+
+DIGITAL COMPARISON SOFTWARE:
+- Program: IBIS Trail v5.3
+- Correlation algorithm: Congruent Matching Cells (CMC)
+- Minimum correlation threshold: 7 CMC points
+- Actual correlation: 24 CMC points
+
+================================================================================
+QUALITY ASSURANCE AND VERIFICATION
+================================================================================
+
+ANALYSIS PERFORMED BY:
+Primary Examiner: ATF Special Agent Reyes
+- Certification: Certified Firearms Examiner
+- Experience: 19 years
+- Case load: 77 ballistic cases annually
+
+VERIFICATION BY:
+Technical Review Officer: ATF Special Agent Perry
+- Independent microscopic examination completed
+- Digital correlation analysis verified
+- Statistical analysis reviewed
+
+================================================================================
+CONCLUSION AND OPINION
+================================================================================
+
+OPINION: The microscopic examination and digital comparison analysis reveals
+that the cartridge case submitted as evidence (NIBIN ID: 3cd618f7-b976-40d6-9947-3c73ded953c6) was fired
+from the submitted suspect firearm (NIBIN ID: 083ae6d2-6826-483e-881f-1c0fb5564158).
+
+This identification is based on the agreement of all discernible class and
+individual microscopic characteristics between the evidence cartridge case
+and the test fires from the suspect firearm.
+
+The probability that this cartridge case could have been fired from another
+firearm of similar class characteristics is extremely remote.
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+This identification provides strong scientific evidence linking the suspect
+firearm to the crime scene. The match is based on multiple independent
+ballistic signatures and has been verified through independent examination.
+
+REPORT STATUS: FINAL
+DATE COMPLETED: December 13, 2025
+
+________________________________________
+ATF Special Agent Olson
+Certified Firearms Examiner
+Bureau of Alcohol, Tobacco, Firearms and Explosives
+
+CONFIDENTIAL - LAW ENFORCEMENT SENSITIVE
+NOT FOR PUBLIC DISCLOSURE
+
+================================================================================
+END OF NIBIN BALLISTIC ANALYSIS REPORT
+================================================================================

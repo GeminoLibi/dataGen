@@ -1,0 +1,163 @@
+--- NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK (NIBIN) REPORT ---
+
+DEPARTMENT OF JUSTICE
+BUREAU OF ALCOHOL, TOBACCO, FIREARMS AND EXPLOSIVES
+NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK
+
+REPORT NUMBER: NIBIN-377031
+DATE GENERATED: December 13, 2025
+REQUESTING AGENCY: West Adamport Police Department
+SUBMITTING ANALYST: ATF Special Agent Meyer
+
+================================================================================
+EVIDENCE SUBMISSION DETAILS
+================================================================================
+
+Evidence Item 1: Spent Cartridge Case
+- NIBIN Entry ID: dfcbd6ce-cecf-4ab8-9363-cc49772a2b03
+- Caliber: None
+- Case Type: Rimless
+- Primer Type: Boxer
+- Headstamp: REM
+
+Evidence Item 2: Suspect Firearm
+- NIBIN Entry ID: 5e19eaf2-02d1-41f2-8a57-e0d1d39eed3c
+- Make/Model: Generic/Crowbar
+- Serial Number: 47657571
+- Caliber: None
+- Action Type: Bolt action
+
+================================================================================
+MICROSCOPIC COMPARISON ANALYSIS
+================================================================================
+
+RIFLING CHARACTERISTICS:
+- Number of Lands/Grooves: 6 lands and 4 grooves, left twist
+- Rifling Twist: 1.02 inches per turn
+- Barrel Length: 8 inches
+- Groove Depth: 0.0014 inches
+
+STRIATION ANALYSIS:
+- Breech face marks: 95% correlation
+- Firing pin impressions: 98% correlation
+- Extractor marks: 85% correlation
+- Ejector marks: 74% correlation
+
+CLASS CHARACTERISTICS:
+- Land impressions width: 0.085 inches
+- Groove width: 0.102 inches
+- Land/groove ratio: 1.01
+
+================================================================================
+DATABASE COMPARISON RESULTS
+================================================================================
+
+NIBIN Database Query Results:
+Total cases searched: 85,599
+Time period: Last 10 years
+Geographic scope: National database
+
+COMPARISON SUMMARY:
+Case #189589: IDENTIFIED MATCH (96% confidence)
+Case #592536: POSSIBLE MATCH (76% confidence)
+Case #231645: POSSIBLE MATCH (85% confidence)
+Case #189673: ELIMINATED (74% confidence)
+Case #136958: ELIMINATED (6% confidence)
+Case #800161: ELIMINATED (13% confidence)
+Case #326259: ELIMINATED (63% confidence)
+Case #540994: ELIMINATED (33% confidence)
+Case #614810: ELIMINATED (23% confidence)
+Case #148370: ELIMINATED (49% confidence)
+Case #145787: ELIMINATED (9% confidence)
+Case #312432: ELIMINATED (58% confidence)
+
+================================================================================
+PRIMARY MATCH ANALYSIS
+================================================================================
+
+SUSPECTED FIREARM IDENTIFICATION:
+Firearm NIBIN ID: 5e19eaf2-02d1-41f2-8a57-e0d1d39eed3c
+Suspect Name: Austin Ferguson
+Recovery Date: 11/09/2025
+Recovery Location: 664 Barrera Inlet, Robinsonville, DE 04821
+
+BALLISTIC MATCH CONFIDENCE:
+- Overall correlation: 96%
+- Individual characteristics match: 20/25
+- Statistical significance: p < 0.0001
+- Error rate: < 0.001%
+
+================================================================================
+IMAGING AND DIGITAL ANALYSIS
+================================================================================
+
+MICROSCOPIC IMAGING:
+- Magnification used: 20x - 80x
+- Lighting: Coaxial illumination
+- Image capture: Olympus BX51M microscope
+- Digital resolution: 3072 x 2304 pixels
+
+3D TOPOGRAPHIC MAPPING:
+- Surface deviation mapping completed
+- Depth analysis: 0.00091 inches
+- Profile correlation coefficient: 0.951
+
+DIGITAL COMPARISON SOFTWARE:
+- Program: IBIS Trail v4.5
+- Correlation algorithm: Congruent Matching Cells (CMC)
+- Minimum correlation threshold: 9 CMC points
+- Actual correlation: 28 CMC points
+
+================================================================================
+QUALITY ASSURANCE AND VERIFICATION
+================================================================================
+
+ANALYSIS PERFORMED BY:
+Primary Examiner: ATF Special Agent Delacruz
+- Certification: Certified Firearms Examiner
+- Experience: 8 years
+- Case load: 120 ballistic cases annually
+
+VERIFICATION BY:
+Technical Review Officer: ATF Special Agent Castillo
+- Independent microscopic examination completed
+- Digital correlation analysis verified
+- Statistical analysis reviewed
+
+================================================================================
+CONCLUSION AND OPINION
+================================================================================
+
+OPINION: The microscopic examination and digital comparison analysis reveals
+that the cartridge case submitted as evidence (NIBIN ID: dfcbd6ce-cecf-4ab8-9363-cc49772a2b03) was fired
+from the submitted suspect firearm (NIBIN ID: 5e19eaf2-02d1-41f2-8a57-e0d1d39eed3c).
+
+This identification is based on the agreement of all discernible class and
+individual microscopic characteristics between the evidence cartridge case
+and the test fires from the suspect firearm.
+
+The probability that this cartridge case could have been fired from another
+firearm of similar class characteristics is extremely remote.
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+This identification provides strong scientific evidence linking the suspect
+firearm to the crime scene. The match is based on multiple independent
+ballistic signatures and has been verified through independent examination.
+
+REPORT STATUS: FINAL
+DATE COMPLETED: December 13, 2025
+
+________________________________________
+ATF Special Agent Lozano
+Certified Firearms Examiner
+Bureau of Alcohol, Tobacco, Firearms and Explosives
+
+CONFIDENTIAL - LAW ENFORCEMENT SENSITIVE
+NOT FOR PUBLIC DISCLOSURE
+
+================================================================================
+END OF NIBIN BALLISTIC ANALYSIS REPORT
+================================================================================

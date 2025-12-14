@@ -2,7 +2,7 @@ from faker import Faker
 import random
 import math
 from datetime import datetime, timedelta
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Dict
 from .models import Person, Role, Vehicle, DigitalDevice, Weapon
 
 fake = Faker()
@@ -117,7 +117,8 @@ def generate_discovery_index(case_id: str, defendant: str, charges: str) -> str:
 
 # ... (Previous helper functions maintained below) ...
 
-def generate_cad_log(call_time: datetime, address: str, crime_type: str) -> str:
+def generate_cad_log(call_time: datetime, address: str, crime_type: str, 
+                     caller_name: Optional[str] = None, caller_gender: Optional[str] = None) -> str:
     """Generate detailed Computer-Aided Dispatch log with realistic codes and actions."""
     incident_num = f"INC-{fake.random_number(digits=8)}"
 
@@ -136,6 +137,14 @@ def generate_cad_log(call_time: datetime, address: str, crime_type: str) -> str:
     }
     signal = signal_codes.get(crime_type, "10-28 (Suspicious Activity)")
 
+    # Use provided caller info or generate random
+    if caller_gender:
+        caller_desc = caller_gender.upper()
+    else:
+        caller_desc = random.choice(["FEMALE", "MALE"])
+    
+    caller_state = random.choice(["HYSTERICAL", "CALM", "UPSET", "FRIGHTENED", "ANGRY"])
+
     doc = f"--- COMPUTER AIDED DISPATCH (CAD) INCIDENT REPORT ---\n"
     doc += f"Incident #: {incident_num}\n"
     doc += f"Date: {call_time.strftime('%Y-%m-%d')}\n"
@@ -152,7 +161,10 @@ def generate_cad_log(call_time: datetime, address: str, crime_type: str) -> str:
     # Timeline with detailed actions
     t0 = call_time
     doc += f"[{t0.strftime('%H:%M:%S')}] CALL RECEIVED - 911 Transfer from Primary PSAP\n"
-    doc += f"[{t0.strftime('%H:%M:%S')}] CALLER: FEMALE, HYSTERICAL, REPORTING {crime_type.upper()} IN PROGRESS\n"
+    if caller_name:
+        doc += f"[{t0.strftime('%H:%M:%S')}] CALLER: {caller_name.upper()}, {caller_desc}, {caller_state}, REPORTING {crime_type.upper()} IN PROGRESS\n"
+    else:
+        doc += f"[{t0.strftime('%H:%M:%S')}] CALLER: {caller_desc}, {caller_state}, REPORTING {crime_type.upper()} IN PROGRESS\n"
     doc += f"[{t0.strftime('%H:%M:%S')}] LOCATION VERIFIED: {address.upper()}\n"
 
     t1 = t0 + timedelta(seconds=45)
@@ -600,31 +612,59 @@ END OF NIBIN BALLISTIC ANALYSIS REPORT
 
     return report
 
-def generate_search_warrant_affidavit(officer: Person, target_address: str, crime_type: str, evidence_description: str) -> str:
+def generate_search_warrant_affidavit(officer: Person, target_address: str, crime_type: str, 
+                                     evidence_description: str,
+                                     jurisdiction_manager=None, officer_registry=None,
+                                     incident_date: Optional[datetime] = None) -> str:
     """Generate a comprehensive search warrant affidavit with probable cause."""
     affidavit_date = datetime.now().strftime('%B %d, %Y')
-    jurisdiction = "State of " + fake.state()
-    county_name = fake.city() + " County"  # Generate a fake county name
+    
+    # Use consistency managers if provided
+    if jurisdiction_manager:
+        jurisdiction = jurisdiction_manager.get_state()
+        county_name = jurisdiction_manager.get_county()
+        judge_name = jurisdiction_manager.get_judge()
+        court_name = jurisdiction_manager.get_court()
+    else:
+        # Fallback to random (for backward compatibility)
+        jurisdiction = "State of " + fake.state()
+        county_name = fake.city() + " County"
+        judge_name = "Judge " + fake.last_name()
+        court_name = fake.last_name().upper() + " County Court"
+    
+    if officer_registry:
+        department = officer_registry.get_department(officer.full_name)
+        badge_number = officer_registry.get_badge(officer.full_name)
+    else:
+        # Fallback to random (for backward compatibility)
+        department = fake.city() + " Police Department"
+        badge_number = random.randint(1000, 9999)
+    
+    # Use incident date if provided, otherwise use current date
+    if incident_date:
+        incident_date_str = incident_date.strftime('%B %d, %Y')
+    else:
+        incident_date_str = fake.date_this_year().strftime('%B %d, %Y')
 
     affidavit = f"""--- SEARCH WARRANT AFFIDAVIT ---
 
 {jurisdiction}
 County of {county_name}
 
-BEFORE THE HONORABLE JUDGE OF THE {fake.last_name().upper()} COUNTY COURT
+BEFORE THE HONORABLE JUDGE OF THE {court_name.upper()}
 
 AFFIDAVIT IN SUPPORT OF SEARCH WARRANT
 
 I, {officer.full_name}, being duly sworn, depose and state:
 
-1. I am a peace officer employed by the {fake.city()} Police Department with over {random.randint(5, 20)} years of experience in criminal investigations.
+1. I am a peace officer employed by the {department} with over {random.randint(5, 20)} years of experience in criminal investigations.
 
 2. This affidavit is submitted in support of a search warrant for the following location:
    {target_address}
 
 3. I have probable cause to believe that evidence of {crime_type.lower()} is located at the above premises based on the following facts:
 
-   a) On {fake.date_this_year().strftime('%B %d, %Y')}, I responded to a report of {crime_type.lower()} at the incident location.
+   a) On {incident_date_str}, I responded to a report of {crime_type.lower()} at the incident location.
 
    b) During the investigation, the following evidence was discovered: {evidence_description}
 
@@ -646,25 +686,46 @@ Dated: {affidavit_date}
 
 __________________________________
 {officer.full_name}
-Badge #{random.randint(1000, 9999)}
-{fake.city()} Police Department
+Badge #{badge_number}
+{department}
 
 SWORN TO AND SUBSCRIBED before me this {affidavit_date}.
 
 __________________________________
-Judge {fake.last_name()}
-{fake.last_name().upper()} County Court"""
+{judge_name}
+{court_name}"""
 
     return affidavit
 
 def generate_financial_csv(suspect_name: str, crime_date: datetime) -> str:
     return "Date,Desc,Amt\n2023-01-01,ATM,500"
 
-def generate_search_warrant(officer: Person, target_name: str, target_address: str, items_to_seize: List[str], crime_type: str) -> str:
+def generate_search_warrant(officer: Person, target_name: str, target_address: str, 
+                           items_to_seize: List[str], crime_type: str,
+                           jurisdiction_manager=None, officer_registry=None) -> str:
     """Generate a comprehensive search warrant."""
     warrant_date = datetime.now().strftime('%B %d, %Y')
-    jurisdiction = "State of " + fake.state()
-    county_name = fake.city() + " County"  # Generate a fake county name
+    
+    # Use consistency managers if provided
+    if jurisdiction_manager:
+        jurisdiction = jurisdiction_manager.get_state()
+        county_name = jurisdiction_manager.get_county()
+        judge_name = jurisdiction_manager.get_judge()
+        court_name = jurisdiction_manager.get_court()
+    else:
+        # Fallback to random (for backward compatibility)
+        jurisdiction = "State of " + fake.state()
+        county_name = fake.city() + " County"
+        judge_name = "Judge " + fake.last_name()
+        court_name = fake.last_name().upper() + " County Court"
+    
+    if officer_registry:
+        department = officer_registry.get_department(officer.full_name)
+        badge_number = officer_registry.get_badge(officer.full_name)
+    else:
+        # Fallback to random (for backward compatibility)
+        department = fake.city() + " Police Department"
+        badge_number = random.randint(1000, 9999)
 
     warrant = f"""--- SEARCH WARRANT ---
 
@@ -688,21 +749,38 @@ This warrant shall be executed between the hours of 6:00 AM and 10:00 PM.
 Given under my hand this {warrant_date}.
 
 __________________________________
-Judge {fake.last_name()}
-{fake.last_name().upper()} County Court
+{judge_name}
+{court_name}
 
 APPROVED BY AFFIDAVIT OF:
 {officer.full_name}
-Badge #{random.randint(1000, 9999)}
-{fake.city()} Police Department
+Badge #{badge_number}
+{department}
 
 WARRANT #: SW-{random.randint(10000, 99999)}"""
 
     return warrant
 
-def generate_warrant_return(target_name: str, location: str, items: List[str]) -> str:
+def generate_warrant_return(target_name: str, location: str, items: List[str],
+                            officer_registry=None, executing_officer: Optional[str] = None,
+                            witnessing_officer: Optional[str] = None) -> str:
     """Generate a warrant return showing what was seized."""
     return_date = datetime.now().strftime('%B %d, %Y')
+
+    # Use officer registry if provided
+    if officer_registry and executing_officer:
+        exec_name = executing_officer
+        exec_badge = officer_registry.get_badge(executing_officer)
+    else:
+        exec_name = f"Detective {fake.last_name()}"
+        exec_badge = random.randint(1000, 9999)
+    
+    if officer_registry and witnessing_officer:
+        witness_name = witnessing_officer
+        witness_badge = officer_registry.get_badge(witnessing_officer)
+    else:
+        witness_name = f"Officer {fake.last_name()}"
+        witness_badge = random.randint(1000, 9999)
 
     return_doc = f"""--- SEARCH WARRANT RETURN ---
 
@@ -718,11 +796,11 @@ ITEMS SEIZED:
 
 All seized items have been properly documented, photographed, and placed into evidence storage.
 
-Executed by: Detective {fake.last_name()}
-Badge #{random.randint(1000, 9999)}
+Executed by: {exec_name}
+Badge #{exec_badge}
 
-Witnessed by: Officer {fake.last_name()}
-Badge #{random.randint(1000, 9999)}
+Witnessed by: {witness_name}
+Badge #{witness_badge}
 
 Date: {return_date}"""
 
@@ -949,12 +1027,24 @@ def generate_witness_statement(witness: Person, suspect: Person, vehicle: Vehicl
     elif "Rain" in weather or "Fog" in weather:
         doc += f"The {weather.lower()} made it harder to see clearly. "
     
-    # Suspect description
+    # Suspect description - use actual suspect physical description
     doc += f"\n\nSUSPECT DESCRIPTION:\n"
     doc += f"- Approximate age: {suspect.age} years old (give or take 5 years)\n"
-    doc += f"- Gender: {random.choice(['Male', 'Female', 'Couldn\'t tell'])}\n"
-    doc += f"- Build: {random.choice(['Slim', 'Average', 'Stocky', 'Athletic', 'Heavy'])}\n"
-    doc += f"- Height: {random.choice(['Short (under 5\'6\")', 'Average (5\'6\"-5\'10\")', 'Tall (over 6\')'])}\n"
+    doc += f"- Gender: {suspect.gender.title() if suspect.gender else random.choice(['Male', 'Female', 'Couldn\'t tell'])}\n"
+    if suspect.height:
+        doc += f"- Height: {suspect.height}\n"
+    else:
+        doc += f"- Height: {random.choice(['Short (under 5\'6\")', 'Average (5\'6\"-5\'10\")', 'Tall (over 6\')'])}\n"
+    if suspect.build:
+        doc += f"- Build: {suspect.build.title()}\n"
+    else:
+        doc += f"- Build: {random.choice(['Slim', 'Average', 'Stocky', 'Athletic', 'Heavy'])}\n"
+    if suspect.hair_color:
+        doc += f"- Hair color: {suspect.hair_color.title()}\n"
+    if suspect.eye_color:
+        doc += f"- Eye color: {suspect.eye_color.title()}\n"
+    if suspect.facial_hair and suspect.facial_hair != "none":
+        doc += f"- Facial hair: {suspect.facial_hair.title()}\n"
     doc += f"- Clothing: {random.choice(['Dark hoodie and jeans', 'All black clothing', 'Casual street clothes', 'Work clothes'])}\n"
     
     # Reliability-based confidence
@@ -1173,9 +1263,97 @@ def generate_corp_name() -> str: return "Corp"
 def generate_case_id() -> str:
     """Generate a unique case ID."""
     return f"CASE-{random.randint(100000, 999999)}"
+def generate_physical_description(age: int, gender: str) -> Dict[str, any]:
+    """Generate realistic physical description based on age and gender."""
+    # Height (in feet and inches)
+    if gender.lower() == "male":
+        height_feet = random.randint(5, 6)
+        height_inches = random.randint(4, 11) if height_feet == 5 else random.randint(0, 5)
+        weight = random.randint(140, 220)
+    else:  # female or other
+        height_feet = random.randint(5, 5)
+        height_inches = random.randint(0, 8)
+        weight = random.randint(100, 180)
+    
+    height_str = f"{height_feet}'{height_inches}\""
+    
+    # Hair color
+    hair_colors = ["black", "brown", "blonde", "red", "gray", "white", "auburn"]
+    # Older people more likely to have gray/white hair
+    if age > 50:
+        hair_colors.extend(["gray", "white", "gray"])
+    hair_color = random.choice(hair_colors)
+    
+    # Eye color
+    eye_colors = ["brown", "blue", "green", "hazel", "gray"]
+    eye_color = random.choice(eye_colors)
+    
+    # Facial hair (only for males, and less likely with age)
+    facial_hair = "none"
+    if gender.lower() == "male":
+        if age < 30:
+            facial_hair = random.choice(["none", "none", "none", "beard", "mustache", "goatee"])
+        elif age < 50:
+            facial_hair = random.choice(["none", "none", "beard", "mustache", "goatee"])
+        else:
+            facial_hair = random.choice(["none", "beard", "mustache"])
+    
+    # Build
+    builds = ["slim", "average", "stocky", "muscular", "heavy"]
+    build = random.choice(builds)
+    
+    return {
+        "height": height_str,
+        "weight": weight,
+        "hair_color": hair_color,
+        "eye_color": eye_color,
+        "facial_hair": facial_hair,
+        "build": build
+    }
+
+
+def generate_driver_license(state: Optional[str] = None) -> Tuple[str, str]:
+    """Generate a realistic driver's license number and state."""
+    if not state:
+        state = fake.state_abbr()
+    
+    # Format varies by state, but common formats:
+    # Format 1: 8 digits (e.g., 12345678)
+    # Format 2: 1 letter + 7 digits (e.g., A1234567)
+    # Format 3: 2 letters + 6 digits (e.g., AB123456)
+    
+    format_type = random.choice([1, 2, 3])
+    if format_type == 1:
+        license_num = f"{random.randint(10000000, 99999999)}"
+    elif format_type == 2:
+        license_num = f"{random.choice('ABCDEFGHJKLMNPRSTUVWXYZ')}{random.randint(1000000, 9999999)}"
+    else:
+        license_num = f"{random.choice('ABCDEFGHJKLMNPRSTUVWXYZ')}{random.choice('ABCDEFGHJKLMNPRSTUVWXYZ')}{random.randint(100000, 999999)}"
+    
+    return license_num, state
+
+
 def generate_person(role: Role = Role.WITNESS, min_age: int = 18, max_age: int = 80) -> Person:
-    """Enhanced person generator with RPG attributes."""
+    """Enhanced person generator with RPG attributes and physical descriptions."""
     age = random.randint(min_age, max_age)
+    
+    # Generate gender (infer from first name or random)
+    first_name = fake.first_name()
+    # Simple heuristic: names ending in certain letters more likely to be male
+    gender = "male" if first_name.lower()[-1] in ['o', 'n', 'r', 's', 't', 'd', 'e', 'k', 'l'] else "female"
+    # But add some randomness
+    if random.random() < 0.3:
+        gender = "male" if gender == "female" else "female"
+    
+    # Generate physical description
+    physical = generate_physical_description(age, gender)
+    
+    # Generate driver's license (most adults have one)
+    driver_license = ""
+    driver_license_state = ""
+    if age >= 16 and random.random() < 0.85:  # 85% of adults have driver's license
+        driver_license, driver_license_state = generate_driver_license()
+    
     # Set reliability score for witnesses
     reliability = 50  # Default
     if role == Role.WITNESS:
@@ -1188,7 +1366,7 @@ def generate_person(role: Role = Role.WITNESS, min_age: int = 18, max_age: int =
 
     person = Person(
         id=fake.uuid4(),
-        first_name=fake.first_name(),
+        first_name=first_name,
         last_name=fake.last_name(),
         role=role,
         age=age,
@@ -1196,7 +1374,16 @@ def generate_person(role: Role = Role.WITNESS, min_age: int = 18, max_age: int =
         phone_number=fake.phone_number(),
         personality=generate_personality(),
         criminal_history=generate_criminal_history(age),
-        reliability_score=reliability
+        reliability_score=reliability,
+        gender=gender,
+        height=physical["height"],
+        weight=physical["weight"],
+        hair_color=physical["hair_color"],
+        eye_color=physical["eye_color"],
+        facial_hair=physical["facial_hair"],
+        build=physical["build"],
+        driver_license_number=driver_license,
+        driver_license_state=driver_license_state
     )
 
     # Add social media handle for suspects/victims

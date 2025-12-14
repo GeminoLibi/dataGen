@@ -1,0 +1,23 @@
+--- VEHICLE INFOTAINMENT SYSTEM LOG ---
+
+Vehicle Information:
+VIN: SST3HJ5E0X4NV0099
+License Plate: 018DOJ
+Make/Model: GMC/Sierra
+Year: 2020
+
+System Logs (Extracted 7 events):
+
+2025-12-06 08:30:16 | Speed exceeded 70 mph
+2025-12-06 08:47:16 | Door unlocked via key fob
+2025-12-06 08:48:16 | Navigation: Route calculated to downtown
+2025-12-06 08:53:16 | Fuel level low warning
+2025-12-06 08:54:16 | Seat position changed
+2025-12-06 09:04:16 | Bluetooth connected - Phone paired
+2025-12-06 09:07:16 | Engine started
+
+Note: Logs extracted from vehicle's CAN bus and infotainment ECU.
+Data integrity verified with MD5: 895475a406f3f01678ec1e1721581ad7
+
+Extracted by: Forensic Technician Chambers
+Date: 2025-12-13 19:00:16

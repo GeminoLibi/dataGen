@@ -1,0 +1,162 @@
+--- NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK (NIBIN) REPORT ---
+
+DEPARTMENT OF JUSTICE
+BUREAU OF ALCOHOL, TOBACCO, FIREARMS AND EXPLOSIVES
+NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK
+
+REPORT NUMBER: NIBIN-243701
+DATE GENERATED: December 13, 2025
+REQUESTING AGENCY: South Stephen Police Department
+SUBMITTING ANALYST: ATF Special Agent Miller
+
+================================================================================
+EVIDENCE SUBMISSION DETAILS
+================================================================================
+
+Evidence Item 1: Spent Cartridge Case
+- NIBIN Entry ID: dee2a195-f316-4e82-8edc-e7493c831e9b
+- Caliber: None
+- Case Type: Rimless
+- Primer Type: Boxer
+- Headstamp: SPEER
+
+Evidence Item 2: Suspect Firearm
+- NIBIN Entry ID: 64aead66-65cf-405c-8126-13c645bb7018
+- Make/Model: KA-BAR/Fighting Knife
+- Serial Number: 70311584
+- Caliber: None
+- Action Type: Semi-automatic
+
+================================================================================
+MICROSCOPIC COMPARISON ANALYSIS
+================================================================================
+
+RIFLING CHARACTERISTICS:
+- Number of Lands/Grooves: 6 lands and 6 grooves, right twist
+- Rifling Twist: 1.28 inches per turn
+- Barrel Length: 5 inches
+- Groove Depth: 0.0021 inches
+
+STRIATION ANALYSIS:
+- Breech face marks: 90% correlation
+- Firing pin impressions: 90% correlation
+- Extractor marks: 92% correlation
+- Ejector marks: 84% correlation
+
+CLASS CHARACTERISTICS:
+- Land impressions width: 0.112 inches
+- Groove width: 0.125 inches
+- Land/groove ratio: 1.04
+
+================================================================================
+DATABASE COMPARISON RESULTS
+================================================================================
+
+NIBIN Database Query Results:
+Total cases searched: 61,822
+Time period: Last 10 years
+Geographic scope: National database
+
+COMPARISON SUMMARY:
+Case #619843: IDENTIFIED MATCH (95% confidence)
+Case #919009: POSSIBLE MATCH (90% confidence)
+Case #343082: POSSIBLE MATCH (87% confidence)
+Case #852259: ELIMINATED (0% confidence)
+Case #842205: ELIMINATED (46% confidence)
+Case #506670: ELIMINATED (65% confidence)
+Case #149804: ELIMINATED (57% confidence)
+Case #870819: ELIMINATED (60% confidence)
+Case #903969: ELIMINATED (3% confidence)
+Case #152518: ELIMINATED (55% confidence)
+Case #148266: ELIMINATED (18% confidence)
+
+================================================================================
+PRIMARY MATCH ANALYSIS
+================================================================================
+
+SUSPECTED FIREARM IDENTIFICATION:
+Firearm NIBIN ID: 64aead66-65cf-405c-8126-13c645bb7018
+Suspect Name: Kim Riley
+Recovery Date: 08/18/2025
+Recovery Location: 7625 Charles Cliffs Suite 592, Burgessbury, FM 18051
+
+BALLISTIC MATCH CONFIDENCE:
+- Overall correlation: 95%
+- Individual characteristics match: 20/25
+- Statistical significance: p < 0.0001
+- Error rate: < 0.001%
+
+================================================================================
+IMAGING AND DIGITAL ANALYSIS
+================================================================================
+
+MICROSCOPIC IMAGING:
+- Magnification used: 20x - 80x
+- Lighting: Coaxial illumination
+- Image capture: Olympus BX51M microscope
+- Digital resolution: 3072 x 2304 pixels
+
+3D TOPOGRAPHIC MAPPING:
+- Surface deviation mapping completed
+- Depth analysis: 0.00073 inches
+- Profile correlation coefficient: 0.897
+
+DIGITAL COMPARISON SOFTWARE:
+- Program: IBIS Trail v5.3
+- Correlation algorithm: Congruent Matching Cells (CMC)
+- Minimum correlation threshold: 12 CMC points
+- Actual correlation: 15 CMC points
+
+================================================================================
+QUALITY ASSURANCE AND VERIFICATION
+================================================================================
+
+ANALYSIS PERFORMED BY:
+Primary Examiner: ATF Special Agent Pearson
+- Certification: Certified Firearms Examiner
+- Experience: 19 years
+- Case load: 95 ballistic cases annually
+
+VERIFICATION BY:
+Technical Review Officer: ATF Special Agent Stevens
+- Independent microscopic examination completed
+- Digital correlation analysis verified
+- Statistical analysis reviewed
+
+================================================================================
+CONCLUSION AND OPINION
+================================================================================
+
+OPINION: The microscopic examination and digital comparison analysis reveals
+that the cartridge case submitted as evidence (NIBIN ID: dee2a195-f316-4e82-8edc-e7493c831e9b) was fired
+from the submitted suspect firearm (NIBIN ID: 64aead66-65cf-405c-8126-13c645bb7018).
+
+This identification is based on the agreement of all discernible class and
+individual microscopic characteristics between the evidence cartridge case
+and the test fires from the suspect firearm.
+
+The probability that this cartridge case could have been fired from another
+firearm of similar class characteristics is extremely remote.
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+This identification provides strong scientific evidence linking the suspect
+firearm to the crime scene. The match is based on multiple independent
+ballistic signatures and has been verified through independent examination.
+
+REPORT STATUS: FINAL
+DATE COMPLETED: December 13, 2025
+
+________________________________________
+ATF Special Agent Ramirez
+Certified Firearms Examiner
+Bureau of Alcohol, Tobacco, Firearms and Explosives
+
+CONFIDENTIAL - LAW ENFORCEMENT SENSITIVE
+NOT FOR PUBLIC DISCLOSURE
+
+================================================================================
+END OF NIBIN BALLISTIC ANALYSIS REPORT
+================================================================================

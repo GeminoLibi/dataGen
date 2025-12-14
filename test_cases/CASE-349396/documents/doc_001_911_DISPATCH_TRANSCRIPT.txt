@@ -1,0 +1,31 @@
+--- 911 DISPATCH TRANSCRIPT ---
+Date: 2025-12-01 09:43:37
+Caller: Miguel Savage
+Caller Phone: +1-502-949-3146x537
+ANI/ALI: +1-502-949-3146x537
+PSAP: Ayersfort Emergency Communications Center
+Dispatcher ID: 796
+Dispatcher: Mackenzie M.
+Call Priority: Priority 2
+
+TRANSCRIPT:
+============================================================
+[SYSTEM] Call received: 2025-12-13 16:16:37
+[SYSTEM] ANI: 9475006638
+CALLER: 911? I need help!
+DISPATCH: 911, what's your emergency?
+CALLER: Help! I've been attacked at PSC 2407, Box 7661, APO AE 80315!
+DISPATCH: Are you injured? What's your condition?
+CALLER: My face hurts, I think my nose is broken. He hit me and ran off.
+DISPATCH: Okay, help is coming. Can you describe the attacker?
+CALLER: White male, 6 feet tall, wearing a black hoodie. He had tattoos on his hands.
+DISPATCH: Did you know this person?
+CALLER: No, he came up from behind. I was walking home from work.
+DISPATCH: Alright, stay where you are. Officers are responding.
+[SYSTEM] Call duration: 109 seconds
+[SYSTEM] Transferred to responding unit
+============================================================
+
+CALL DISPOSITION: Transferred to responding agency
+RESPONDING UNITS: Patrol Unit 415-CHARLIE
+NOTES: Caller was angry. Provided detailed description.

@@ -1,0 +1,13 @@
+--- SHIFT ROSTER ---
+Date: 2025-12-13
+Shift: Evening
+Supervisor: Sergeant Martin
+Officers Assigned:
+  - Officer Gina H. (Badge #304)
+  - Officer Walter H. (Badge #8907)
+  - Officer Christopher M. (Badge #8441)
+  - Officer Jason T. (Badge #4810)
+  - Officer Connor R. (Badge #404)
+  - Officer Rebekah H. (Badge #9892)
+  - Officer Peter M. (Badge #6724)
+Total Officers: 5

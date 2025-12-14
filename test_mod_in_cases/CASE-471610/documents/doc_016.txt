@@ -1,0 +1,122 @@
+Date Generated: 2025-12-03
+--- PREDICTIVE POLICING ANALYTICS REPORT ---
+
+DEPARTMENT OF PUBLIC SAFETY
+CLAIREMOUTH POLICE DEPARTMENT
+Predictive Analytics Division
+
+REPORT ID: PRED-89735
+GENERATED: December 13, 2025 at 19:00:16
+ANALYSIS PERIOD: 09/14/2025 to 12/13/2025
+SYSTEM VERSION: CrimePredict v6.0.6
+
+TARGET ZONE ANALYSIS: 69324 Adam Cape, Lake Gilbert, NY 63676
+
+================================================================================
+EXECUTIVE SUMMARY
+================================================================================
+
+This automated predictive analytics report identifies Zone 69324 Adam Cape, Lake Gilbert, NY 63676 as having
+elevated risk for assault incidents. The zone's risk score of 76/100
+places it in the top 19% of city zones for assault potential.
+
+Key findings include 38 reported assault incidents over the
+analysis period, representing a increasing trend compared to previous quarters.
+
+================================================================================
+DEMOGRAPHIC ANALYSIS
+================================================================================
+
+
+    Population Density: 3204 per sq mile
+    Median Income: $71,833
+    Unemployment Rate: 9.6%
+    Education Level: 82% high school graduate
+    Home Ownership: 77%
+    
+
+================================================================================
+CRIME PATTERN ANALYSIS
+================================================================================
+
+INCIDENT BREAKDOWN:
+- Total Assault incidents: 38
+- Average incidents per month: 12.7
+- Peak incident times: Early morning (0200-0600)
+
+SPATIAL ANALYSIS:
+- Crime hotspots identified: 8
+- Street segments with elevated risk: 13
+- Geographic clustering coefficient: 0.74
+
+TEMPORAL PATTERNS:
+- Day of week distribution: Wednesday peak
+- Seasonal variation: No seasonal pattern
+
+================================================================================
+RISK FACTORS IDENTIFIED
+================================================================================
+
+PRIMARY RISK FACTORS:
+• Recent assault incidents in area
+• 4x higher than city average for assault
+• Proximity to residential complex
+• Street lighting deficiencies noted in 26% of area
+
+SECONDARY RISK FACTORS:
+• Known gang activity in adjacent zones
+• Recent population influx from high-crime areas
+• Limited police presence after 2200 hours
+• Multiple vacant properties in sector
+
+================================================================================
+PATROL DEPLOYMENT RECOMMENDATIONS
+================================================================================
+
+IMMEDIATE ACTIONS (Next 72 hours):
+1. Increase patrol frequency in Zone 69324 Adam Cape, Lake Gilbert, NY 63676 by 75%
+2. Implement targeted enforcement on traffic violations
+3. Coordinate with local businesses for improved surveillance
+
+SHORT-TERM STRATEGIES (Next 30 days):
+1. Install additional CCTV cameras at key intersections
+2. Conduct community outreach and problem-solving meetings
+3. Partner with code enforcement for blight reduction
+
+LONG-TERM PREVENTION (Next 90 days):
+1. Implement license plate recognition in high-risk areas
+2. Deploy plainclothes officers for proactive enforcement
+
+================================================================================
+STATISTICAL CONFIDENCE
+================================================================================
+
+Model Accuracy: 80%
+False Positive Rate: 15.5%
+Area Under Curve (AUC): 0.86
+
+Data Sources Integrated:
+- Crime incident reports (weighted: 37%)
+- 911 call data (weighted: 20%)
+- Traffic citation data (weighted: 7%)
+- Building permit records (weighted: 14%)
+- Utility service calls (weighted: 13%)
+
+================================================================================
+DISCLAIMER AND METHODOLOGY
+================================================================================
+
+This report is generated using proprietary predictive algorithms and historical
+crime data. Results should be used as investigative guidance and not as the
+sole basis for law enforcement decisions.
+
+Methodology: Gradient Boosting Machine with temporal weighting
+Training data: 5 years historical incidents
+Validation method: 10-fold cross-validation
+
+Report generated automatically by CrimePredict Analytics Engine.
+For questions, contact: analytics@jasonmouthpd.gov
+
+================================================================================
+END OF REPORT - CONFIDENTIAL LAW ENFORCEMENT DOCUMENT
+================================================================================

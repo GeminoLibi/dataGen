@@ -343,6 +343,13 @@ class CaseGenerator:
         self.entities = {}  # Track all entities (officers, systems, etc.)
         if not hasattr(self, 'entities'):
             self.entities = {}
+        
+        # Consistency managers (initialized in generate_case)
+        self.jurisdiction_manager = None
+        self.officer_registry = None
+        self.entity_validator = None
+        self.timeline_manager = None
+        self.location_manager = None
 
     def generate_case(self, crime_type: str, complexity: str, modifiers: List[str], subject_status: str = "Known") -> Case:
         """Generate a complete case with comprehensive error handling."""
@@ -375,11 +382,81 @@ class CaseGenerator:
                 modifiers=modifiers
             )
 
-            # 2. Initialize entity system (officers, systems, etc.)
+            # 2. Initialize consistency managers
+            from .consistency_managers import (
+                JurisdictionManager, OfficerRegistry, EntityValidator,
+                TimelineManager, LocationManager
+            )
+            
+            # Initialize jurisdiction manager (will be set after we know the location)
+            self.jurisdiction_manager = JurisdictionManager()
+            
+            # Initialize officer registry (will be set after we know the department)
+            self.officer_registry = OfficerRegistry(self.jurisdiction_manager.get_department())
+            
+            # Initialize entity validator
+            self.entity_validator = EntityValidator()
+            
+            # Initialize timeline manager
+            self.timeline_manager = TimelineManager(crime_dt)
+            
+            # Initialize location manager (will be set after we know the location)
+            self.location_manager = LocationManager()
+            
+            # 3. Initialize entity system (officers, systems, etc.)
             self._initialize_entities(case_id)
             
-            # 3. Populate World
+            # 4. Populate World
             self._populate_people(complexity)
+            
+            # Register reporting officer with officer registry
+            if self.case.reporting_officer:
+                self.officer_registry.register_officer(
+                    self.case.reporting_officer.full_name,
+                    department=self.jurisdiction_manager.get_department()
+                )
+            
+            # Register all persons with entity validator
+            for person in self.case.persons:
+                # Use person's gender if available, otherwise infer
+                gender = person.gender if person.gender else ("male" if person.first_name.lower()[-1] in ['o', 'n', 'r', 's', 't', 'd', 'e'] else "female")
+                
+                self.entity_validator.register_entity(
+                    person.full_name,
+                    gender=gender,
+                    age=person.age,
+                    physical_description=person.physical_description,
+                    address=person.address,
+                    phone_number=person.phone_number,
+                    height=person.height,
+                    weight=person.weight,
+                    hair_color=person.hair_color,
+                    eye_color=person.eye_color,
+                    facial_hair=person.facial_hair,
+                    build=person.build,
+                    driver_license_number=person.driver_license_number,
+                    driver_license_state=person.driver_license_state
+                )
+            
+            # Set primary location in location manager
+            if self.case.incident_report and self.case.incident_report.incident_location:
+                # Extract location info (simplified - would need proper parsing in production)
+                location_parts = self.case.incident_report.incident_location.split(',')
+                if len(location_parts) >= 2:
+                    city = location_parts[-2].strip() if len(location_parts) >= 2 else fake.city()
+                    state = location_parts[-1].strip() if len(location_parts) >= 1 else fake.state()
+                else:
+                    city = fake.city()
+                    state = fake.state()
+                
+                lat = float(self.case.incident_report.latitude) if self.case.incident_report.latitude else 0.0
+                lon = float(self.case.incident_report.longitude) if self.case.incident_report.longitude else 0.0
+                
+                self.location_manager.set_primary_location(
+                    self.case.incident_report.incident_location,
+                    city, state, lat, lon
+                )
+            
             self._assign_assets()
             self._establish_relationships()
             
@@ -1813,18 +1890,42 @@ Status: {random.choice(['Booked', 'Released on Citation', 'Transported to Jail']
         if self.case.incident_report and self.case.incident_report.incident_location != "See Narrative":
              location = self.case.incident_report.incident_location
         
+        # Use timeline manager for call time
+        if self.timeline_manager:
+            call_time = self.timeline_manager.get_911_time()
+        else:
+            call_time = self.crime_datetime + timedelta(minutes=2)
+        
+        # Validate caller entity consistency
+        if self.entity_validator:
+            caller_entity = self.entity_validator.get_entity(caller.full_name)
+            if caller_entity:
+                # Use registered caller info
+                caller_name = caller.full_name
+                caller_phone = caller_entity.phone_number or caller.phone_number
+                caller_gender = caller_entity.gender
+            else:
+                caller_name = caller.full_name
+                caller_phone = caller.phone_number
+                # Infer gender from first name
+                caller_gender = "male" if caller.first_name.lower()[-1] in ['o', 'n', 'r', 's', 't', 'd', 'e'] else "female"
+        else:
+            caller_name = caller.full_name
+            caller_phone = caller.phone_number
+            # Infer gender from first name
+            caller_gender = "male" if caller.first_name.lower()[-1] in ['o', 'n', 'r', 's', 't', 'd', 'e'] else "female"
+        
         # Get dispatcher entity (CAD system)
         dispatcher_entity = self._get_or_create_entity("system_cad", "automated", "CAD System")
         dispatcher_name = f"{fake.first_name()} {fake.last_name()[0]}."
         
         script = generate_911_script(self.case.crime_type, location, caller.role.value)
         
-        call_time = self.crime_datetime + timedelta(minutes=2)
         doc = f"--- 911 DISPATCH TRANSCRIPT ---\n"
         doc += f"Date: {call_time.strftime('%Y-%m-%d %H:%M:%S')}\n"
-        doc += f"Caller: {caller.full_name}\n"
-        doc += f"Caller Phone: {caller.phone_number}\n"
-        doc += f"ANI/ALI: {fake.phone_number()}\n"
+        doc += f"Caller: {caller_name}\n"
+        doc += f"Caller Phone: {caller_phone}\n"
+        doc += f"ANI/ALI: {caller_phone}\n"  # Use actual caller phone for ANI/ALI
         doc += f"PSAP: {fake.city()} Emergency Communications Center\n"
         doc += f"Dispatcher ID: {fake.random_number(digits=4)}\n"
         doc += f"Dispatcher: {dispatcher_name}\n"
@@ -1856,12 +1957,37 @@ Status: {random.choice(['Booked', 'Released on Citation', 'Transported to Jail']
             )
 
     def _generate_cad_report(self):
-        call_time = self.crime_datetime + timedelta(minutes=2)
-        loc = self.case.incident_report.incident_location
+        # Use timeline manager for call time
+        if self.timeline_manager:
+            call_time = self.timeline_manager.get_911_time()
+        else:
+            call_time = self.crime_datetime + timedelta(minutes=2)
+        
+        loc = self.case.incident_report.incident_location if self.case.incident_report else fake.address().replace("\n", ", ")
+        
+        # Get caller info for CAD log (should match 911 caller)
+        callers = [p for p in self.case.persons if p.role in [Role.VICTIM, Role.WITNESS]]
+        caller = callers[0] if callers else None
+        
+        caller_name = None
+        caller_gender = None
+        if caller and self.entity_validator:
+            caller_entity = self.entity_validator.get_entity(caller.full_name)
+            if caller_entity:
+                caller_name = caller_entity.name
+                caller_gender = caller_entity.gender
+            else:
+                caller_name = caller.full_name
+                # Infer gender from first name
+                caller_gender = "male" if caller.first_name.lower()[-1] in ['o', 'n', 'r', 's', 't', 'd', 'e'] else "female"
+        elif caller:
+            caller_name = caller.full_name
+            # Infer gender from first name
+            caller_gender = "male" if caller.first_name.lower()[-1] in ['o', 'n', 'r', 's', 't', 'd', 'e'] else "female"
         
         # Get CAD system entity
         cad_entity = self._get_or_create_entity("system_cad", "automated", "CAD System")
-        log = generate_cad_log(call_time, loc, self.case.crime_type)
+        log = generate_cad_log(call_time, loc, self.case.crime_type, caller_name, caller_gender)
         
         # Apply system errors
         log = cad_entity.introduce_error(log)
@@ -2100,7 +2226,22 @@ Status: {random.choice(['Booked', 'Released on Citation', 'Transported to Jail']
             narrative += f"- Age: {suspects[0].age if suspects else 'Unknown'}\n"
             # Only include physical description for physical crimes
             if self._should_generate_physical_evidence(self.case.crime_type):
-                narrative += f"- Physical description: {random.choice(['5\'10\" male, athletic build', '6\'2\" male, stocky build', '5\'4\" female, slim build', '5\'8\" male, average build'])}\n"
+                suspect = suspects[0]
+                # Use actual suspect physical description
+                if suspect.height and suspect.build:
+                    desc_parts = [suspect.height, suspect.gender if suspect.gender else "unknown gender"]
+                    if suspect.build:
+                        desc_parts.append(f"{suspect.build} build")
+                    if suspect.hair_color:
+                        desc_parts.append(f"{suspect.hair_color} hair")
+                    if suspect.eye_color:
+                        desc_parts.append(f"{suspect.eye_color} eyes")
+                    if suspect.facial_hair and suspect.facial_hair != "none":
+                        desc_parts.append(f"{suspect.facial_hair}")
+                    narrative += f"- Physical description: {', '.join(desc_parts)}\n"
+                else:
+                    # Fallback if no description available
+                    narrative += f"- Physical description: {random.choice(['5\'10\" male, athletic build', '6\'2\" male, stocky build', '5\'4\" female, slim build', '5\'8\" male, average build'])}\n"
                 narrative += f"- Direction of flight: {random.choice(['Northbound', 'Southbound', 'Eastbound', 'Westbound'])}\n"
                 narrative += f"- Method of transportation: {random.choice(['On foot', 'Vehicle', 'Bicycle', 'Public transportation'])}\n"
                 narrative += f"- Distinctive features: {random.choice(['Tattoo on neck', 'Limping gait', 'Scar on face', 'Colorful backpack', 'None apparent'])}\n\n"
@@ -2354,21 +2495,48 @@ Firmware Version: 2.4.7"""
             self.case.documents.append(report)
 
     def _create_search_warrant(self, target_person: Person, target_type: str) -> datetime:
-        from .utils import generate_search_warrant
-        date = self.case.date_opened + timedelta(hours=random.randint(4, 24))
+        from .utils import generate_search_warrant, generate_search_warrant_affidavit
+        
+        # Use timeline manager for warrant time
+        if self.timeline_manager:
+            date = self.timeline_manager.get_warrant_time()
+        else:
+            date = self.case.date_opened + timedelta(hours=random.randint(4, 24))
 
-        # Generate comprehensive affidavit
-        affidavit = generate_search_warrant_affidavit(self.case.reporting_officer, target_person.address, self.case.crime_type, f"suspicion of {target_type}")
+        # Generate comprehensive affidavit with consistency managers
+        affidavit = generate_search_warrant_affidavit(
+            self.case.reporting_officer, 
+            target_person.address, 
+            self.case.crime_type, 
+            f"suspicion of {target_type}",
+            jurisdiction_manager=self.jurisdiction_manager,
+            officer_registry=self.officer_registry,
+            incident_date=self.crime_datetime
+        )
         self.case.documents.append(affidavit)
 
-        # Generate formal search warrant
+        # Generate formal search warrant with consistency managers
         items_to_seize = [target_type, "Digital devices", "Documents related to investigation", "Clothing and personal items"]
-        warrant = generate_search_warrant(self.case.reporting_officer, target_person.full_name, target_person.address, items_to_seize, self.case.crime_type)
+        warrant = generate_search_warrant(
+            self.case.reporting_officer, 
+            target_person.full_name, 
+            target_person.address, 
+            items_to_seize, 
+            self.case.crime_type,
+            jurisdiction_manager=self.jurisdiction_manager,
+            officer_registry=self.officer_registry
+        )
         self.case.documents.append(warrant)
 
-        # Generate warrant return
+        # Generate warrant return with consistency managers
         seized_items = [target_type] if random.random() > 0.3 else [target_type, "Digital device", "Personal documents"]
-        ret = generate_warrant_return(target_person.full_name, target_person.address, seized_items)
+        ret = generate_warrant_return(
+            target_person.full_name, 
+            target_person.address, 
+            seized_items,
+            officer_registry=self.officer_registry,
+            executing_officer=self.case.reporting_officer.full_name if self.case.reporting_officer else None
+        )
         self.case.documents.append(ret)
 
         return date

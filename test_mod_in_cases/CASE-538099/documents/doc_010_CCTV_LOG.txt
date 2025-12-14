@@ -1,0 +1,160 @@
+--- CCTV LOG ---
+--- CLOSED CIRCUIT TELEVISION (CCTV) SURVEILLANCE LOG ---
+
+DICKERSON LLC SECURITY SYSTEM LOG
+Location: Main St Intersection
+Date: December 13, 2025
+System: Hawkins, Cannon and Callahan Security DVR System v4.2
+Operator: Security Analyst Duncan
+
+================================================================================
+CAMERA SYSTEM CONFIGURATION
+================================================================================
+
+PRIMARY CAMERAS:
+- Camera 01: Front entrance - 4MP, 2.8mm lens, IR illumination
+- Camera 02: Parking lot - 4MP, 6mm lens, Auto-tracking enabled
+- Camera 03: Side alley - 2MP, Varifocal 2.7-12mm, Night vision
+- Camera 04: Loading dock - 4MP, 180° wide angle, Motion detection
+
+RECORDING PARAMETERS:
+- Resolution: 1920x1080 (1080p)
+- Frame Rate: 30 FPS
+- Compression: H.265
+- Retention: 90 days
+- Storage: 8TB RAID-5 array
+- Backup: Daily to cloud storage
+
+MOTION DETECTION SETTINGS:
+- Sensitivity: Medium (Threshold: 15%)
+- Minimum object size: 50 pixels
+- Detection zones: 8 active zones
+- Night mode: Automatic IR switching
+- Weather compensation: None conditions active
+
+================================================================================
+ACTIVITY LOG - 21 EVENTS RECORDED
+================================================================================
+
+TIMESTAMP | SOURCE | TYPE | DESCRIPTION
+----------|--------|------|-------------
+19:28:57 | SYSTEM | DVR System initialized - Firmware v2.1.4
+19:29:57 | CAMERA-01 | Camera online - Resolution: 1920x1080@30fps
+19:29:57 | CAMERA-02 | Camera online - Resolution: 1920x1080@30fps
+19:29:57 | CAMERA-03 | Camera online - Night vision activated
+19:30:57 | STORAGE | Disk array check passed - 95% capacity available
+19:34:57 | SYSTEM | STATUS | CPU usage: 35%
+19:38:57 | SYSTEM | STATUS | Disk space check - OK
+19:39:57 | CAMERA-04 | ACTIVITY | Subject movement detected - Fleeing Scene Northbound
+19:48:57 | CAMERA-03 | ACTIVITY | Emergency vehicle response
+19:48:57 | SYSTEM | STATUS | Network connectivity verified
+19:56:57 | CAMERA-02 | MOTION DETECTED | Zone: Main St Intersection
+19:56:59 | CAMERA-02 | VIDEO RECORDING | Duration: Continuous
+19:57:02 | CAMERA-02 | SUBJECT IDENTIFIED | Male subject
+19:57:05 | CAMERA-02 | VEHICLE DETECTED | Black GMC
+19:58:57 | SYSTEM | STATUS | Disk space check - OK
+19:59:57 | SYSTEM | STATUS | Disk space check - OK
+20:02:57 | SYSTEM | STATUS | Video compression ratio: 25:1
+20:05:57 | SYSTEM | STATUS | Bandwidth usage: 45 Mbps
+20:05:57 | SYSTEM | STATUS | System temperature: 72°F
+20:07:57 | CAMERA-02 | ACTIVITY | Maintenance crew on site
+20:11:57 | SYSTEM | STATUS | Storage I/O: 120 MB/s
+
+================================================================================
+INCIDENT TIMELINE RECONSTRUCTION
+================================================================================
+
+PRIMARY INCIDENT SEQUENCE:
+1. 20:13:57 - Initial motion detection in Zone B
+2. 20:14:00 - Subject enters camera field of view
+3. 20:14:09 - Activity: Fleeing Scene Northbound
+4. 20:14:42 - Subject exits camera view
+5. 20:15:57 - Area clears, motion detection resets
+
+WEATHER CONDITIONS DURING RECORDING:
+- Temperature: 73°F
+- Visibility: Light fog
+- Wind: 8 mph W
+- Lighting: Street lights active
+
+================================================================================
+TECHNICAL ANALYSIS
+================================================================================
+
+VIDEO QUALITY ASSESSMENT:
+- Overall clarity: Good (84% confidence)
+- Lighting conditions: Poor
+- Subject identification: Silhouette only
+- Vehicle identification: Partial plate
+
+DIGITAL FORENSIC ANALYSIS:
+- File format: MP4 (H.265 encoded)
+- File size: 1537 MB
+- Duration: 81 minutes
+- MD5 hash: 026e714835902a86788d5993f54d9592
+- SHA-256 hash: 832a6440f813f3527fda5d90bca87f99c421f1fc60cddd7bbc1b950c27382998
+
+COMPRESSION ARTIFACTS:
+- Blockiness: Minimal (1% affected)
+- Motion blur: Significant
+- Color accuracy: 85% fidelity
+- Frame drops: 5 frames missing
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+RELEVANCE TO INVESTIGATION:
+- Subject identification: Limited identification
+- Timeline correlation: Moderate correlation
+- Alibi verification: Supports timeline
+
+ADMISSIBILITY CONSIDERATIONS:
+- Chain of custody: Maintained
+- Authentication: Digital signatures verified
+- Tamper detection: No anomalies detected
+- Backup integrity: Verified
+
+================================================================================
+REVIEW AND VERIFICATION
+================================================================================
+
+LOG REVIEWED BY:
+Primary Reviewer: Detective Navarro
+Badge #2665
+Date: 12/13/2025
+
+Technical Verification:
+Video integrity confirmed by IT Forensics
+Hash values match original recording
+No evidence of tampering detected
+
+SECONDARY REVIEW:
+Supervisor: Sergeant Taylor
+Date: 12/13/2025
+
+================================================================================
+CONCLUSION
+================================================================================
+
+This CCTV log documents 4 suspicious activities
+and 1 subject identifications during the
+review period. The footage has been preserved and is available for court presentation.
+
+Video files archived under case #74920
+Total recording time: 6 hours
+Storage location: Evidence Server - Folder: 0ac67944-786f-46fa-bc7b-8eefb6c09420
+
+================================================================================
+END OF CCTV SURVEILLANCE LOG
+================================================================================
+
+ATTACHMENTS:
+- Video still captures (8 images)
+- Motion detection timeline
+- Camera calibration logs
+- System diagnostic report
+
+CONFIDENTIAL - LAW ENFORCEMENT USE ONLY
+NOT FOR PUBLIC DISCLOSURE WITHOUT COURT ORDER
+================================================================================

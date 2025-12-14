@@ -1,0 +1,87 @@
+--- BURNER PHONE FORENSIC EXTRACTION REPORT ---
+Device: Nokia 1100 (Prepaid/Burner Phone)
+IMEI: 592648086134629
+SIM Card ICCID: 89017290524523697
+Phone Number: (471)503-2183x1187
+Carrier: Tracfone
+Activation Date: 2025-12-04 10:00:16.330070
+Extraction Date: 2025-12-13 19:00:16
+Forensic Tool: Cellebrite UFED 7.63.0.27
+Analyst: Detective Smith
+
+INITIAL CELL TOWER CONNECTIONS:
+[2025-12-04 10:00:16] Connected to Tower 8099 - West Kathleen, WI
+[2025-12-04 11:00:16] Connected to Tower 1211 - Bendertown, PA
+[2025-12-04 12:00:16] Connected to Tower 4889 - Mccormickstad, ID
+
+CELL TOWER PINGS DURING RELEVANT TIMEFRAME:
+[2025-12-06 07:00:16] Tower 8442 - Lat:-51.888750 Lon:163.653568
+[2025-12-06 07:11:16] Tower 3423 - Lat:-51.885780 Lon:163.697834
+[2025-12-06 07:25:16] Tower 8339 - Lat:-51.882548 Lon:163.596151
+[2025-12-06 07:33:16] Tower 3145 - Lat:-51.862798 Lon:163.626687
+[2025-12-06 08:21:16] Tower 566 - Lat:-51.864862 Lon:163.603696
+[2025-12-06 08:38:16] Tower 1806 - Lat:-51.896573 Lon:163.646614
+[2025-12-06 08:46:16] Tower 9481 - Lat:-51.891898 Lon:163.686638
+[2025-12-06 08:57:16] Tower 9423 - Lat:-51.929564 Lon:163.626785
+[2025-12-06 09:12:16] Tower 7745 - Lat:-51.884802 Lon:163.703021
+[2025-12-06 09:22:16] Tower 7296 - Lat:-51.885252 Lon:163.703093
+[2025-12-06 09:37:16] Tower 1393 - Lat:-51.869843 Lon:163.653014
+[2025-12-06 09:45:16] Tower 4857 - Lat:-51.860264 Lon:163.639627
+[2025-12-06 09:55:16] Tower 1454 - Lat:-51.859717 Lon:163.633577
+[2025-12-06 10:06:16] Tower 6625 - Lat:-51.887262 Lon:163.646781
+[2025-12-06 10:30:16] Tower 763 - Lat:-51.919689 Lon:163.641123
+[2025-12-06 10:37:16] Tower 2260 - Lat:-51.862385 Lon:163.695832
+[2025-12-06 10:59:16] Tower 5630 - Lat:-51.882878 Lon:163.635868
+
+CONTACTS (4 entries):
+• Michael Fritz: +1-994-955-7458x76593
+• Joseph Daniels: 374.581.9663
+• Willie Barber: +1-571-326-5421x57099
+• Ashley Doyle: +1-547-773-3743
+
+CALL LOG (9 calls):
+TIME                    | TYPE       | NUMBER           | DURATION | TOWER
+------------------------|------------|------------------|----------|------
+2025-12-05 18:00:16 | OUTGOING   | 374.581.9663     | 1:09     | 2636
+2025-12-04 10:00:16 | MISSED     | (571)836-6295    | -        | 4291
+2025-12-04 18:00:16 | OUTGOING   | +1-547-773-3743  | 5:20     | 7396
+2025-12-02 22:00:16 | MISSED     | +1-571-326-5421x57099 | -        | 1255
+2025-12-05 22:00:16 | OUTGOING   | 374.581.9663     | 5:02     | 306
+2025-12-04 21:00:16 | MISSED     | 6572723604       | -        | 1656
+2025-12-04 09:00:16 | MISSED     | 533.688.5993     | -        | 4659
+2025-12-04 10:00:16 | MISSED     | 374.581.9663     | -        | 3975
+2025-12-03 20:00:16 | INCOMING   | 531-280-4640x12753 | 5:03     | 458
+
+TEXT MESSAGES (21 messages):
+[2025-12-05 01:00:16] RECEIVED | +1-994-955-7458x76593 | What time?
+[2025-12-03 10:00:16] RECEIVED | +1-547-773-3743  | Address confirmed
+[2025-12-04 10:00:16] RECEIVED | 374.581.9663     | Same place as usual?
+[2025-12-04 08:00:16] RECEIVED | +1-571-326-5421x57099 | Got the tools ready
+[2025-12-02 15:00:16] SENT     | 001-442-307-4653x457 | Payment ready?
+[2025-12-02 17:00:16] RECEIVED | +1-994-955-7458x76593 | See you then
+[2025-12-04 06:00:16] RECEIVED | +1-849-935-8008  | See you then
+[2025-12-04 08:00:16] SENT     | +1-994-955-7458x76593 | Payment ready?
+[2025-12-03 18:00:16] SENT     | 944-647-3253x92857 | Change of plans - different location
+[2025-12-06 05:00:16] SENT     | (878)227-0593x66033 | Payment ready?
+[2025-12-04 03:00:16] SENT     | +1-994-955-7458x76593 | Burn this phone after
+[2025-12-02 13:00:16] SENT     | +1-571-326-5421x57099 | What time works for you?
+[2025-12-02 23:00:16] SENT     | 6325732819       | Got the address
+[2025-12-04 22:00:16] RECEIVED | +1-994-955-7458x76593 | What time?
+
+DEVICE INFORMATION:
+• Model: Nokia 1100
+• OS: Nokia OS v1.0
+• Memory: 1MB internal
+• Battery Level at Seizure: 71%
+• Last Backup: Never
+• Screen Lock: None
+• PIN Code: Not set
+• Auto-lock: Disabled
+
+FORENSIC NOTES:
+• Device was powered on at time of seizure
+• No encryption detected
+• SIM card removed and preserved separately
+• Device photographed in place before extraction
+• Chain of custody maintained throughout process
+• Data integrity verified with MD5 hash: c88a60eb4e2f6f4551fa57a6846e556c

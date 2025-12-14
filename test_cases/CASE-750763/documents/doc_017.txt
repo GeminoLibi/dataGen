@@ -1,0 +1,36 @@
+========================================
+        CORNER STORE
+========================================
+Store #133 - 8469 Huang View, Wardmouth, MT 73531
+
+Date: 11/28/2025
+Time: 06:16 AM
+Register: 4
+Clerk: Mary
+Receipt #: 933163
+
+----------------------------------------
+QTY  ITEM                 PRICE    TOTAL
+----------------------------------------
+1    Samsung Prepaid      $ 41.08 $  41.08
+1    10 MIN AIRTIME     $  1.00 $   1.00
+
+----------------------------------------
+SUBTOTAL:                $     42.08
+TAX (8.75%):             $      3.68
+----------------------------------------
+TOTAL:                   $     45.76
+
+========================================
+PAID BY: CASH
+CHANGE:  $0.00
+
+NO REFUNDS OR EXCHANGES
+KEEP RECEIPT FOR WARRANTY
+
+========================================
+BUYER DESCRIPTION: Male, 30s, wearing black hoodie, baseball cap
+TIME OF PURCHASE: 06:16:32 AM
+
+Thank you for shopping at Corner Store!
+========================================

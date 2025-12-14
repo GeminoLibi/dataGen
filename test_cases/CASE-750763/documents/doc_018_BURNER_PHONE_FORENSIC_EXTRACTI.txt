@@ -1,0 +1,91 @@
+--- BURNER PHONE FORENSIC EXTRACTION REPORT ---
+Device: Nokia 1100 (Prepaid/Burner Phone)
+IMEI: 814455118271411
+SIM Card ICCID: 89019463194693916
+Phone Number: 266-681-1212x0737
+Carrier: AT&T Prepaid
+Activation Date: 2025-11-28 07:16:32.494147
+Extraction Date: 2025-12-13 16:16:32
+Forensic Tool: Cellebrite UFED 7.63.0.27
+Analyst: Detective Gray
+
+INITIAL CELL TOWER CONNECTIONS:
+[2025-11-28 07:16:32] Connected to Tower 2855 - Carterhaven, NJ
+[2025-11-28 08:16:32] Connected to Tower 7884 - Danaport, DC
+[2025-11-28 09:16:32] Connected to Tower 9294 - Perezmouth, NH
+
+CELL TOWER PINGS DURING RELEVANT TIMEFRAME:
+[2025-11-30 04:46:32] Tower 6241 - Lat:5.452696 Lon:44.741253
+[2025-11-30 04:57:32] Tower 9577 - Lat:5.389621 Lon:44.775839
+[2025-11-30 05:11:32] Tower 9240 - Lat:5.385421 Lon:44.734080
+[2025-11-30 05:17:32] Tower 1917 - Lat:5.395703 Lon:44.755000
+[2025-11-30 05:30:32] Tower 5555 - Lat:5.370186 Lon:44.757622
+[2025-11-30 05:38:32] Tower 5198 - Lat:5.429096 Lon:44.796000
+[2025-11-30 05:52:32] Tower 7301 - Lat:5.393654 Lon:44.742866
+[2025-11-30 07:04:32] Tower 3695 - Lat:5.438533 Lon:44.731934
+[2025-11-30 07:17:32] Tower 8847 - Lat:5.405371 Lon:44.772348
+[2025-11-30 07:25:32] Tower 967 - Lat:5.431193 Lon:44.729683
+
+CONTACTS (5 entries):
+• Kevin Garcia: +1-445-868-4674x4363
+• Mary Lewis: 465-457-3912
+• Debra James: 984.806.3112
+
+CALL LOG (11 calls):
+TIME                    | TYPE       | NUMBER           | DURATION | TOWER
+------------------------|------------|------------------|----------|------
+2025-11-27 09:16:32 | INCOMING   | 001-693-344-8595x191 | 1:19     | 6346
+2025-11-27 04:16:32 | MISSED     | 438.697.0103x93135 | -        | 2160
+2025-11-29 22:16:32 | MISSED     | 984.806.3112     | -        | 7613
+2025-11-27 01:16:32 | OUTGOING   | 697-249-0203x1343 | 1:46     | 8860
+2025-11-29 12:16:32 | OUTGOING   | 465-457-3912     | 3:41     | 3516
+2025-11-26 21:16:32 | OUTGOING   | +1-445-868-4674x4363 | 5:09     | 7918
+2025-11-29 17:16:32 | INCOMING   | 662.526.6978x135 | 5:44     | 5030
+2025-11-28 06:16:32 | OUTGOING   | (202)466-6660x740 | 2:48     | 2799
+2025-11-27 22:16:32 | OUTGOING   | 824-776-6118     | 5:25     | 7240
+2025-11-29 08:16:32 | OUTGOING   | 984.806.3112     | 0:30     | 6811
+2025-11-26 16:16:32 | INCOMING   | +1-718-417-8651x852 | 3:38     | 8041
+2025-11-26 06:16:32 | OUTGOING   | (724)621-0967x065 | 1:56     | 3226
+2025-11-27 18:16:32 | INCOMING   | 8033007667       | 2:45     | 1783
+2025-11-27 18:16:32 | INCOMING   | 001-458-819-4112x842 | 4:55     | 7193
+
+TEXT MESSAGES (13 messages):
+[2025-11-26 23:16:32] SENT     | 2492387993       | What time works for you?
+[2025-11-29 17:16:32] RECEIVED | 984.806.3112     | Package secured
+[2025-11-27 19:16:32] SENT     | 465-457-3912     | Meet me at the spot tonight
+[2025-11-28 21:16:32] RECEIVED | 001-262-538-7781x66339 | Understood
+[2025-11-26 12:16:32] SENT     | 465-457-3912     | Everything set for tomorrow?
+[2025-11-27 07:16:32] SENT     | 353-661-8569x2625 | Job's on
+[2025-11-26 18:16:32] RECEIVED | +1-967-300-9195x3609 | Package secured
+[2025-11-27 17:16:32] RECEIVED | 369-891-5001     | What time?
+[2025-11-28 21:16:32] SENT     | 583-453-9314x91495 | Got the address
+[2025-11-26 21:16:32] RECEIVED | 465-457-3912     | Address confirmed
+[2025-11-26 09:16:32] SENT     | 984.806.3112     | Got the address
+[2025-11-28 23:16:32] SENT     | 465-457-3912     | Burn this phone after
+[2025-11-30 02:16:32] SENT     | +1-895-211-9112x064 | Got the address
+[2025-11-26 23:16:32] SENT     | 984.806.3112     | Job's on
+[2025-11-27 07:16:32] RECEIVED | 547.952.8969x75649 | What time?
+[2025-11-26 14:16:32] RECEIVED | 984.806.3112     | See you then
+[2025-11-29 01:16:32] SENT     | 984.806.3112     | Got the address
+[2025-11-30 00:16:32] SENT     | +1-445-868-4674x4363 | What time works for you?
+[2025-11-27 01:16:32] SENT     | (219)301-9154    | What time works for you?
+[2025-11-28 08:16:32] SENT     | +1-445-868-4674x4363 | Payment ready?
+[2025-11-29 21:16:32] RECEIVED | +1-445-868-4674x4363 | Location changed
+
+DEVICE INFORMATION:
+• Model: Nokia 1100
+• OS: Nokia OS v1.0
+• Memory: 1MB internal
+• Battery Level at Seizure: 24%
+• Last Backup: Never
+• Screen Lock: None
+• PIN Code: Not set
+• Auto-lock: Disabled
+
+FORENSIC NOTES:
+• Device was powered on at time of seizure
+• No encryption detected
+• SIM card removed and preserved separately
+• Device photographed in place before extraction
+• Chain of custody maintained throughout process
+• Data integrity verified with MD5 hash: c881034c5fdb56c52ca35c9a5a3650cc

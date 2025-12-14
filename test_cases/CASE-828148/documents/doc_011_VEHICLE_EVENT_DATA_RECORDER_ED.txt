@@ -1,0 +1,48 @@
+--- VEHICLE EVENT DATA RECORDER (EDR) LOG ---
+
+Vehicle Information:
+VIN: Y8WP9VKL487G36478
+Make/Model: Jeep Wrangler
+License Plate: 75G•578
+
+EDR Data Extraction Report
+Downloaded: 2025-12-09 08:16:38.573247
+Technician: Morgan, Peters & Associates
+
+PRE-CRASH DATA (30 seconds before trigger):
+Time: 13:16:38
+Speed: 45 mph
+Engine RPM: 2398
+Throttle Position: 23%
+Brake Pressure: 0 psi
+Seatbelt Status: Fastened
+Airbag Status: Armed
+
+CRASH TRIGGER EVENT:
+Time: 13:16:40
+Delta-V: 15 mph
+Peak G-Force: 3.9g
+Duration: 90ms
+Direction: Front impact
+
+POST-CRASH DATA (5 seconds after trigger):
+Time: 13:16:43
+Speed: 0 mph
+Brake Pressure: 1249 psi
+Airbag Deployment: Driver, Passenger
+Stability Control: Activated
+ABS Activation: Yes
+
+ADDITIONAL VEHICLE SYSTEMS DATA:
+Tire Pressure (FL/FR/RL/RR): 31/31/32/34 psi
+Fuel Level: 34%
+Engine Temperature: 206°F
+Battery Voltage: 12.8V
+
+Diagnostic Codes Present:
+- P0301: Cylinder 1 Misfire Detected
+- C1241: ABS Hydraulic Pump Motor Circuit Failure
+
+Data Integrity: Verified (SHA-256: d9dda6d6685a67977c816d8a62f8cfa5c77804f154d31134ee9a6c37357671ba)
+EDR Module: Bosch CDR-6000
+Firmware Version: 2.4.7

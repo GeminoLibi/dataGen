@@ -1,0 +1,11 @@
+--- PARKING CITATION ---
+Citation #: PC-39535697
+Date: 2025-11-29
+Time: 11:51
+Location: 0326 Jones Extension
+Vehicle: Silver Honda Civic
+License Plate: 982-WDJ
+Violation: Expired Meter
+Fine: $113.00
+Officer: Katherine K.
+Status: PAID

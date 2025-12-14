@@ -1,0 +1,166 @@
+--- NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK (NIBIN) REPORT ---
+
+DEPARTMENT OF JUSTICE
+BUREAU OF ALCOHOL, TOBACCO, FIREARMS AND EXPLOSIVES
+NATIONAL INTEGRATED BALLISTIC INFORMATION NETWORK
+
+REPORT NUMBER: NIBIN-474640
+DATE GENERATED: December 13, 2025
+REQUESTING AGENCY: Tonyastad Police Department
+SUBMITTING ANALYST: ATF Special Agent King
+
+================================================================================
+EVIDENCE SUBMISSION DETAILS
+================================================================================
+
+Evidence Item 1: Spent Cartridge Case
+- NIBIN Entry ID: eaef0a10-5c64-4ad8-9b52-25af861c1c10
+- Caliber: None
+- Case Type: Rimless
+- Primer Type: Boxer
+- Headstamp: REM
+
+Evidence Item 2: Suspect Firearm
+- NIBIN Entry ID: ed0f566b-2066-4fca-a232-9f22716a8261
+- Make/Model: KA-BAR/Fighting Knife
+- Serial Number: 82714456
+- Caliber: None
+- Action Type: Semi-automatic
+
+================================================================================
+MICROSCOPIC COMPARISON ANALYSIS
+================================================================================
+
+RIFLING CHARACTERISTICS:
+- Number of Lands/Grooves: 4 lands and 4 grooves, left twist
+- Rifling Twist: 1.50 inches per turn
+- Barrel Length: 4 inches
+- Groove Depth: 0.0026 inches
+
+STRIATION ANALYSIS:
+- Breech face marks: 91% correlation
+- Firing pin impressions: 92% correlation
+- Extractor marks: 80% correlation
+- Ejector marks: 78% correlation
+
+CLASS CHARACTERISTICS:
+- Land impressions width: 0.100 inches
+- Groove width: 0.097 inches
+- Land/groove ratio: 1.04
+
+================================================================================
+DATABASE COMPARISON RESULTS
+================================================================================
+
+NIBIN Database Query Results:
+Total cases searched: 113,415
+Time period: Last 10 years
+Geographic scope: National database
+
+COMPARISON SUMMARY:
+Case #466309: IDENTIFIED MATCH (95% confidence)
+Case #265913: POSSIBLE MATCH (76% confidence)
+Case #740645: POSSIBLE MATCH (75% confidence)
+Case #666716: ELIMINATED (40% confidence)
+Case #391091: ELIMINATED (63% confidence)
+Case #380516: ELIMINATED (12% confidence)
+Case #667868: ELIMINATED (40% confidence)
+Case #653313: ELIMINATED (9% confidence)
+Case #696406: ELIMINATED (28% confidence)
+Case #737450: ELIMINATED (74% confidence)
+Case #568605: ELIMINATED (12% confidence)
+Case #396622: ELIMINATED (57% confidence)
+Case #765668: ELIMINATED (73% confidence)
+Case #855928: ELIMINATED (72% confidence)
+Case #160794: ELIMINATED (29% confidence)
+
+================================================================================
+PRIMARY MATCH ANALYSIS
+================================================================================
+
+SUSPECTED FIREARM IDENTIFICATION:
+Firearm NIBIN ID: ed0f566b-2066-4fca-a232-9f22716a8261
+Suspect Name: Dale Maldonado
+Recovery Date: 09/22/2025
+Recovery Location: 04515 Fox Mill Apt. 657, Kellyfurt, MT 86325
+
+BALLISTIC MATCH CONFIDENCE:
+- Overall correlation: 92%
+- Individual characteristics match: 18/23
+- Statistical significance: p < 0.0001
+- Error rate: < 0.001%
+
+================================================================================
+IMAGING AND DIGITAL ANALYSIS
+================================================================================
+
+MICROSCOPIC IMAGING:
+- Magnification used: 20x - 80x
+- Lighting: Coaxial illumination
+- Image capture: Olympus BX51M microscope
+- Digital resolution: 3072 x 2304 pixels
+
+3D TOPOGRAPHIC MAPPING:
+- Surface deviation mapping completed
+- Depth analysis: 0.00098 inches
+- Profile correlation coefficient: 0.955
+
+DIGITAL COMPARISON SOFTWARE:
+- Program: IBIS Trail v7.0
+- Correlation algorithm: Congruent Matching Cells (CMC)
+- Minimum correlation threshold: 9 CMC points
+- Actual correlation: 26 CMC points
+
+================================================================================
+QUALITY ASSURANCE AND VERIFICATION
+================================================================================
+
+ANALYSIS PERFORMED BY:
+Primary Examiner: ATF Special Agent Andrews
+- Certification: Certified Firearms Examiner
+- Experience: 14 years
+- Case load: 136 ballistic cases annually
+
+VERIFICATION BY:
+Technical Review Officer: ATF Special Agent Casey
+- Independent microscopic examination completed
+- Digital correlation analysis verified
+- Statistical analysis reviewed
+
+================================================================================
+CONCLUSION AND OPINION
+================================================================================
+
+OPINION: The microscopic examination and digital comparison analysis reveals
+that the cartridge case submitted as evidence (NIBIN ID: eaef0a10-5c64-4ad8-9b52-25af861c1c10) was fired
+from the submitted suspect firearm (NIBIN ID: ed0f566b-2066-4fca-a232-9f22716a8261).
+
+This identification is based on the agreement of all discernible class and
+individual microscopic characteristics between the evidence cartridge case
+and the test fires from the suspect firearm.
+
+The probability that this cartridge case could have been fired from another
+firearm of similar class characteristics is extremely remote.
+
+================================================================================
+EVIDENTIARY VALUE ASSESSMENT
+================================================================================
+
+This identification provides strong scientific evidence linking the suspect
+firearm to the crime scene. The match is based on multiple independent
+ballistic signatures and has been verified through independent examination.
+
+REPORT STATUS: FINAL
+DATE COMPLETED: December 13, 2025
+
+________________________________________
+ATF Special Agent Cox
+Certified Firearms Examiner
+Bureau of Alcohol, Tobacco, Firearms and Explosives
+
+CONFIDENTIAL - LAW ENFORCEMENT SENSITIVE
+NOT FOR PUBLIC DISCLOSURE
+
+================================================================================
+END OF NIBIN BALLISTIC ANALYSIS REPORT
+================================================================================

@@ -1,0 +1,9 @@
+--- 911 CALL LOG ---
+Call #: 86658905
+Date: 2025-12-08 16:16:38
+Caller: William Guzman
+Caller Phone: 243-372-8834x41623
+Location: USNV Kennedy, FPO AP 33930
+Nature: Animal Control
+Disposition: False alarm
+Officer: Kevin Rodriguez

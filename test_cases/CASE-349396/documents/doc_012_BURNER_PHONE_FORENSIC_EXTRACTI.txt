@@ -1,0 +1,87 @@
+--- BURNER PHONE FORENSIC EXTRACTION REPORT ---
+Device: Nokia 1100 (Prepaid/Burner Phone)
+IMEI: 995325062151317
+SIM Card ICCID: 89014147223754779
+Phone Number: 483.606.8119x6373
+Carrier: T-Mobile Prepaid
+Activation Date: 2025-11-29 10:16:37.767158
+Extraction Date: 2025-12-13 16:16:37
+Forensic Tool: Cellebrite UFED 7.63.0.27
+Analyst: Detective Vaughn
+
+INITIAL CELL TOWER CONNECTIONS:
+[2025-11-29 10:16:37] Connected to Tower 4317 - Josephhaven, AL
+[2025-11-29 11:16:37] Connected to Tower 3153 - Joshuaside, MD
+[2025-11-29 12:16:37] Connected to Tower 2230 - East Charles, HI
+
+CELL TOWER PINGS DURING RELEVANT TIMEFRAME:
+[2025-12-01 07:16:37] Tower 4225 - Lat:48.847819 Lon:-130.993530
+[2025-12-01 07:41:37] Tower 1348 - Lat:48.797325 Lon:-130.949033
+[2025-12-01 07:54:37] Tower 7238 - Lat:48.796344 Lon:-130.927733
+[2025-12-01 08:24:37] Tower 3523 - Lat:48.826668 Lon:-130.940089
+[2025-12-01 08:42:37] Tower 9594 - Lat:48.789356 Lon:-130.961942
+[2025-12-01 09:02:37] Tower 7774 - Lat:48.828398 Lon:-130.943084
+[2025-12-01 09:12:37] Tower 8060 - Lat:48.826052 Lon:-130.972010
+[2025-12-01 09:27:37] Tower 334 - Lat:48.770853 Lon:-130.974020
+[2025-12-01 09:50:37] Tower 2822 - Lat:48.807548 Lon:-131.028143
+[2025-12-01 10:06:37] Tower 8574 - Lat:48.816155 Lon:-131.029834
+[2025-12-01 10:13:37] Tower 3766 - Lat:48.774451 Lon:-130.957088
+[2025-12-01 10:22:37] Tower 9432 - Lat:48.847461 Lon:-130.992984
+[2025-12-01 10:36:37] Tower 2109 - Lat:48.805095 Lon:-130.997239
+[2025-12-01 10:52:37] Tower 7953 - Lat:48.775169 Lon:-130.953964
+[2025-12-01 11:16:37] Tower 3719 - Lat:48.810556 Lon:-131.034732
+
+CONTACTS (6 entries):
+• Kevin Brewer: 651.436.0917
+• Amanda Klein: 647.405.9323x9492
+• Mary Ellis: 001-296-782-6345x537
+• Jeffrey Fuller: +1-966-295-5683x5757
+
+CALL LOG (12 calls):
+TIME                    | TYPE       | NUMBER           | DURATION | TOWER
+------------------------|------------|------------------|----------|------
+2025-11-30 12:16:37 | OUTGOING   | 2577875966       | 5:57     | 432
+2025-11-30 07:16:37 | INCOMING   | 001-296-782-6345x537 | 4:12     | 9900
+2025-11-28 07:16:37 | OUTGOING   | 955-671-9379x2253 | 2:15     | 33
+2025-11-30 06:16:37 | OUTGOING   | 651.436.0917     | 3:40     | 3333
+2025-11-30 13:16:37 | MISSED     | 001-683-423-3347 | -        | 7962
+2025-11-30 22:16:37 | INCOMING   | 651.436.0917     | 0:27     | 8440
+2025-11-29 09:16:37 | OUTGOING   | 970-854-0394x277 | 4:28     | 4366
+2025-11-28 01:16:37 | MISSED     | 001-725-483-9871 | -        | 9760
+2025-11-30 06:16:37 | INCOMING   | 651.436.0917     | 1:00     | 2553
+2025-11-27 12:16:37 | MISSED     | 651.436.0917     | -        | 8715
+2025-11-29 09:16:37 | OUTGOING   | +1-966-295-5683x5757 | 0:02     | 3146
+
+TEXT MESSAGES (22 messages):
+[2025-11-30 09:16:37] SENT     | 655.517.0937     | Got the address
+[2025-11-28 09:16:37] SENT     | 824.638.0820     | Keep this number quiet
+[2025-11-27 14:16:37] SENT     | 001-296-782-6345x537 | Burn this phone after
+[2025-11-27 09:16:37] RECEIVED | 647.405.9323x9492 | Will do
+[2025-11-28 15:16:37] SENT     | +1-983-501-2995  | Change of plans - different location
+[2025-11-27 20:16:37] SENT     | 001-296-782-6345x537 | Need to lay low for a bit
+[2025-11-27 13:16:37] SENT     | 309-650-3856x5145 | Meet me at the spot tonight
+[2025-11-27 18:16:37] SENT     | +1-966-295-5683x5757 | Keep this number quiet
+[2025-11-29 15:16:37] RECEIVED | 545.828.6591x98508 | See you then
+[2025-11-27 14:16:37] RECEIVED | (497)520-2855x6070 | See you then
+[2025-11-29 01:16:37] SENT     | 651.436.0917     | Got the address
+[2025-11-28 16:16:37] RECEIVED | 949-724-4736x946 | Same place as usual?
+[2025-11-29 08:16:37] SENT     | +1-966-295-5683x5757 | Job's on
+[2025-11-29 11:16:37] SENT     | 647.405.9323x9492 | Change of plans - different location
+
+DEVICE INFORMATION:
+• Model: Nokia 1100
+• OS: Nokia OS v1.0
+• Memory: 1MB internal
+• Battery Level at Seizure: 58%
+• Last Backup: Never
+• Screen Lock: None
+• PIN Code: Not set
+• Auto-lock: Disabled
+
+FORENSIC NOTES:
+• Device was powered on at time of seizure
+• No encryption detected
+• SIM card removed and preserved separately
+• Device photographed in place before extraction
+• Chain of custody maintained throughout process
+• Data integrity verified with MD5 hash: f22ccc864803830fa22c335b24a72f7c

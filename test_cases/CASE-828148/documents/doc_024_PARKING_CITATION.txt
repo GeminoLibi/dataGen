@@ -1,0 +1,11 @@
+--- PARKING CITATION ---
+Citation #: PC-39477483
+Date: 2025-11-18
+Time: 11:48
+Location: 7705 Michael Locks
+Vehicle: Red Ford F-150
+License Plate: 286ZTC
+Violation: Handicap Zone
+Fine: $57.00
+Officer: Beverly P.
+Status: PAID

@@ -1,0 +1,11 @@
+--- PARKING CITATION ---
+Citation #: PC-27004203
+Date: 2025-12-07
+Time: 11:26
+Location: 0128 Hall Parkways
+Vehicle: Red Ford F-150
+License Plate: FTI J43
+Violation: Handicap Zone
+Fine: $97.00
+Officer: Joshua O.
+Status: PAID

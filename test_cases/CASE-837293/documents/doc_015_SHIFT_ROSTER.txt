@@ -1,0 +1,12 @@
+--- SHIFT ROSTER ---
+Date: 2025-12-13
+Shift: Night
+Supervisor: Sergeant Bernard
+Officers Assigned:
+  - Officer Joseph R. (Badge #373)
+  - Officer Carolyn S. (Badge #3598)
+  - Officer Michael C. (Badge #4209)
+  - Officer Debra V. (Badge #9006)
+  - Officer Barbara S. (Badge #4518)
+  - Officer Shelby K. (Badge #4361)
+Total Officers: 10

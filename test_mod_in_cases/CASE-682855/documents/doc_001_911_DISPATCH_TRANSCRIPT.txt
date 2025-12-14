@@ -1,0 +1,31 @@
+--- 911 DISPATCH TRANSCRIPT ---
+Date: 2025-12-02 02:19:03
+Caller: Rebecca Shepherd
+Caller Phone: 687-400-0944x71519
+ANI/ALI: 687-400-0944x71519
+PSAP: North Markbury Emergency Communications Center
+Dispatcher ID: 9288
+Dispatcher: Joshua M.
+Call Priority: Priority 1
+
+TRANSCRIPT:
+============================================================
+[SYSTEM] Call received: 2025-12-13 19:18:03
+[SYSTEM] ANI: 971-986-7507
+CALLER: 911? I need help!
+DISPATCH: 911, what's your emergency?
+CALLER: Help! I've been attacked at 36144 Becker Branch Suite 344, South Lisaside, WV 23099!
+DISPATCH: Are you injured? What's your condition?
+CALLER: My face hurts, I think my nose is broken. He hit me and ran off.
+DISPATCH: Okay, help is coming. Can you describe the attacker?
+CALLER: White male, 6 feet tall, wearing a black hoodie. He had tattoos on his hands.
+DISPATCH: Did you know this person?
+CALLER: No, he came up from behind. I was walking home from work.
+DISPATCH: Alright, stay where you are. Officers are responding.
+[SYSTEM] Call duration: 179 seconds
+[SYSTEM] Transferred to responding unit
+============================================================
+
+CALL DISPOSITION: Transferred to responding agency
+RESPONDING UNITS: Patrol Unit 415-ADAM
+NOTES: Caller was calm. Provided detailed description.

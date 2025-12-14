@@ -63,11 +63,39 @@ class Person:
     social_handle: Optional[str] = None  # Social media handle
     reliability_score: int = 50  # Witness reliability (0-100)
     relationships: Dict[str, str] = field(default_factory=dict)  # Relationships to other persons
-    relationships: Dict[str, str] = field(default_factory=dict)  # Relationships to other persons
+    
+    # Physical description fields
+    gender: str = ""  # male, female, other
+    height: str = ""  # e.g., "5'10""
+    weight: int = 0  # in pounds
+    hair_color: str = ""  # e.g., "brown", "blonde", "black"
+    eye_color: str = ""  # e.g., "brown", "blue", "green"
+    facial_hair: str = ""  # e.g., "none", "beard", "mustache", "goatee"
+    build: str = ""  # e.g., "slim", "average", "stocky", "muscular"
+    driver_license_number: str = ""  # Driver's license number
+    driver_license_state: str = ""  # State that issued the license
 
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+    
+    @property
+    def physical_description(self) -> str:
+        """Generate a formatted physical description."""
+        parts = []
+        if self.height:
+            parts.append(self.height)
+        if self.build:
+            parts.append(self.build + " build")
+        if self.hair_color:
+            parts.append(self.hair_color + " hair")
+        if self.eye_color:
+            parts.append(self.eye_color + " eyes")
+        if self.facial_hair and self.facial_hair != "none":
+            parts.append(self.facial_hair)
+        if self.weight > 0:
+            parts.append(f"{self.weight} lbs")
+        return ", ".join(parts) if parts else "Description not available"
 
 class EvidenceType(Enum):
     PHYSICAL = "Physical"

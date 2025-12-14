@@ -1,0 +1,9 @@
+--- DATA RECOVERY LOG ---
+File: evidence_img_27.jpg
+Sector: 68945
+Status: CORRUPTED / UNREADABLE HEADER
+Action: Recovery Failed
+Attempted Methods: Hex analysis
+Result: Unable to recover image data
+Technician: Madeline Delgado
+Date: 2025-12-09

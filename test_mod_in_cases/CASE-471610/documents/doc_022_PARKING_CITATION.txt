@@ -1,0 +1,11 @@
+--- PARKING CITATION ---
+Citation #: PC-43181710
+Date: 2025-12-03
+Time: 16:34
+Location: 742 Peterson Rapids Apt. 771
+Vehicle: Silver Honda Civic
+License Plate: JVR-6767
+Violation: Expired Meter
+Fine: $67.00
+Officer: Melissa V.
+Status: PAID

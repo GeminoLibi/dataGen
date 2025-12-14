@@ -1,0 +1,53 @@
+--- AUTOMATED FINGERPRINT IDENTIFICATION SYSTEM (AFIS) REPORT ---
+
+Case Number: AFIS-182932
+Report Date: December 13, 2025
+Submitting Agency: Lake Cliffordfurt Police Department
+Analyst: Technician Robles
+
+LATENT PRINT ANALYSIS SUMMARY:
+
+Source: Crime Scene Evidence - Latent Print #LP-2518
+Location: Door handle, driver's side
+Surface: Metal
+Development Method: Ninhydrin/CAB
+Quality Assessment: High quality print
+Pattern Type: Arch pattern
+
+FINGERPRINT COMPARISON RESULTS:
+
+Primary Match: Sandra Dillon (91% confidence)
+Possible Match: Tony Trevino (61% confidence)
+Possible Match: Vicki Diaz (84% confidence)
+
+PRIMARY MATCH DETAILS:
+Name: Sandra Dillon
+DOB: 04/28/1966
+Last Known Address: 903 Jennifer Canyon, Alexstad, TN 19953
+Criminal History: None
+
+Fingerprint Classification:
+Henry Classification: 29/16/6/26
+
+Minutiae Points Analyzed: 16
+Matching Points: 18
+False Rejection Rate: < 0.01%
+False Acceptance Rate: < 0.001%
+
+DIGITAL IMAGING:
+Scanner: CrossMatch L-Scan Guardian
+Resolution: 500 PPI
+Compression: WSQ (15:1)
+Image Quality Score: 87/100
+
+VERIFICATION PROCESS:
+- Automated comparison completed: 12/13/2025 16:16:37
+- Manual verification by certified technician
+- Quality assurance review completed
+
+CONCLUSION:
+The latent fingerprint from the crime scene matches the known fingerprint of Sandra Dillon with high confidence.
+
+Analyst Signature: _______________________________
+Brewer, Certified Latent Print Examiner
+Date: December 13, 2025

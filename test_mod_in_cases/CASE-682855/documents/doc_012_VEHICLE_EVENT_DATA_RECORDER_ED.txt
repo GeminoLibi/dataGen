@@ -1,0 +1,48 @@
+--- VEHICLE EVENT DATA RECORDER (EDR) LOG ---
+
+Vehicle Information:
+VIN: 6721B93A35BW62195
+Make/Model: Audi A4
+License Plate: 03L-ZQCP
+
+EDR Data Extraction Report
+Downloaded: 2025-12-03 22:18:03.513687
+Technician: Dickson, Ramirez & Associates
+
+PRE-CRASH DATA (30 seconds before trigger):
+Time: 02:18:03
+Speed: 44 mph
+Engine RPM: 1818
+Throttle Position: 30%
+Brake Pressure: 0 psi
+Seatbelt Status: Fastened
+Airbag Status: Armed
+
+CRASH TRIGGER EVENT:
+Time: 02:18:05
+Delta-V: 8 mph
+Peak G-Force: 3.1g
+Duration: 139ms
+Direction: Front impact
+
+POST-CRASH DATA (5 seconds after trigger):
+Time: 02:18:08
+Speed: 0 mph
+Brake Pressure: 1795 psi
+Airbag Deployment: Driver, Passenger
+Stability Control: Activated
+ABS Activation: Yes
+
+ADDITIONAL VEHICLE SYSTEMS DATA:
+Tire Pressure (FL/FR/RL/RR): 29/31/30/33 psi
+Fuel Level: 33%
+Engine Temperature: 185°F
+Battery Voltage: 12.9V
+
+Diagnostic Codes Present:
+- P0301: Cylinder 1 Misfire Detected
+- C1241: ABS Hydraulic Pump Motor Circuit Failure
+
+Data Integrity: Verified (SHA-256: 1a1b2accd8543799b2ab618db5ba951a5f46481a1a6153b0ddc195be1ec430f4)
+EDR Module: Bosch CDR-6000
+Firmware Version: 2.4.7
