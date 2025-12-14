@@ -7,6 +7,7 @@ from typing import List, Dict, Optional
 from faker import Faker
 
 from .models import Case, Person, Role, IncidentReport, Evidence, EvidenceType, DigitalDevice, Weapon
+from .realistic_errors import RealisticErrorGenerator, EventType, ErrorSeverity
 from .utils import (
     generate_case_id, generate_person, generate_date_near, generate_file_hash,
     generate_ip, generate_vehicle, generate_device, generate_weapon, generate_interrogation_dialogue,
@@ -403,6 +404,9 @@ class CaseGenerator:
             # Initialize location manager (will be set after we know the location)
             self.location_manager = LocationManager()
             
+            # Initialize realistic error generator
+            self.error_generator = RealisticErrorGenerator(crime_dt, complexity)
+            
             # 3. Initialize entity system (officers, systems, etc.)
             self._initialize_entities(case_id)
             
@@ -539,6 +543,14 @@ class CaseGenerator:
 
             # 11. Administrative documents
             self._generate_discovery_package() # Discovery index
+            
+            # 12. Apply realistic errors and events to generated content
+            self._apply_realistic_errors()
+            
+            # 13. Add error events summary to case
+            error_summary = self.error_generator.get_events_summary()
+            if error_summary:
+                self.case.documents.append(error_summary)
 
             return self.case
         except Exception as e:
@@ -3009,6 +3021,81 @@ Date: {wreck_time.strftime('%Y-%m-%d %H:%M:%S')}
         self.case.description += "\n\nINVESTIGATIVE APPROACH: Suspect partially identified. Multiple " \
                                 "potential matches identified requiring investigation to confirm " \
                                 "correct suspect identity."
+
+    # --- REALISTIC ERROR HANDLING ---
+    
+    def _add_document_with_errors(self, document: str, doc_id: str, doc_type: str) -> str:
+        """
+        Add a document to the case with potential error checking.
+        Returns the document (possibly modified with errors).
+        """
+        current_date = datetime.now()
+        
+        # Check for document errors
+        error_msg = self.error_generator.check_document_error(doc_id, doc_type, current_date)
+        if error_msg:
+            # Find the severity of the error
+            for event in self.error_generator.events_log:
+                if event.get('item') == doc_id and event.get('type') == EventType.DOCUMENT_ERROR:
+                    severity = event.get('severity')
+                    document = self.error_generator.apply_error_to_document(document, error_msg, severity)
+                    # Add error note to document
+                    document = f"[ERROR LOG: {error_msg}]\n\n{document}"
+                    break
+        
+        return document
+    
+    def _apply_realistic_errors(self):
+        """
+        Apply realistic errors to already-generated content.
+        This simulates errors that occur AFTER content was generated (e.g., evidence misplaced).
+        """
+        current_date = datetime.now()
+        
+        # Check for system errors
+        system_error = self.error_generator.check_system_error(current_date)
+        if system_error:
+            self.case.documents.append(f"\n--- SYSTEM ERROR LOG ---\n{system_error}\n")
+        
+        # Check for environmental events
+        env_event = self.error_generator.check_environmental_event(current_date)
+        if env_event:
+            self.case.documents.append(f"\n--- ENVIRONMENTAL EVENT LOG ---\n{env_event}\n")
+        
+        # Check for evidence mishandling (affects already-generated evidence)
+        for evidence in self.case.evidence:
+            error_msg = self.error_generator.check_evidence_error(
+                evidence.id, evidence.type.value, current_date
+            )
+            if error_msg:
+                # Add error note to evidence description
+                evidence.description += f"\n\n[ERROR LOG: {error_msg}]"
+                # If catastrophic, mark evidence as compromised
+                for event in self.error_generator.events_log:
+                    if (event.get('item') == evidence.id and 
+                        event.get('severity') == ErrorSeverity.CATASTROPHIC):
+                        evidence.description += "\n[CRITICAL: EVIDENCE INTEGRITY COMPROMISED]"
+                        break
+        
+        # Apply errors to existing documents (simulate corruption after generation)
+        for i, doc in enumerate(self.case.documents):
+            if isinstance(doc, str) and len(doc) > 100:  # Only process substantial documents
+                doc_id = f"DOC-{i+1:03d}"
+                # Small chance of late-stage corruption
+                if random.random() < 0.02:  # 2% chance
+                    error_msg = self.error_generator.check_document_error(
+                        doc_id, "Generated Document", current_date
+                    )
+                    if error_msg:
+                        for event in self.error_generator.events_log:
+                            if (event.get('item') == doc_id and 
+                                event.get('type') == EventType.DOCUMENT_ERROR):
+                                severity = event.get('severity')
+                                modified_doc = self.error_generator.apply_error_to_document(
+                                    doc, error_msg, severity
+                                )
+                                self.case.documents[i] = modified_doc
+                                break
 
     # --- MASSIVE DATA GENERATORS ---
     
