@@ -1,8 +1,0 @@
---- CASE FILE (CLOSED) ---
-Case #: CASE-654943
-Type: Theft
-Date Opened: 2025-06-11
-Date Closed: 2025-07-07
-Status: Closed - Insufficient Evidence
-Officer: Nancy P.
-Notes: Case file archived.

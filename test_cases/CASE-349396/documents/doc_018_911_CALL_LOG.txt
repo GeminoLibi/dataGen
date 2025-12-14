@@ -1,9 +1,0 @@
---- 911 CALL LOG ---
-Call #: 42565890
-Date: 2025-12-11 16:16:37
-Caller: Seun Maeller
-Caller Phone: 927.417.3797x0254
-Location: 64128 Antonio Pine, Davidland, DE 64401
-Nature: Traffic Accident
-Disposition: No action needed
-Officer: Annette Henderson

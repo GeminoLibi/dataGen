@@ -1,3 +1,0 @@
---- BANK CSV ---
-Date,Desc,Amt
-2023-01-01,ATM,500

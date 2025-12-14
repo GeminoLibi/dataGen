@@ -1,7 +1,0 @@
---- EQUIPMENT MAINTENANCE LOG ---
-Equipment: Radio Unit #R-45
-Date: 2025-12-09
-Issue: Software update
-Technician: Lisa Bates
-Status: Pending Parts
-Cost: $281.00

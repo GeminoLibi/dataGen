@@ -1,9 +1,0 @@
---- WEATHER SERVICE REPORT ---
-Date: 2025-12-13
-Location: West James, MO
-Conditions: Rain
-Temperature: 58F
-Wind: 7 mph S
-Humidity: 83%
-Visibility: 6 miles
-Forecast: Cloudy

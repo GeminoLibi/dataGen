@@ -1,7 +1,0 @@
---- EQUIPMENT MAINTENANCE LOG ---
-Equipment: Computer Terminal #CT-12
-Date: 2025-12-02
-Issue: Cleaning
-Technician: Danielle Erickson
-Status: In Progress
-Cost: $482.00

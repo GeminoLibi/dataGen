@@ -1,9 +1,0 @@
---- DATA RECOVERY LOG ---
-File: evidence_img_02.jpg
-Sector: 32257
-Status: CORRUPTED / UNREADABLE HEADER
-Action: Recovery Failed
-Attempted Methods: Hex analysis
-Result: Unable to recover image data
-Technician: Rebecca Wade
-Date: 2025-12-09

@@ -1,6 +1,0 @@
---- DEPARTMENT MEMO ---
-FROM: Captain Henry
-TO: All Personnel
-DATE: 2025-12-10
-SUBJECT: Policy Update
-Mandatory training session scheduled for next Tuesday at 1400 hours.

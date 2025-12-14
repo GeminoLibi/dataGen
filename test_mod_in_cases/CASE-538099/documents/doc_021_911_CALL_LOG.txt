@@ -1,9 +1,0 @@
---- 911 CALL LOG ---
-Call #: 91772920
-Date: 2025-12-10 19:17:57
-Caller: Jacob Tyler
-Caller Phone: 231-548-0159x8785
-Location: 4831 Coleman Lakes, Dicksonfurt, VT 89752
-Nature: Suspicious Person
-Disposition: Report taken
-Officer: Travis Davis

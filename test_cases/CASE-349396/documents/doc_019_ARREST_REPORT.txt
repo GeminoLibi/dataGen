@@ -1,9 +1,0 @@
---- ARREST REPORT ---
-Arrest #: AR-10963336
-Date: 2025-12-06
-Suspect: Karen Thomas
-Charges: DUI
-Location: 0642 Novak Fork Apt. 772, West Charlesfort, KY 65153
-Officer: Marc Malone
-Status: Transported to Jail
-
