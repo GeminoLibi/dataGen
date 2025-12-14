@@ -8,7 +8,6 @@ from faker import Faker
 
 from .models import Case, Person, Role, IncidentReport, Evidence, EvidenceType, DigitalDevice, Weapon
 from .realistic_errors import RealisticErrorGenerator, EventType, ErrorSeverity
-from .multi_format_generator import MultiFormatGenerator, FileFormat
 from .utils import (
     generate_case_id, generate_person, generate_date_near, generate_file_hash,
     generate_ip, generate_vehicle, generate_device, generate_weapon, generate_interrogation_dialogue,
@@ -408,9 +407,6 @@ class CaseGenerator:
             # Initialize realistic error generator
             self.error_generator = RealisticErrorGenerator(crime_dt, complexity)
             
-            # Initialize multi-format generator
-            self.multi_format_gen = MultiFormatGenerator(case_id)
-            
             # 3. Initialize entity system (officers, systems, etc.)
             self._initialize_entities(case_id)
             
@@ -548,12 +544,8 @@ class CaseGenerator:
             # 11. Administrative documents
             self._generate_discovery_package() # Discovery index
             
-            # 11.5. Generate multi-format documents (images, audio, video, spreadsheets, ransom notes)
-            self._generate_image_descriptions()
-            self._generate_audio_transcripts()
-            self._generate_video_descriptions()
-            self._generate_ransom_note()
-            self._generate_spreadsheet_descriptions()
+            # 11.5. Generate multi-format documents (OCR, transcripts, CSV data, ransom notes)
+            self._generate_useful_multi_format_docs()
             
             # 12. Apply realistic errors and events to generated content
             self._apply_realistic_errors()
@@ -3033,112 +3025,351 @@ Date: {wreck_time.strftime('%Y-%m-%d %H:%M:%S')}
                                 "potential matches identified requiring investigation to confirm " \
                                 "correct suspect identity."
 
-    # --- MULTI-FORMAT DOCUMENT GENERATION ---
+    # --- MULTI-FORMAT DOCUMENT GENERATION (USEFUL CONTENT ONLY) ---
     
-    def _generate_image_descriptions(self):
-        """Generate OCR text extraction from images (only when useful - license plates, evidence markings, etc.)."""
-        # CCTV stills with license plates (useful OCR)
+    def _generate_useful_multi_format_docs(self):
+        """Generate useful multi-format documents: OCR, transcripts, CSV data, ransom notes."""
+        # OCR from CCTV/license plates (only when useful)
         if random.random() < 0.4:  # 40% chance
-            doc = self.multi_format_gen.generate_image_ocr_document(
-                'cctv_still',
-                {
-                    'timestamp': (self.crime_datetime + timedelta(minutes=random.randint(-30, 30))).strftime('%Y-%m-%d %H:%M:%S'),
-                    'camera': random.choice(['Camera 01 - Main Entrance', 'Camera 02 - Parking Lot', 'Camera 03 - Side Alley']),
-                    'date': self.crime_datetime.strftime('%Y-%m-%d')
-                }
-            )
-            if doc:  # Only add if OCR was generated
-                self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+            self._generate_ocr_extraction()
         
-        # Evidence photos with markings (useful OCR)
-        if self.case.evidence:
-            num_evidence_photos = min(random.randint(0, 2), len(self.case.evidence))  # Fewer, only when useful
-            if num_evidence_photos > 0:
-                selected_evidence = random.sample(self.case.evidence, num_evidence_photos)
-                for evidence in selected_evidence:
-                    doc = self.multi_format_gen.generate_image_ocr_document(
-                        'evidence_photo',
-                        {
-                            'evidence_id': evidence.id,
-                            'evidence_type': evidence.type.value,
-                            'date': self.crime_datetime.strftime('%Y-%m-%d')
-                        }
-                    )
-                    if doc:  # Only add if OCR was generated
-                        self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
-    
-    def _generate_audio_transcripts(self):
-        """Generate audio transcript descriptions for 911 calls, wiretaps, interviews."""
-        # 911 call audio description
-        if random.random() < 0.5:  # 50% chance
-            doc = self.multi_format_gen.generate_audio_transcript_document(
-                '911_call',
-                {'date': self.crime_datetime.strftime('%Y-%m-%d %H:%M:%S')}
-            )
-            self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+        # Audio transcripts (actual dialogue)
+        if random.random() < 0.5:  # 50% chance for 911 calls
+            self._generate_911_audio_transcript()
         
-        # Wiretap audio (for certain crime types)
+        # Wiretap transcripts (for certain crime types)
         if self.case.crime_type in ["Organized Crime", "Drug Possession", "Fraud"]:
             if random.random() < 0.4:  # 40% chance
-                doc = self.multi_format_gen.generate_audio_transcript_document(
-                    'wiretap',
-                    {'date': (self.crime_datetime - timedelta(days=random.randint(1, 7))).strftime('%Y-%m-%d')}
-                )
-                self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
-    
-    def _generate_video_descriptions(self):
-        """Generate actual video transcripts/analysis (useful content)."""
-        # CCTV video transcript with timeline
-        if random.random() < 0.5:  # 50% chance
-            doc = self.multi_format_gen.generate_video_transcript_document(
-                'cctv',
-                {'date': self.crime_datetime.strftime('%Y-%m-%d')}
-            )
-            self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+                self._generate_wiretap_transcript()
         
-        # Body cam footage transcript (if officers involved)
+        # Video transcripts (CCTV timeline, body cam)
+        if random.random() < 0.5:  # 50% chance
+            self._generate_cctv_video_transcript()
+        
         if self.case.reporting_officer and random.random() < 0.4:  # 40% chance
-            doc = self.multi_format_gen.generate_video_transcript_document(
-                'body_cam',
-                {
-                    'officer': self.case.reporting_officer.full_name,
-                    'date': self.crime_datetime.strftime('%Y-%m-%d')
-                }
-            )
-            self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+            self._generate_bodycam_transcript()
+        
+        # Spreadsheet data (actual CSV content)
+        if "Financial Records" in self.case.modifiers or self.case.crime_type in ["Fraud"]:
+            if random.random() < 0.7:  # 70% chance
+                self._generate_financial_spreadsheet()
+        
+        if len(self.case.evidence) > 5 and random.random() < 0.5:  # 50% chance
+            self._generate_evidence_log_spreadsheet()
+        
+        if "Phone data pull" in self.case.modifiers and random.random() < 0.6:  # 60% chance
+            self._generate_phone_records_spreadsheet()
+        
+        # Ransom notes (for kidnapping/extortion)
+        if self.case.crime_type in ["Kidnapping", "Extortion"] or random.random() < 0.1:
+            self._generate_ransom_note()
+    
+    def _generate_ocr_extraction(self):
+        """Generate OCR text extraction from images (license plates, evidence markings)."""
+        doc = f"""--- OCR TEXT EXTRACTION ---
+File: CCTV_STILL_{random.randint(1, 99):03d}.jpg
+Format: JPEG
+Date: {self.crime_datetime.strftime('%Y-%m-%d')}
+
+EXTRACTED TEXT:
+{'-' * 50}
+"""
+        # Extract license plate
+        if random.random() < 0.7:  # 70% chance of readable plate
+            plate = f"{random.randint(1, 9)}{random.choice(['ABC', 'DEF', 'GHI', 'JKL', 'MNO'])}{random.randint(100, 999)}"
+            confidence = random.randint(85, 99)
+            doc += f"License Plate: {plate} (Confidence: {confidence}%)\n\n"
+        
+        # Extract signage
+        if random.random() < 0.5:
+            signs = ["STOP", f"SPEED LIMIT {random.randint(15, 55)}", f"{fake.street_name()} STREET"]
+            doc += f"Signage: {random.choice(signs)}\n\n"
+        
+        doc += f"{'-' * 50}\n"
+        doc += f"OCR Confidence: {random.randint(75, 98)}%\n"
+        doc += f"Processing Method: {random.choice(['Tesseract OCR', 'Google Vision API', 'AWS Textract'])}\n"
+        
+        self.case.documents.append(doc)
+    
+    def _generate_911_audio_transcript(self):
+        """Generate actual 911 call transcript."""
+        dispatcher_phrases = [
+            "911, what's your emergency?",
+            "Can you tell me what happened?",
+            "Where are you located?",
+            "Is anyone injured?",
+            "Stay on the line, help is on the way."
+        ]
+        
+        caller_phrases = [
+            "I need help!",
+            "There's been an accident!",
+            "Someone broke into my house!",
+            f"I'm at {fake.address()}",
+            "Please hurry!"
+        ]
+        
+        transcript = f"""--- 911 CALL TRANSCRIPT ---
+File: 911_call_{random.randint(1, 99):03d}.wav
+Format: WAV
+Duration: {random.choice(['00:02:15', '00:03:42', '00:01:58'])}
+Date: {self.crime_datetime.strftime('%Y-%m-%d %H:%M:%S')}
+
+TRANSCRIPT:
+{'=' * 60}
+"""
+        num_exchanges = random.randint(4, 8)
+        for i in range(num_exchanges):
+            if i % 2 == 0:
+                transcript += f"DISPATCHER: {random.choice(dispatcher_phrases)}\n"
+            else:
+                transcript += f"CALLER: {random.choice(caller_phrases)}\n"
+        
+        transcript += f"{'=' * 60}\n"
+        transcript += f"Quality Notes: {random.choice(['Clear audio', 'Some background noise', 'Caller emotional'])}\n"
+        
+        self.case.documents.append(transcript)
+    
+    def _generate_wiretap_transcript(self):
+        """Generate actual wiretap transcript."""
+        speaker1_phrases = [
+            f"Meet me at {fake.address()}",
+            f"The amount is ${random.randint(1000, 50000)}",
+            "Don't say anything over the phone",
+            "We'll handle it tonight"
+        ]
+        
+        speaker2_phrases = [
+            "Understood",
+            "I'll be there",
+            "What about the other thing?",
+            "Are you sure about this?"
+        ]
+        
+        transcript = f"""--- WIRETAP TRANSCRIPT ---
+File: wiretap_{random.randint(1, 99):03d}.mp3
+Date: {(self.crime_datetime - timedelta(days=random.randint(1, 7))).strftime('%Y-%m-%d')}
+Duration: {random.choice(['00:15:32', '00:22:45', '00:18:12'])}
+
+TRANSCRIPT:
+{'=' * 60}
+"""
+        num_exchanges = random.randint(6, 12)
+        for i in range(num_exchanges):
+            speaker = "SPEAKER 1" if i % 2 == 0 else "SPEAKER 2"
+            phrases = speaker1_phrases if i % 2 == 0 else speaker2_phrases
+            transcript += f"{speaker}: {random.choice(phrases)}\n"
+        
+        transcript += f"{'=' * 60}\n"
+        transcript += f"Note: {random.choice(['Multiple speakers identified', 'Background noise present', 'Some portions unclear'])}\n"
+        
+        self.case.documents.append(transcript)
+    
+    def _generate_cctv_video_transcript(self):
+        """Generate CCTV video timeline transcript."""
+        transcript = f"""--- CCTV VIDEO ANALYSIS ---
+File: cctv_{random.randint(1, 99):03d}.mp4
+Duration: {random.choice(['00:34:15', '01:12:43', '00:45:22'])}
+Date: {self.crime_datetime.strftime('%Y-%m-%d')}
+
+TIMELINE OF EVENTS:
+{'=' * 60}
+"""
+        # Generate timeline events
+        times = []
+        for i in range(random.randint(3, 6)):
+            minutes = random.randint(0, 59)
+            hours = random.randint(8, 22)
+            times.append(f"{hours:02d}:{minutes:02d}")
+        
+        events = [
+            "Person enters frame from left",
+            "Vehicle stops in parking lot",
+            "Subject exits vehicle",
+            "Subject approaches building entrance",
+            "Subject enters building",
+            "Subject exits building",
+            "Vehicle departs scene"
+        ]
+        
+        for time in sorted(set(times)):
+            transcript += f"{time} - {random.choice(events)}\n"
+        
+        transcript += "\nKEY OBSERVATIONS:\n"
+        transcript += "-" * 60 + "\n"
+        
+        observations = [
+            f"License plate visible: {random.randint(1, 9)}{random.choice(['ABC', 'DEF', 'GHI'])}{random.randint(100, 999)}",
+            f"Subject appears to be {random.choice(['male', 'female'])}, approximately {random.randint(20, 60)} years old",
+            f"Vehicle: {random.choice(['Sedan', 'SUV', 'Truck'])} - {random.choice(['Black', 'White', 'Silver'])}",
+            f"Subject wearing {random.choice(['dark clothing', 'hoodie', 'jacket'])}"
+        ]
+        
+        for obs in random.sample(observations, random.randint(2, 4)):
+            transcript += f"- {obs}\n"
+        
+        transcript += "=" * 60 + "\n"
+        
+        self.case.documents.append(transcript)
+    
+    def _generate_bodycam_transcript(self):
+        """Generate body camera transcript."""
+        if not self.case.reporting_officer:
+            return
+        
+        officer_phrases = [
+            f"This is Officer {self.case.reporting_officer.first_name}, responding to call",
+            "Show me your hands!",
+            "Stay where you are!",
+            "Put your hands behind your back",
+            "You're under arrest"
+        ]
+        
+        subject_phrases = [
+            "I didn't do anything!",
+            "What's this about?",
+            "I have rights!",
+            "You can't do this!"
+        ]
+        
+        transcript = f"""--- BODY CAMERA FOOTAGE TRANSCRIPT ---
+File: bodycam_{random.randint(1, 99):03d}.mp4
+Officer: {self.case.reporting_officer.full_name}
+Date: {self.crime_datetime.strftime('%Y-%m-%d')}
+
+TRANSCRIPT:
+{'=' * 60}
+"""
+        num_exchanges = random.randint(5, 10)
+        for i in range(num_exchanges):
+            if i % 2 == 0:
+                transcript += f"OFFICER: {random.choice(officer_phrases)}\n"
+            else:
+                transcript += f"SUBJECT: {random.choice(subject_phrases)}\n"
+        
+        transcript += "=" * 60 + "\n"
+        
+        self.case.documents.append(transcript)
+    
+    def _generate_financial_spreadsheet(self):
+        """Generate actual financial transaction CSV data."""
+        data = f"""--- FINANCIAL RECORDS (CSV DATA) ---
+File: financial_data_{random.randint(1, 99):03d}.xlsx
+Format: XLSX
+
+Date,Description,Amount,Account,Category,Balance
+{'-' * 80}
+"""
+        num_transactions = random.randint(20, 100)
+        balance = random.randint(1000, 50000)
+        
+        for i in range(num_transactions):
+            date = (datetime.now() - timedelta(days=random.randint(0, 90))).strftime('%Y-%m-%d')
+            descriptions = [
+                f"ATM WITHDRAWAL - {fake.city()}",
+                f"PURCHASE - {fake.company()}",
+                f"TRANSFER TO {fake.name()}",
+                f"DEPOSIT - CHECK #{random.randint(1000, 9999)}"
+            ]
+            amount = random.randint(-5000, 3000)
+            balance += amount
+            account = f"****{random.randint(1000, 9999)}"
+            category = random.choice(['ATM', 'PURCHASE', 'TRANSFER', 'DEPOSIT', 'FEE'])
+            
+            data += f"{date},{random.choice(descriptions)},{amount:.2f},{account},{category},{balance:.2f}\n"
+        
+        self.case.documents.append(data)
+    
+    def _generate_evidence_log_spreadsheet(self):
+        """Generate actual evidence log CSV data."""
+        data = f"""--- EVIDENCE LOG (CSV DATA) ---
+File: evidence_log_{random.randint(1, 99):03d}.xlsx
+
+Evidence ID,Type,Description,Location Found,Date Collected,Collected By,Status
+{'-' * 100}
+"""
+        evidence_types = ['Physical', 'Digital', 'Document', 'Biological', 'Firearm']
+        locations = [fake.address() for _ in range(5)]
+        officers = [fake.name() for _ in range(3)]
+        statuses = ['In Storage', 'At Lab', 'Returned']
+        
+        num_items = min(random.randint(10, 50), len(self.case.evidence) + 5)
+        for i in range(num_items):
+            evid_id = f"EVID-{random.randint(1000, 9999)}"
+            evid_type = random.choice(evidence_types)
+            description = random.choice([
+                "Item recovered from scene",
+                "Evidence collected during search",
+                "Item seized from suspect"
+            ])
+            location = random.choice(locations)
+            date = (datetime.now() - timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
+            officer = random.choice(officers)
+            status = random.choice(statuses)
+            
+            data += f"{evid_id},{evid_type},{description},{location},{date},{officer},{status}\n"
+        
+        self.case.documents.append(data)
+    
+    def _generate_phone_records_spreadsheet(self):
+        """Generate actual phone call records CSV data."""
+        data = f"""--- PHONE RECORDS (CSV DATA) ---
+File: phone_records_{random.randint(1, 99):03d}.xlsx
+
+Date,Time,Duration,From Number,To Number,Call Type,Location
+{'-' * 100}
+"""
+        num_calls = random.randint(50, 200)
+        for i in range(num_calls):
+            date = (datetime.now() - timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
+            time = f"{random.randint(0, 23):02d}:{random.randint(0, 59):02d}"
+            duration = random.randint(10, 3600)
+            from_num = f"{random.randint(200, 999)}-{random.randint(200, 999)}-{random.randint(1000, 9999)}"
+            to_num = f"{random.randint(200, 999)}-{random.randint(200, 999)}-{random.randint(1000, 9999)}"
+            call_type = random.choice(['Voice', 'Text', 'Data'])
+            location = f"{fake.city()}, {fake.state_abbr()}"
+            
+            data += f"{date},{time},{duration},{from_num},{to_num},{call_type},{location}\n"
+        
+        self.case.documents.append(data)
     
     def _generate_ransom_note(self):
-        """Generate a ransom note (for kidnapping/extortion cases)."""
-        if self.case.crime_type in ["Kidnapping", "Extortion"] or random.random() < 0.1:  # 10% chance for other cases
-            doc = self.multi_format_gen.generate_ransom_note_document()
-            self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
-    
-    def _generate_spreadsheet_descriptions(self):
-        """Generate actual spreadsheet/CSV data (useful content)."""
-        # Financial records spreadsheet (actual transaction data)
-        if "Financial Records" in self.case.modifiers or self.case.crime_type in ["Fraud", "Money Laundering"]:
-            if random.random() < 0.7:  # 70% chance
-                doc = self.multi_format_gen.generate_spreadsheet_data_document(
-                    'financial',
-                    {'date': self.crime_datetime.strftime('%Y-%m-%d')}
-                )
-                self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+        """Generate a ransom note."""
+        phrases = [
+            "We have {victim}. Do not contact police.",
+            "If you want {victim} back alive, follow instructions exactly.",
+            "Place {amount} in unmarked bills.",
+            "Wait for further instructions.",
+            "Tell no one or {victim} dies.",
+            "You have {hours} hours."
+        ]
         
-        # Evidence log spreadsheet (actual evidence data)
-        if len(self.case.evidence) > 5 and random.random() < 0.5:  # 50% chance if many evidence items
-            doc = self.multi_format_gen.generate_spreadsheet_data_document(
-                'evidence_log',
-                {'date': self.crime_datetime.strftime('%Y-%m-%d')}
-            )
-            self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+        note = "RANSOM NOTE\n"
+        note += "=" * 50 + "\n\n"
         
-        # Phone records spreadsheet (if phone data modifier)
-        if "Phone data pull" in self.case.modifiers and random.random() < 0.6:  # 60% chance
-            doc = self.multi_format_gen.generate_spreadsheet_data_document(
-                'phone_records',
-                {'date': self.crime_datetime.strftime('%Y-%m-%d')}
+        num_phrases = random.randint(3, 6)
+        selected_phrases = random.sample(phrases, num_phrases)
+        
+        for phrase in selected_phrases:
+            text = phrase.format(
+                victim=random.choice(["him", "her", "them", "the package"]),
+                amount=f"${random.randint(10000, 500000)}",
+                hours=random.randint(24, 72)
             )
-            self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+            
+            # Add handwritten-style variations
+            if random.random() < 0.3:
+                text = text.upper()
+            elif random.random() < 0.2:
+                text = text.lower()
+            
+            note += text + "\n"
+        
+        note += "\n" + "=" * 50 + "\n"
+        note += f"[Note recovered: {datetime.now().strftime('%Y-%m-%d')}]\n"
+        note += "[Handwriting analysis pending]\n"
+        
+        self.case.documents.append(note)
 
     # --- REALISTIC ERROR HANDLING ---
     
