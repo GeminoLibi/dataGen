@@ -37,6 +37,7 @@ def main():
         
         num_cases = IntPrompt.ask("How many related cases to generate?", default=5)
         complexity = Prompt.ask("Select [bold yellow]Complexity[/bold yellow]", choices=["Low", "Medium", "High"], default="Medium")
+        console.print("[dim]Note: Selecting 'Unknown' provides additional identification clarity options.[/dim]")
         subject_status = Prompt.ask("Select [bold cyan]Subject Status[/bold cyan]", choices=["Known", "Unknown", "Partially Known"], default="Known")
 
         # Subject identification clarity for unknown cases
@@ -146,7 +147,8 @@ def main():
     complexity = Prompt.ask("Select [bold yellow]Complexity[/bold yellow]", choices=["Low", "Medium", "High"], default="Medium")
     
     # Subject status (known vs unknown)
-    subject_status = Prompt.ask("Select [bold cyan]Subject Status[/bold cyan]", choices=["Known", "Unknown", "Partially Known"], default="Known")
+    console.print("[dim]Note: Selecting 'Unknown' provides additional identification clarity options.[/dim]")
+    subject_status = Prompt.ask("Select [bold cyan]Subject Status[/bold cyan]", choices=["Known", "Unknown", "Partially Known"], default="Unknown")
 
     # Subject identification clarity for unknown cases
     subject_clarity = None
