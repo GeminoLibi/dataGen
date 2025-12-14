@@ -445,13 +445,13 @@ class TrendGenerator:
             
             if pattern == "suspect" and random.random() < 0.6:
                 case = self._generate_related_case(
-                    crime_type, complexity, modifiers, subject_status,
+                    crime_type, complexity, modifiers, subject_status, subject_clarity,
                     shared_suspect=shared_suspect, crime_date=crime_date, case_number=i + 1
                 )
                 self.trend_registry.add_shared_suspect(shared_suspect, [case.id])
             elif pattern == "victim" and random.random() < 0.5:
                 case = self._generate_related_case(
-                    crime_type, complexity, modifiers, subject_status,
+                    crime_type, complexity, modifiers, subject_status, subject_clarity,
                     shared_victim=shared_victim, crime_date=crime_date, case_number=i + 1
                 )
                 # Accumulate case IDs
@@ -463,12 +463,12 @@ class TrendGenerator:
                     self.trend_registry.add_shared_victim(shared_victim, [case.id])
             elif pattern == "location":
                 case = self._generate_related_case(
-                    crime_type, complexity, modifiers, subject_status,
+                    crime_type, complexity, modifiers, subject_status, subject_clarity,
                     fixed_location=shared_location, crime_date=crime_date, case_number=i + 1
                 )
             else:
                 case = self._generate_related_case(
-                    crime_type, complexity, modifiers, subject_status,
+                    crime_type, complexity, modifiers, subject_status, subject_clarity,
                     crime_date=crime_date, case_number=i + 1
                 )
             
@@ -551,8 +551,8 @@ class TrendGenerator:
         modifiers: List[str],
         subject_status: str,
         subject_clarity: str = None,
-        crime_date: datetime,
-        case_number: int,
+        crime_date: datetime = None,
+        case_number: int = 1,
         shared_suspect: Optional[Person] = None,
         shared_suspects: Optional[List[Person]] = None,
         shared_victim: Optional[Person] = None,
