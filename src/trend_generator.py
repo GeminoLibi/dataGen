@@ -3,11 +3,45 @@ Trend Generator - Creates multiple related cases with shared entities and relati
 """
 from datetime import datetime, timedelta
 import random
+import hashlib
+import string
 from typing import List, Dict, Optional, Tuple
 
 from .models import Case, Person, Role, Vehicle, DigitalDevice
 from .generators import CaseGenerator
 from .utils import generate_person, generate_vehicle, generate_device, geo_mgr, fake
+
+
+def generate_trend_id(suspect_name: str, event_date: datetime) -> str:
+    """
+    Generate a unique 12-character alphanumeric trend ID based on suspect name and event date.
+    
+    Args:
+        suspect_name: Name of the primary suspect
+        event_date: Date of the first event in the trend
+        
+    Returns:
+        12-character alphanumeric string (e.g., "TREND-A3B7C9D2E1F4")
+    """
+    # Create a hash from suspect name and event date
+    date_str = event_date.strftime("%Y%m%d%H%M%S")
+    combined = f"{suspect_name}{date_str}".encode('utf-8')
+    hash_obj = hashlib.sha256(combined)
+    hash_hex = hash_obj.hexdigest()
+    
+    # Convert to alphanumeric (remove non-alphanumeric, take first 12 chars)
+    # Use uppercase letters and digits
+    alphanumeric = ''.join(c for c in hash_hex if c.isalnum())[:12].upper()
+    
+    # Ensure we have exactly 12 characters (pad if needed, or take more if hash is shorter)
+    if len(alphanumeric) < 12:
+        # Pad with random alphanumeric characters
+        while len(alphanumeric) < 12:
+            alphanumeric += random.choice(string.ascii_uppercase + string.digits)
+    else:
+        alphanumeric = alphanumeric[:12]
+    
+    return f"TREND-{alphanumeric}"
 
 
 class TrendRegistry:
@@ -143,12 +177,7 @@ class TrendGenerator:
             subject_status: Known/Unknown/Partially Known
             identification_status: Identified (known links) or Unidentified (hidden links)
         """
-        trend_id = f"TREND-{random.randint(100000, 999999)}"
-        self.trend_registry = TrendRegistry(trend_id)
-        self.trend_registry.trend_type = trend_type
-        self.identification_status = identification_status
-        
-        # Generate cases based on trend type
+        # Generate cases first (we'll create trend ID based on first case)
         trend_generators = {
             "Serial Offender": self._generate_serial_offender_trend,
             "Organized Crime": self._generate_organized_crime_trend,
@@ -160,6 +189,35 @@ class TrendGenerator:
         
         generator = trend_generators.get(trend_type, self._generate_mixed_trend)
         cases = generator(num_cases, base_complexity, base_modifiers, subject_status, subject_clarity, crime_types)
+        
+        # Generate trend ID based on first case's suspect and event date
+        if cases:
+            first_case = cases[0]
+            # Get suspect name (or "UNKNOWN" if no suspect)
+            suspect_name = "UNKNOWN"
+            event_date = datetime.now()
+            
+            # Find suspect in first case
+            for person in first_case.persons:
+                if person.role == Role.SUSPECT:
+                    suspect_name = person.full_name
+                    break
+            
+            # Get event date from incident report or use case date
+            if first_case.incident_report and first_case.incident_report.incident_date:
+                event_date = first_case.incident_report.incident_date
+            else:
+                event_date = first_case.date_opened
+            
+            trend_id = generate_trend_id(suspect_name, event_date)
+        else:
+            # Fallback if no cases generated
+            trend_id = generate_trend_id("UNKNOWN", datetime.now())
+        
+        # Create registry with generated ID
+        self.trend_registry = TrendRegistry(trend_id)
+        self.trend_registry.trend_type = trend_type
+        self.identification_status = identification_status
         
         # Generate master investigation file (only for Identified trends)
         if identification_status == "Identified":

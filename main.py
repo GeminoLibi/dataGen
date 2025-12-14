@@ -170,11 +170,12 @@ def main():
             console.clear()
             console.print(Panel(f"[bold]{trend_type} Trend[/bold]\nTrend ID: {registry.trend_id}\nCases Generated: {len(cases)}", title="Trend Generation Complete", border_style="blue"))
             
-            # Export all cases to trend folder
+            # Export all cases to trend folder (using trend ID)
             export_paths = []
+            trend_folder = f"cases/{registry.trend_id}"
             for i, case in enumerate(cases, 1):
                 try:
-                    export_path = CaseExporter.export(case, base_path="cases/trend")
+                    export_path = CaseExporter.export(case, base_path=trend_folder)
                     export_paths.append(export_path)
                 except Exception as e:
                     console.print(f"[yellow]Warning: Failed to export case {i}: {e}[/yellow]")
