@@ -13,9 +13,30 @@ def main():
     console.print(Panel.fit("[bold blue]Law Enforcement Case Generator[/bold blue]", subtitle="Procedural Generation System"))
     
     # Ask if user wants single case or trend
-    generation_type = Prompt.ask("\n[bold]Generation Type[/bold]", choices=["Single Case", "Trend (Multiple Related Cases)"], default="Single Case")
+    generation_types = {
+        "1": "Single Case",
+        "2": "Trend (Multiple Related Cases)"
+    }
+
+    console.print("\n[bold]Generation Type:[/bold]")
+    for key, gen_type in generation_types.items():
+        console.print(f"{key}. {gen_type}")
+
+    generation_choice = Prompt.ask("\nSelect [bold blue]Generation Type[/bold blue] (1-2)", default="1")
+
+    if generation_choice in generation_types:
+        generation_type = generation_types[generation_choice]
+    else:
+        # Handle direct input (e.g., if they type "Single Case")
+        for key, gen_type in generation_types.items():
+            if generation_choice.lower() == gen_type.lower():
+                generation_type = gen_type
+                break
+        else:
+            # Default fallback
+            generation_type = generation_types["1"]
     
-    if generation_type == "Trend (Multiple Related Cases)":
+    if generation_type == generation_types["2"]:
         from src.trend_generator import TrendGenerator
         from src.exporter import CaseExporter
         
@@ -36,9 +57,23 @@ def main():
         trend_type = trend_types.get(trend_choice, "Serial Offender")
         
         num_cases = IntPrompt.ask("How many related cases to generate?", default=5)
-        complexity = Prompt.ask("Select [bold yellow]Complexity[/bold yellow]", choices=["Low", "Medium", "High"], default="Medium")
+
+        # Complexity selection for trend
+        console.print("\n[bold]Complexity Level:[/bold]")
+        for key, comp in complexities.items():
+            console.print(f"{key}. {comp}")
+
+        complexity_choice = Prompt.ask("\nSelect [bold yellow]Complexity[/bold yellow] (1-3)", default="2")
+        complexity = complexities.get(complexity_choice, complexities["2"])
+
+        # Subject status for trend
+        console.print("\n[bold]Subject Status:[/bold]")
         console.print("[dim]Note: Selecting 'Unknown' provides additional identification clarity options.[/dim]")
-        subject_status = Prompt.ask("Select [bold cyan]Subject Status[/bold cyan]", choices=["Known", "Unknown", "Partially Known"], default="Known")
+        for key, status in subject_statuses.items():
+            console.print(f"{key}. {status}")
+
+        subject_choice = Prompt.ask("\nSelect [bold cyan]Subject Status[/bold cyan] (1-3)", default="1")
+        subject_status = subject_statuses.get(subject_choice, subject_statuses["1"])
 
         # Subject identification clarity for unknown cases
         subject_clarity = None
@@ -144,11 +179,34 @@ def main():
             # Default fallback
             crime_type = crime_types["1"]
 
-    complexity = Prompt.ask("Select [bold yellow]Complexity[/bold yellow]", choices=["Low", "Medium", "High"], default="Medium")
-    
+    # Complexity selection
+    complexities = {
+        "1": "Low",
+        "2": "Medium",
+        "3": "High"
+    }
+
+    console.print("\n[bold]Complexity Level:[/bold]")
+    for key, comp in complexities.items():
+        console.print(f"{key}. {comp}")
+
+    complexity_choice = Prompt.ask("\nSelect [bold yellow]Complexity[/bold yellow] (1-3)", default="2")
+    complexity = complexities.get(complexity_choice, complexities["2"])
+
     # Subject status (known vs unknown)
+    subject_statuses = {
+        "1": "Known",
+        "2": "Unknown",
+        "3": "Partially Known"
+    }
+
+    console.print("\n[bold]Subject Status:[/bold]")
     console.print("[dim]Note: Selecting 'Unknown' provides additional identification clarity options.[/dim]")
-    subject_status = Prompt.ask("Select [bold cyan]Subject Status[/bold cyan]", choices=["Known", "Unknown", "Partially Known"], default="Unknown")
+    for key, status in subject_statuses.items():
+        console.print(f"{key}. {status}")
+
+    subject_choice = Prompt.ask("\nSelect [bold cyan]Subject Status[/bold cyan] (1-3)", default="2")
+    subject_status = subject_statuses.get(subject_choice, subject_statuses["2"])
 
     # Subject identification clarity for unknown cases
     subject_clarity = None
