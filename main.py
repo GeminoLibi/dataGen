@@ -67,7 +67,7 @@ def main():
         for key, trend in trend_types.items():
             console.print(f"{key}. {trend}")
         
-        trend_choice = Prompt.ask("\nSelect [bold red]Trend Type[/bold red]", default="1")
+        trend_choice = Prompt.ask("\nSelect [bold red]Trend Type[/bold red] (1-6)", default="1")
         trend_type = trend_types.get(trend_choice, "Serial Offender")
         
         # Crime type selection for trend
@@ -75,7 +75,7 @@ def main():
         for key, crime in CRIME_TYPES.items():
             console.print(f"{key}. {crime}")
         
-        crime_type_input = Prompt.ask("\nSelect crime type(s) (comma-separated numbers, or leave empty for variety)", default="")
+        crime_type_input = Prompt.ask("\nSelect crime type(s) (comma-separated numbers 1-12, or leave empty for variety)", default="")
         
         selected_crime_types = []
         if crime_type_input.strip():
@@ -109,17 +109,29 @@ def main():
         subject_status = subject_statuses.get(subject_choice, subject_statuses["1"])
 
         # Subject identification clarity (applies to all cases)
+        clarity_options = {
+            "1": "Embedded",
+            "2": "Investigative"
+        }
         console.print("\n[bold magenta]Subject Identification Approach:[/bold magenta]")
-        for key, desc in SUBJECT_CLARITY_OPTIONS.items():
-            console.print(f"[cyan]{key}[/cyan]: {desc}")
-        subject_clarity = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta]",
-                                   choices=list(SUBJECT_CLARITY_OPTIONS.keys()), default="Embedded")
+        for key, clarity_key in clarity_options.items():
+            desc = SUBJECT_CLARITY_OPTIONS[clarity_key]
+            console.print(f"{key}. {clarity_key}: {desc}")
+        
+        clarity_choice = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta] (1-2)", default="1")
+        subject_clarity = clarity_options.get(clarity_choice, clarity_options["1"])
 
-        identification_status = Prompt.ask(
-            "\n[bold magenta]Identification Status[/bold magenta]",
-            choices=["Identified", "Unidentified"],
-            default="Identified"
-        )
+        # Identification Status
+        identification_options = {
+            "1": "Identified",
+            "2": "Unidentified"
+        }
+        console.print("\n[bold magenta]Identification Status:[/bold magenta]")
+        for key, status in identification_options.items():
+            console.print(f"{key}. {status}")
+        
+        identification_choice = Prompt.ask("\nSelect [bold magenta]Identification Status[/bold magenta] (1-2)", default="1")
+        identification_status = identification_options.get(identification_choice, identification_options["1"])
         
         if identification_status == "Identified":
             console.print("[yellow]Identified: Cases are known to be linked, but connections need to be proven.[/yellow]")
@@ -190,40 +202,27 @@ def main():
             console.print(f"[dim]{traceback.format_exc()}[/dim]")
             return
 
-    # Predefined crime types for onboarding
-    crime_types = {
-        "1": "Homicide",
-        "2": "Assault",
-        "3": "Robbery",
-        "4": "Burglary",
-        "5": "Theft",
-        "6": "Fraud",
-        "7": "Drug Possession",
-        "8": "Domestic Violence",
-        "9": "Stalking",
-        "10": "Arson"
-    }
-
+    # Use CRIME_TYPES from config (includes all 12 types)
     console.print("\n[bold]Available Crime Types:[/bold]")
-    for key, crime in crime_types.items():
+    for key, crime in CRIME_TYPES.items():
         console.print(f"{key}. {crime}")
 
-    crime_choice = Prompt.ask("\nSelect [bold red]Crime Type[/bold red] (number or name)", default="1")
+    crime_choice = Prompt.ask("\nSelect [bold red]Crime Type[/bold red] (1-12)", default="1")
 
     # Handle both number and name input
-    if crime_choice in crime_types:
-        crime_type = crime_types[crime_choice]
-    elif crime_choice.isdigit() and crime_choice in crime_types:
-        crime_type = crime_types[crime_choice]
+    if crime_choice in CRIME_TYPES:
+        crime_type = CRIME_TYPES[crime_choice]
+    elif crime_choice.isdigit() and crime_choice in CRIME_TYPES:
+        crime_type = CRIME_TYPES[crime_choice]
     else:
         # Check if they typed the crime name directly
-        for key, crime in crime_types.items():
+        for key, crime in CRIME_TYPES.items():
             if crime_choice.lower() == crime.lower():
                 crime_type = crime
                 break
         else:
             # Default fallback
-            crime_type = crime_types["1"]
+            crime_type = CRIME_TYPES["1"]
 
     # Complexity selection
     console.print("\n[bold]Complexity Level:[/bold]")
@@ -242,11 +241,17 @@ def main():
     subject_status = subject_statuses.get(subject_choice, subject_statuses["2"])
 
     # Subject identification approach (applies to all cases)
+    clarity_options = {
+        "1": "Embedded",
+        "2": "Investigative"
+    }
     console.print("\n[bold magenta]Subject Identification Approach:[/bold magenta]")
-    for key, desc in SUBJECT_CLARITY_OPTIONS.items():
-        console.print(f"[cyan]{key}[/cyan]: {desc}")
-    subject_clarity = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta]",
-                               choices=list(SUBJECT_CLARITY_OPTIONS.keys()), default="Embedded")
+    for key, clarity_key in clarity_options.items():
+        desc = SUBJECT_CLARITY_OPTIONS[clarity_key]
+        console.print(f"{key}. {clarity_key}: {desc}")
+    
+    clarity_choice = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta] (1-2)", default="1")
+    subject_clarity = clarity_options.get(clarity_choice, clarity_options["1"])
 
     # Available modifiers with descriptions
     modifier_options = {

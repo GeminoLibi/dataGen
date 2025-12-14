@@ -288,31 +288,38 @@ def generate_error_message(event_type: EventType, severity: ErrorSeverity,
     template = random.choice(templates)
     
     # Fill in template variables
+    defaults = {
+        'date': 'unknown',
+        'actual_date': datetime.now().strftime('%Y-%m-%d'),
+        'page': random.randint(1, 10),
+        'section': 'unknown',
+        'word': 'unknown',
+        'badge': 'unknown',
+        'line': random.randint(1, 50),
+        'percentage': random.randint(20, 80),
+        'items': random.randint(1, 10),
+        'hours': random.randint(1, 24),
+        'days': random.randint(1, 7),
+        'event': random.choice(['accident', 'incident', 'system failure', 'human error']),
+        'evidence_id': f"EVID-{random.randint(1000, 9999)}",
+        'doc_id': f"DOC-{random.randint(1000, 9999)}",
+        'other_case': f"CASE-{random.randint(100000, 999999)}",
+        'location': 'unknown',
+        'count': random.randint(2, 5),
+        'start': random.randint(1, 10),
+        'end': random.randint(11, 20),
+        'correct_date': datetime.now().strftime('%Y-%m-%d'),
+        'correct_word': 'unknown',
+        'correct_badge': f"{random.randint(1000, 9999)}"
+    }
+    # Merge defaults with provided context (context overrides defaults)
+    merged_context = {**defaults, **context}
+    
     try:
-        return template.format(**context)
-    except KeyError:
-        # If context missing, use template as-is or with defaults
-        defaults = {
-            'date': 'unknown',
-            'actual_date': datetime.now().strftime('%Y-%m-%d'),
-            'page': random.randint(1, 10),
-            'section': 'unknown',
-            'word': 'unknown',
-            'badge': 'unknown',
-            'line': random.randint(1, 50),
-            'percentage': random.randint(20, 80),
-            'items': random.randint(1, 10),
-            'hours': random.randint(1, 24),
-            'days': random.randint(1, 7),
-            'event': random.choice(['accident', 'incident', 'system failure', 'human error']),
-            'evidence_id': f"EVID-{random.randint(1000, 9999)}",
-            'doc_id': f"DOC-{random.randint(1000, 9999)}",
-            'other_case': f"CASE-{random.randint(100000, 999999)}",
-            'location': 'unknown',
-            'count': random.randint(2, 5)
-        }
-        defaults.update(context)
-        return template.format(**defaults)
+        return template.format(**merged_context)
+    except KeyError as e:
+        # If still missing keys, return template with error note
+        return f"{template} [ERROR: Missing variable {e}]"
 
 
 class RealisticErrorGenerator:
