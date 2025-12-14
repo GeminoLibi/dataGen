@@ -138,25 +138,38 @@ def main():
         
         console.print(f"\n[green]Generating trend: {trend_type} with {num_cases} cases...[/green]")
         
-        with console.status("Processing trend generation...", spinner="dots"):
-            trend_gen = TrendGenerator()
-            cases, registry = trend_gen.generate_trend(trend_type, num_cases, complexity, final_modifiers, subject_status, subject_clarity, identification_status)
-        
-        console.clear()
-        console.print(Panel(f"[bold]{trend_type} Trend[/bold]\nTrend ID: {registry.trend_id}\nCases Generated: {len(cases)}", title="Trend Generation Complete", border_style="blue"))
-        
-        # Export all cases
-        export_paths = []
-        for case in cases:
-            export_path = CaseExporter.export(case)
-            export_paths.append(export_path)
-        
-        console.print(f"\n[bold blue]All cases exported to:[/bold blue]")
-        for path in export_paths:
-            console.print(f"  - {path}")
-        
-        console.print(f"\n[bold green]Trend Generation Complete. Master investigation file included.[/bold green]")
-        return
+        try:
+            with console.status("Processing trend generation...", spinner="dots"):
+                trend_gen = TrendGenerator()
+                cases, registry = trend_gen.generate_trend(trend_type, num_cases, complexity, final_modifiers, subject_status, subject_clarity, identification_status)
+            
+            if not cases:
+                console.print("[red]Error: No cases were generated.[/red]")
+                return
+            
+            console.clear()
+            console.print(Panel(f"[bold]{trend_type} Trend[/bold]\nTrend ID: {registry.trend_id}\nCases Generated: {len(cases)}", title="Trend Generation Complete", border_style="blue"))
+            
+            # Export all cases to trend folder
+            export_paths = []
+            for i, case in enumerate(cases, 1):
+                try:
+                    export_path = CaseExporter.export(case, base_path="cases/trend")
+                    export_paths.append(export_path)
+                except Exception as e:
+                    console.print(f"[yellow]Warning: Failed to export case {i}: {e}[/yellow]")
+            
+            if export_paths:
+                console.print(f"\n[bold blue]All cases exported to:[/bold blue]")
+                for path in export_paths:
+                    console.print(f"  - {path}")
+            
+            console.print(f"\n[bold green]Trend Generation Complete. Master investigation file included.[/bold green]")
+        except Exception as e:
+            console.print(f"[red]Error during trend generation:[/red] {str(e)}")
+            import traceback
+            console.print(f"[dim]{traceback.format_exc()}[/dim]")
+            return
 
     # Predefined crime types for onboarding
     crime_types = {
@@ -253,13 +266,23 @@ def main():
 
     console.print(f"\n[green]Generating case for {crime_type} (Complexity: {complexity}, Subjects: {subject_status})...[/green]")
     
-    with console.status("Processing procedural generation...", spinner="dots"):
-        generator = CaseGenerator()
-        case = generator.generate_case(crime_type, complexity, final_modifiers, subject_status=subject_status, subject_clarity=subject_clarity)
-
-    # Output
-    console.clear()
-    console.print(Panel(f"[bold]{case.title}[/bold]\nID: {case.id}\nStatus: {case.status}", title="Case Briefing", border_style="blue"))
+    try:
+        with console.status("Processing procedural generation...", spinner="dots"):
+            generator = CaseGenerator()
+            case = generator.generate_case(crime_type, complexity, final_modifiers, subject_status=subject_status, subject_clarity=subject_clarity)
+        
+        if not case:
+            console.print("[red]Error: Case generation failed.[/red]")
+            return
+        
+        # Output
+        console.clear()
+        console.print(Panel(f"[bold]{case.title}[/bold]\nID: {case.id}\nStatus: {case.status}", title="Case Briefing", border_style="blue"))
+    except Exception as e:
+        console.print(f"[red]Error during case generation:[/red] {str(e)}")
+        import traceback
+        console.print(f"[dim]{traceback.format_exc()}[/dim]")
+        return
     
     # People Table
     table = Table(title="Involved Persons")
@@ -300,6 +323,12 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        console.print("\n[red]Generation cancelled.[/red]")
+        console.print("\n[yellow]Generation cancelled by user.[/yellow]")
         sys.exit(0)
+    except Exception as e:
+        console.print(f"\n[red]Error:[/red] {str(e)}")
+        console.print("[dim]Please report this error if it persists.[/dim]")
+        import traceback
+        console.print(f"\n[dim]{traceback.format_exc()}[/dim]")
+        sys.exit(1)
 
