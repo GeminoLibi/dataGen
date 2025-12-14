@@ -10,6 +10,27 @@ console = Console()
 
 class CaseExporter:
     @staticmethod
+    def _get_case_suffix(case_id: str) -> str:
+        """Extract last 4 digits from case ID (e.g., CASE-414373 -> 4373)."""
+        # Extract digits from case ID
+        digits = ''.join(filter(str.isdigit, case_id))
+        if len(digits) >= 4:
+            return digits[-4:]
+        # Fallback: use all digits if less than 4
+        return digits.zfill(4) if digits else "0000"
+    
+    @staticmethod
+    def _append_case_suffix(filename: str, case_id: str) -> str:
+        """Append case suffix to filename before extension."""
+        suffix = CaseExporter._get_case_suffix(case_id)
+        # Split filename and extension
+        if '.' in filename:
+            name, ext = filename.rsplit('.', 1)
+            return f"{name}_{suffix}.{ext}"
+        else:
+            return f"{filename}_{suffix}"
+    
+    @staticmethod
     def export(case: Case, base_path: str = "cases"):
         # Create case directory
         case_dir = os.path.join(base_path, case.id)
@@ -74,6 +95,17 @@ class CaseExporter:
             # Detect file type and generate appropriate file
             doc_lower = doc.lower()
             
+            # Helper function to get base filename without extension
+            def get_base_filename(fname: str) -> str:
+                """Get filename without extension."""
+                if '.' in fname:
+                    return fname.rsplit('.', 1)[0]
+                return fname
+            
+            # Get base filename and append case suffix
+            base_filename = get_base_filename(filename)
+            suffix = CaseExporter._get_case_suffix(case.id)
+            
             # Financial records - generate as XLSX
             if "financial records" in doc_lower and "csv data" in doc_lower:
                 try:
@@ -88,7 +120,8 @@ class CaseExporter:
                             if len(rows) > 1:
                                 headers = rows[0]
                                 data = rows[1:]
-                                file_gen.generate_xlsx(data, headers, f"{filename}.xlsx")
+                                xlsx_filename = f"{base_filename}_{suffix}.xlsx"
+                                file_gen.generate_xlsx(data, headers, xlsx_filename)
                                 continue
                 except Exception as e:
                     console.print(f"[yellow]Warning: Could not generate XLSX for financial records: {e}[/yellow]")
@@ -108,7 +141,8 @@ class CaseExporter:
                             if len(rows) > 1:
                                 headers = rows[0]
                                 data = rows[1:]
-                                file_gen.generate_xlsx(data, headers, f"{filename}.xlsx")
+                                xlsx_filename = f"{base_filename}_{suffix}.xlsx"
+                                file_gen.generate_xlsx(data, headers, xlsx_filename)
                                 continue
                 except Exception as e:
                     console.print(f"[yellow]Warning: Could not generate XLSX for evidence log: {e}[/yellow]")
@@ -126,7 +160,8 @@ class CaseExporter:
                             if len(rows) > 1:
                                 headers = rows[0]
                                 data = rows[1:]
-                                file_gen.generate_xlsx(data, headers, f"{filename}.xlsx")
+                                xlsx_filename = f"{base_filename}_{suffix}.xlsx"
+                                file_gen.generate_xlsx(data, headers, xlsx_filename)
                                 continue
                 except Exception as e:
                     console.print(f"[yellow]Warning: Could not generate XLSX for phone records: {e}[/yellow]")
@@ -134,7 +169,8 @@ class CaseExporter:
             # Incident reports - generate as PDF
             if "incident report" in doc_lower:
                 try:
-                    file_gen.generate_incident_report_pdf(doc)
+                    pdf_filename = f"{base_filename}_{suffix}.pdf"
+                    file_gen.generate_pdf(doc, pdf_filename)
                     continue
                 except:
                     pass
@@ -142,18 +178,21 @@ class CaseExporter:
             # Memos - generate as DOCX
             if "memo" in doc_lower or "department memo" in doc_lower:
                 try:
-                    file_gen.generate_memo_docx(doc)
+                    docx_filename = f"{base_filename}_{suffix}.docx"
+                    file_gen.generate_docx(doc, docx_filename)
                     continue
                 except:
                     pass
             
             # Ransom notes - keep as TXT (handwritten style)
             if "ransom note" in doc_lower:
-                file_gen.generate_ransom_note_txt(doc)
+                txt_filename = f"{base_filename}_{suffix}.txt"
+                file_gen.generate_txt(doc, txt_filename)
                 continue
             
             # Default: write as text file
-            with open(os.path.join(docs_dir, f"{filename}.txt"), "w", encoding="utf-8") as f:
+            txt_filename = f"{base_filename}_{suffix}.txt"
+            with open(os.path.join(docs_dir, txt_filename), "w", encoding="utf-8") as f:
                 f.write(doc)
                 
         return case_dir
