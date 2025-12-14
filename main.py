@@ -186,6 +186,7 @@ def main():
                     console.print(f"  - {path}")
             
             console.print(f"\n[bold green]Trend Generation Complete. Master investigation file included.[/bold green]")
+            return  # Exit after successful trend generation
         except Exception as e:
             console.print(f"[red]Error during trend generation:[/red] {str(e)}")
             import traceback
