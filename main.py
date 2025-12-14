@@ -12,11 +12,25 @@ console = Console()
 def main():
     console.print(Panel.fit("[bold blue]Law Enforcement Case Generator[/bold blue]", subtitle="Procedural Generation System"))
     
-    # Ask if user wants single case or trend
+    # Define common option dictionaries (used by both single case and trend workflows)
     generation_types = {
         "1": "Single Case",
         "2": "Trend (Multiple Related Cases)"
     }
+
+    complexities = {
+        "1": "Low",
+        "2": "Medium",
+        "3": "High"
+    }
+
+    subject_statuses = {
+        "1": "Known",
+        "2": "Unknown",
+        "3": "Partially Known"
+    }
+    
+    # Ask if user wants single case or trend
 
     console.print("\n[bold]Generation Type:[/bold]")
     for key, gen_type in generation_types.items():
@@ -180,12 +194,6 @@ def main():
             crime_type = crime_types["1"]
 
     # Complexity selection
-    complexities = {
-        "1": "Low",
-        "2": "Medium",
-        "3": "High"
-    }
-
     console.print("\n[bold]Complexity Level:[/bold]")
     for key, comp in complexities.items():
         console.print(f"{key}. {comp}")
@@ -194,12 +202,6 @@ def main():
     complexity = complexities.get(complexity_choice, complexities["2"])
 
     # Subject status (known vs unknown)
-    subject_statuses = {
-        "1": "Known",
-        "2": "Unknown",
-        "3": "Partially Known"
-    }
-
     console.print("\n[bold]Subject Status:[/bold]")
     console.print("[dim]Note: Selecting 'Unknown' provides additional identification clarity options.[/dim]")
     for key, status in subject_statuses.items():
