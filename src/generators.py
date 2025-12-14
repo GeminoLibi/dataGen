@@ -3036,44 +3036,36 @@ Date: {wreck_time.strftime('%Y-%m-%d %H:%M:%S')}
     # --- MULTI-FORMAT DOCUMENT GENERATION ---
     
     def _generate_image_descriptions(self):
-        """Generate image descriptions (as from vision AI) for crime scene photos, CCTV stills, etc."""
-        # Crime scene photos
-        if random.random() < 0.7:  # 70% chance
-            num_photos = random.randint(2, 5)
-            for i in range(num_photos):
-                doc = self.multi_format_gen.generate_image_description_document(
-                    'crime_scene',
-                    {'date': self.crime_datetime.strftime('%Y-%m-%d %H:%M')}
-                )
+        """Generate OCR text extraction from images (only when useful - license plates, evidence markings, etc.)."""
+        # CCTV stills with license plates (useful OCR)
+        if random.random() < 0.4:  # 40% chance
+            doc = self.multi_format_gen.generate_image_ocr_document(
+                'cctv_still',
+                {
+                    'timestamp': (self.crime_datetime + timedelta(minutes=random.randint(-30, 30))).strftime('%Y-%m-%d %H:%M:%S'),
+                    'camera': random.choice(['Camera 01 - Main Entrance', 'Camera 02 - Parking Lot', 'Camera 03 - Side Alley']),
+                    'date': self.crime_datetime.strftime('%Y-%m-%d')
+                }
+            )
+            if doc:  # Only add if OCR was generated
                 self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
         
-        # CCTV stills
-        if random.random() < 0.6:  # 60% chance
-            num_stills = random.randint(1, 3)
-            for i in range(num_stills):
-                doc = self.multi_format_gen.generate_image_description_document(
-                    'cctv_still',
-                    {
-                        'timestamp': (self.crime_datetime + timedelta(minutes=random.randint(-30, 30))).strftime('%Y-%m-%d %H:%M:%S'),
-                        'camera': random.choice(['Camera 01 - Main Entrance', 'Camera 02 - Parking Lot', 'Camera 03 - Side Alley'])
-                    }
-                )
-                self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
-        
-        # Evidence photos
+        # Evidence photos with markings (useful OCR)
         if self.case.evidence:
-            num_evidence_photos = min(random.randint(1, 3), len(self.case.evidence))
-            selected_evidence = random.sample(self.case.evidence, num_evidence_photos)
-            for evidence in selected_evidence:
-                doc = self.multi_format_gen.generate_image_description_document(
-                    'evidence_photo',
-                    {
-                        'evidence_id': evidence.id,
-                        'evidence_type': evidence.type.value,
-                        'date': self.crime_datetime.strftime('%Y-%m-%d')
-                    }
-                )
-                self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+            num_evidence_photos = min(random.randint(0, 2), len(self.case.evidence))  # Fewer, only when useful
+            if num_evidence_photos > 0:
+                selected_evidence = random.sample(self.case.evidence, num_evidence_photos)
+                for evidence in selected_evidence:
+                    doc = self.multi_format_gen.generate_image_ocr_document(
+                        'evidence_photo',
+                        {
+                            'evidence_id': evidence.id,
+                            'evidence_type': evidence.type.value,
+                            'date': self.crime_datetime.strftime('%Y-%m-%d')
+                        }
+                    )
+                    if doc:  # Only add if OCR was generated
+                        self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
     
     def _generate_audio_transcripts(self):
         """Generate audio transcript descriptions for 911 calls, wiretaps, interviews."""
@@ -3095,18 +3087,18 @@ Date: {wreck_time.strftime('%Y-%m-%d %H:%M:%S')}
                 self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
     
     def _generate_video_descriptions(self):
-        """Generate video descriptions for CCTV footage, body cam footage."""
-        # CCTV video description
-        if random.random() < 0.6:  # 60% chance
-            doc = self.multi_format_gen.generate_video_description_document(
+        """Generate actual video transcripts/analysis (useful content)."""
+        # CCTV video transcript with timeline
+        if random.random() < 0.5:  # 50% chance
+            doc = self.multi_format_gen.generate_video_transcript_document(
                 'cctv',
                 {'date': self.crime_datetime.strftime('%Y-%m-%d')}
             )
             self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
         
-        # Body cam footage (if officers involved)
-        if self.case.reporting_officer and random.random() < 0.5:  # 50% chance
-            doc = self.multi_format_gen.generate_video_description_document(
+        # Body cam footage transcript (if officers involved)
+        if self.case.reporting_officer and random.random() < 0.4:  # 40% chance
+            doc = self.multi_format_gen.generate_video_transcript_document(
                 'body_cam',
                 {
                     'officer': self.case.reporting_officer.full_name,
@@ -3122,18 +3114,28 @@ Date: {wreck_time.strftime('%Y-%m-%d %H:%M:%S')}
             self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
     
     def _generate_spreadsheet_descriptions(self):
-        """Generate spreadsheet data descriptions (for financial records, evidence logs, etc.)."""
-        # Financial records spreadsheet
+        """Generate actual spreadsheet/CSV data (useful content)."""
+        # Financial records spreadsheet (actual transaction data)
         if "Financial Records" in self.case.modifiers or self.case.crime_type in ["Fraud", "Money Laundering"]:
             if random.random() < 0.7:  # 70% chance
-                doc = self.multi_format_gen.generate_spreadsheet_description_document(
+                doc = self.multi_format_gen.generate_spreadsheet_data_document(
+                    'financial',
                     {'date': self.crime_datetime.strftime('%Y-%m-%d')}
                 )
                 self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
         
-        # Evidence log spreadsheet
+        # Evidence log spreadsheet (actual evidence data)
         if len(self.case.evidence) > 5 and random.random() < 0.5:  # 50% chance if many evidence items
-            doc = self.multi_format_gen.generate_spreadsheet_description_document(
+            doc = self.multi_format_gen.generate_spreadsheet_data_document(
+                'evidence_log',
+                {'date': self.crime_datetime.strftime('%Y-%m-%d')}
+            )
+            self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")
+        
+        # Phone records spreadsheet (if phone data modifier)
+        if "Phone data pull" in self.case.modifiers and random.random() < 0.6:  # 60% chance
+            doc = self.multi_format_gen.generate_spreadsheet_data_document(
+                'phone_records',
                 {'date': self.crime_datetime.strftime('%Y-%m-%d')}
             )
             self.case.documents.append(f"{doc['content']}\n\n[File: {doc['filename']} | Format: {doc['format'].upper()}]")

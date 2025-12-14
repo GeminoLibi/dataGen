@@ -7,7 +7,7 @@ to create more realistic case files with diverse file types.
 
 import random
 from typing import List, Dict, Optional, Tuple
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 from faker import Faker
 
@@ -130,242 +130,401 @@ def generate_ransom_note() -> str:
     return "\n".join(note_parts)
 
 
-def generate_image_description(image_type: str, context: Dict = None) -> str:
+def generate_image_ocr_extraction(image_type: str, context: Dict = None) -> str:
     """
-    Generate an image description as would be provided by vision AI to an LLM.
-    Simulates how vision models describe images.
+    Generate OCR text extraction from images - actual useful content.
+    Extracts text, license plates, addresses, etc. that would be found in images.
     """
     context = context or {}
     
-    if image_type == "crime_scene":
-        return f"""--- IMAGE DESCRIPTION (Vision AI Analysis) ---
-File: {context.get('filename', 'crime_scene_photo_001.jpg')}
-Format: {context.get('format', 'JPEG')}
-Resolution: {random.choice(['1920x1080', '3840x2160', '2560x1440'])}
-Date Captured: {context.get('date', datetime.now().strftime('%Y-%m-%d %H:%M'))}
-
-VISUAL DESCRIPTION:
-- Primary subject: {random.choice(['Crime scene', 'Evidence collection area', 'Victim location'])}
-- Lighting conditions: {random.choice(['Well-lit', 'Dim lighting', 'Flash photography', 'Natural daylight'])}
-- Image quality: {random.choice(['High resolution', 'Moderate quality', 'Slightly blurred', 'Clear'])}
-- Color composition: {random.choice(['Full color', 'Color with flash artifacts', 'Natural colors', 'Slightly overexposed'])}
-- Visible objects: {random.choice(['Evidence markers', 'Measuring tape', 'Evidence bags', 'Crime scene tape'])}
-- Background: {random.choice(['Residential interior', 'Outdoor location', 'Vehicle interior', 'Commercial building'])}
-- Notable features: {random.choice(['Blood spatter visible', 'Footprints in frame', 'Weapon visible', 'Multiple evidence markers'])}
-- Perspective: {random.choice(['Overhead view', 'Eye level', 'Low angle', 'Wide angle'])}
-- Time indicators: {random.choice(['Daylight visible', 'Night scene', 'Artificial lighting', 'Dusk/dawn'])}
-- People visible: {random.choice(['None', '1-2 investigators', 'Multiple personnel', 'Victim only'])}
-- Text/numbers visible: {random.choice(['Evidence markers readable', 'License plate partially visible', 'Address numbers visible', 'No readable text'])}
-- Distortion/artifacts: {random.choice(['None', 'Minor lens distortion', 'Flash reflection', 'Motion blur in background'])}
-- Overall assessment: {random.choice(['Clear documentation of scene', 'Good evidentiary value', 'Adequate for analysis', 'Some detail loss'])}
-"""
+    extracted_text = []
+    extracted_text.append(f"--- OCR TEXT EXTRACTION ---")
+    extracted_text.append(f"File: {context.get('filename', 'image_001.jpg')}")
+    extracted_text.append(f"Format: {context.get('format', 'JPEG')}")
+    extracted_text.append(f"Date: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}")
+    extracted_text.append("")
+    extracted_text.append("EXTRACTED TEXT:")
+    extracted_text.append("-" * 50)
     
-    elif image_type == "cctv_still":
-        return f"""--- IMAGE DESCRIPTION (Vision AI Analysis) ---
-File: {context.get('filename', 'cctv_frame_001.jpg')}
-Format: {context.get('format', 'JPEG')}
-Resolution: {random.choice(['640x480', '1280x720', '1920x1080'])}
-Timestamp: {context.get('timestamp', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))}
-Camera: {context.get('camera', 'Camera 01 - Main Entrance')}
-
-VISUAL DESCRIPTION:
-- Primary subject: {random.choice(['Person walking', 'Vehicle in frame', 'Multiple individuals', 'Empty scene'])}
-- Subject position: {random.choice(['Center frame', 'Left side', 'Right side', 'Background'])}
-- Subject clarity: {random.choice(['Clear', 'Partially obscured', 'Silhouette', 'Blurred due to motion'])}
-- Lighting: {random.choice(['Artificial lighting', 'Low light', 'Daylight', 'Infrared'])}
-- Image quality: {random.choice(['Good', 'Moderate', 'Poor', 'Grainy'])}
-- Color: {random.choice(['Color', 'Black and white', 'Color with low saturation', 'Infrared monochrome'])}
-- Visible details: {random.choice(['Facial features partially visible', 'Clothing clearly visible', 'Vehicle details clear', 'Limited detail'])}
-- Background: {random.choice(['Parking lot', 'Street', 'Building entrance', 'Indoor corridor'])}
-- Time indicators: {random.choice(['Daytime', 'Night', 'Evening', 'Early morning'])}
-- Motion indicators: {random.choice(['Static scene', 'Motion blur present', 'Subject in motion', 'Camera movement'])}
-- Text/numbers: {random.choice(['License plate visible', 'Signage readable', 'No readable text', 'Partial text visible'])}
-- Distortion: {random.choice(['Minimal', 'Wide angle distortion', 'Compression artifacts', 'Lens flare'])}
-- Overall assessment: {random.choice(['Useful for identification', 'Limited identification value', 'Good for context', 'Poor quality'])}
-"""
+    if image_type == "cctv_still" or image_type == "license_plate":
+        # Extract license plate
+        if random.random() < 0.7:  # 70% chance of readable plate
+            plate = f"{random.randint(1, 9)}{random.choice(['ABC', 'DEF', 'GHI', 'JKL', 'MNO'])}{random.randint(100, 999)}"
+            confidence = random.randint(85, 99)
+            extracted_text.append(f"License Plate: {plate} (Confidence: {confidence}%)")
+            extracted_text.append("")
+        
+        # Extract signage
+        if random.random() < 0.5:
+            signs = [
+                f"STOP",
+                f"SPEED LIMIT {random.randint(15, 55)}",
+                f"{fake.street_name()} STREET",
+                f"NO PARKING",
+                f"{fake.company()} - {fake.city()}"
+            ]
+            extracted_text.append(f"Signage: {random.choice(signs)}")
+            extracted_text.append("")
     
     elif image_type == "evidence_photo":
-        return f"""--- IMAGE DESCRIPTION (Vision AI Analysis) ---
-File: {context.get('filename', 'evidence_photo_001.jpg')}
-Format: {context.get('format', 'JPEG')}
-Resolution: {random.choice(['2048x1536', '3264x2448', '4032x3024'])}
-Evidence ID: {context.get('evidence_id', 'EVID-0001')}
-Date: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}
-
-VISUAL DESCRIPTION:
-- Evidence type: {context.get('evidence_type', 'Physical evidence')}
-- Scale reference: {random.choice(['Ruler visible', 'Evidence marker', 'No scale', 'Multiple reference points'])}
-- Lighting: {random.choice(['Studio lighting', 'Flash photography', 'Natural light', 'Controlled lighting'])}
-- Background: {random.choice(['White background', 'Evidence table', 'Crime scene', 'Lab setting'])}
-- Image quality: {random.choice(['High resolution', 'Excellent detail', 'Good', 'Moderate'])}
-- Color accuracy: {random.choice(['Accurate', 'Slightly enhanced', 'Natural', 'Calibrated'])}
-- Visible features: {random.choice(['Surface texture clear', 'Damage visible', 'Markings readable', 'Details sharp'])}
-- Orientation: {random.choice(['Top view', 'Side view', 'Multiple angles', 'Close-up'])}
-- Focus: {random.choice(['Sharp throughout', 'Selective focus', 'Slight blur', 'Perfect focus'])}
-- Artifacts: {random.choice(['None', 'Minor reflection', 'Shadow present', 'Clean image'])}
-- Overall assessment: {random.choice(['Excellent documentation', 'Good for analysis', 'Adequate', 'High quality'])}
-"""
+        # Extract serial numbers, text from evidence
+        if random.random() < 0.6:
+            serials = [
+                f"SN: {random.randint(100000, 999999)}",
+                f"Model: {random.choice(['ABC123', 'XYZ789', 'DEF456'])}",
+                f"ID: {fake.uuid4()[:8].upper()}",
+                f"Barcode: {random.randint(1000000000000, 9999999999999)}"
+            ]
+            extracted_text.append(f"Evidence Markings: {random.choice(serials)}")
+            extracted_text.append("")
+        
+        # Extract handwritten notes
+        if random.random() < 0.3:
+            notes = [
+                f"Found at {fake.address()}",
+                f"Collected by {fake.name()}",
+                f"Time: {random.randint(1, 12)}:{random.randint(0, 59):02d} {random.choice(['AM', 'PM'])}",
+                f"Case #{random.randint(100000, 999999)}"
+            ]
+            extracted_text.append(f"Handwritten Text: {random.choice(notes)}")
+            extracted_text.append("")
     
-    elif image_type == "surveillance":
-        return f"""--- IMAGE DESCRIPTION (Vision AI Analysis) ---
-File: {context.get('filename', 'surveillance_001.jpg')}
-Format: {context.get('format', 'JPEG')}
-Resolution: {random.choice(['1280x720', '1920x1080', '2560x1440'])}
-Location: {context.get('location', 'Unknown')}
-Time: {context.get('time', datetime.now().strftime('%H:%M'))}
-
-VISUAL DESCRIPTION:
-- Scene type: {random.choice(['Street scene', 'Building exterior', 'Parking area', 'Public space'])}
-- Subject: {random.choice(['Person', 'Vehicle', 'Multiple people', 'Activity'])}
-- Distance: {random.choice(['Close-up', 'Medium distance', 'Far', 'Variable'])}
-- Clarity: {random.choice(['Clear', 'Moderate', 'Poor', 'Very poor'])}
-- Lighting: {random.choice(['Daylight', 'Street lighting', 'Low light', 'Mixed'])}
-- Weather: {random.choice(['Clear', 'Overcast', 'Rain', 'Fog'])}
-- Visibility: {random.choice(['Good', 'Moderate', 'Poor', 'Limited'])}
-- Motion: {random.choice(['Static', 'Motion blur', 'Clear motion', 'Multiple subjects moving'])}
-- Identification value: {random.choice(['High', 'Moderate', 'Low', 'Very low'])}
-- Overall assessment: {random.choice(['Useful evidence', 'Limited value', 'Context only', 'Poor quality'])}
-"""
+    elif image_type == "document_photo":
+        # Extract text from photographed documents
+        if random.random() < 0.8:
+            doc_text = [
+                f"Name: {fake.name()}",
+                f"Address: {fake.address()}",
+                f"Phone: {fake.phone_number()}",
+                f"Date: {fake.date()}",
+                f"Amount: ${random.randint(100, 10000)}",
+                f"Account: ****{random.randint(1000, 9999)}"
+            ]
+            num_lines = random.randint(2, 5)
+            for _ in range(num_lines):
+                extracted_text.append(random.choice(doc_text))
+            extracted_text.append("")
     
-    else:
-        return f"""--- IMAGE DESCRIPTION (Vision AI Analysis) ---
-File: {context.get('filename', 'image_001.jpg')}
-Format: {context.get('format', 'JPEG')}
-Resolution: {random.choice(['1920x1080', '2560x1440', '3840x2160'])}
-
-VISUAL DESCRIPTION:
-- Image type: {image_type}
-- Quality: {random.choice(['High', 'Moderate', 'Low'])}
-- Content: {random.choice(['Documentation', 'Evidence', 'Surveillance', 'Reference'])}
-- Overall assessment: {random.choice(['Clear', 'Useful', 'Limited detail', 'Adequate'])}
-"""
+    # Add OCR confidence notes
+    extracted_text.append("-" * 50)
+    extracted_text.append(f"OCR Confidence: {random.randint(75, 98)}%")
+    extracted_text.append(f"Processing Method: {random.choice(['Tesseract OCR', 'Google Vision API', 'AWS Textract', 'Azure Computer Vision'])}")
+    if random.random() < 0.3:
+        extracted_text.append(f"Note: Some text partially obscured or low confidence")
+    
+    return "\n".join(extracted_text)
 
 
 def generate_audio_transcript(audio_type: str, context: Dict = None) -> str:
-    """Generate an audio transcript description."""
+    """Generate actual audio transcript content."""
     context = context or {}
     
     if audio_type == "911_call":
-        return f"""--- AUDIO TRANSCRIPT ---
-File: {context.get('filename', '911_call_001.wav')}
-Format: {context.get('format', 'WAV')}
-Duration: {random.choice(['00:02:15', '00:03:42', '00:01:58', '00:04:12'])}
-Sample Rate: {random.choice(['8000 Hz', '16000 Hz', '44100 Hz'])}
-Bit Depth: {random.choice(['16-bit', '24-bit'])}
-Date: {context.get('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))}
-
-AUDIO QUALITY:
-- Clarity: {random.choice(['Clear', 'Moderate', 'Poor', 'Very poor'])}
-- Background noise: {random.choice(['Minimal', 'Moderate', 'High', 'Very high'])}
-- Distortion: {random.choice(['None', 'Minor', 'Moderate', 'Severe'])}
-- Volume levels: {random.choice(['Consistent', 'Variable', 'Low', 'High'])}
-- Speaker clarity: {random.choice(['Clear', 'Partially clear', 'Unclear', 'Very unclear'])}
-- Call quality: {random.choice(['Good', 'Fair', 'Poor', 'Very poor'])}
-- Dropouts: {random.choice(['None', 'Minor', 'Several', 'Many'])}
-- Overall assessment: {random.choice(['Usable', 'Partially usable', 'Limited value', 'Poor quality'])}
-"""
+        # Generate actual 911 call transcript
+        transcript = []
+        transcript.append(f"--- 911 CALL TRANSCRIPT ---")
+        transcript.append(f"File: {context.get('filename', '911_call_001.wav')}")
+        transcript.append(f"Format: {context.get('format', 'WAV')}")
+        transcript.append(f"Duration: {random.choice(['00:02:15', '00:03:42', '00:01:58', '00:04:12'])}")
+        transcript.append(f"Date: {context.get('date', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))}")
+        transcript.append("")
+        transcript.append("TRANSCRIPT:")
+        transcript.append("=" * 60)
+        
+        # Generate dialogue
+        dispatcher_phrases = [
+            "911, what's your emergency?",
+            "Can you tell me what happened?",
+            "Where are you located?",
+            "Is anyone injured?",
+            "Stay on the line, help is on the way.",
+            "Can you describe what you see?",
+            "Are you safe right now?"
+        ]
+        
+        caller_phrases = [
+            "I need help!",
+            "There's been an accident!",
+            "Someone broke into my house!",
+            "I saw something suspicious!",
+            "Please hurry!",
+            f"I'm at {fake.address()}",
+            "I don't know what to do!",
+            "They're still here!",
+            "I'm scared!"
+        ]
+        
+        # Generate conversation
+        num_exchanges = random.randint(4, 8)
+        for i in range(num_exchanges):
+            if i % 2 == 0:
+                transcript.append(f"DISPATCHER: {random.choice(dispatcher_phrases)}")
+            else:
+                transcript.append(f"CALLER: {random.choice(caller_phrases)}")
+        
+        transcript.append("=" * 60)
+        transcript.append(f"Quality Notes: {random.choice(['Clear audio', 'Some background noise', 'Caller emotional', 'Good quality'])}")
+        
+        return "\n".join(transcript)
     
     elif audio_type == "wiretap":
-        return f"""--- AUDIO TRANSCRIPT ---
-File: {context.get('filename', 'wiretap_001.mp3')}
-Format: {context.get('format', 'MP3')}
-Duration: {random.choice(['00:15:32', '00:22:45', '00:18:12'])}
-Bitrate: {random.choice(['128 kbps', '192 kbps', '256 kbps'])}
-Date: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}
-
-AUDIO QUALITY:
-- Recording quality: {random.choice(['High', 'Moderate', 'Low', 'Very low'])}
-- Background noise: {random.choice(['Minimal', 'Moderate', 'High'])}
-- Voice clarity: {random.choice(['Clear', 'Partially clear', 'Unclear'])}
-- Multiple speakers: {random.choice(['Yes', 'No', 'Uncertain'])}
-- Overlapping speech: {random.choice(['None', 'Some', 'Frequent'])}
-- Distortion: {random.choice(['None', 'Minor', 'Moderate'])}
-- Overall assessment: {random.choice(['Good', 'Fair', 'Poor'])}
-"""
+        # Generate actual wiretap transcript
+        transcript = []
+        transcript.append(f"--- WIRETAP TRANSCRIPT ---")
+        transcript.append(f"File: {context.get('filename', 'wiretap_001.mp3')}")
+        transcript.append(f"Date: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}")
+        transcript.append(f"Duration: {random.choice(['00:15:32', '00:22:45', '00:18:12'])}")
+        transcript.append("")
+        transcript.append("TRANSCRIPT:")
+        transcript.append("=" * 60)
+        
+        # Generate conversation snippets
+        speaker1_phrases = [
+            f"Meet me at {fake.address()}",
+            f"The amount is ${random.randint(1000, 50000)}",
+            "Don't say anything over the phone",
+            "We'll handle it tonight",
+            "Everything is set up",
+            "No one can know about this"
+        ]
+        
+        speaker2_phrases = [
+            "Understood",
+            "I'll be there",
+            "What about the other thing?",
+            "Are you sure about this?",
+            "I don't like this",
+            "Fine, whatever you say"
+        ]
+        
+        num_exchanges = random.randint(6, 12)
+        for i in range(num_exchanges):
+            speaker = "SPEAKER 1" if i % 2 == 0 else "SPEAKER 2"
+            phrases = speaker1_phrases if i % 2 == 0 else speaker2_phrases
+            transcript.append(f"{speaker}: {random.choice(phrases)}")
+        
+        transcript.append("=" * 60)
+        transcript.append(f"Note: {random.choice(['Multiple speakers identified', 'Background noise present', 'Some portions unclear', 'Good quality recording'])}")
+        
+        return "\n".join(transcript)
     
     else:
         return f"""--- AUDIO TRANSCRIPT ---
 File: {context.get('filename', 'audio_001.wav')}
 Format: {context.get('format', 'WAV')}
 Duration: {random.choice(['00:05:00', '00:10:00', '00:15:00'])}
-Quality: {random.choice(['Good', 'Moderate', 'Poor'])}
+
+[Transcript content unavailable]
 """
 
 
-def generate_video_description(video_type: str, context: Dict = None) -> str:
-    """Generate a video description."""
+def generate_video_transcript(video_type: str, context: Dict = None) -> str:
+    """Generate actual video transcript/analysis."""
     context = context or {}
     
     if video_type == "cctv":
-        return f"""--- VIDEO DESCRIPTION ---
-File: {context.get('filename', 'cctv_001.mp4')}
-Format: {context.get('format', 'MP4')}
-Resolution: {random.choice(['640x480', '1280x720', '1920x1080'])}
-Duration: {random.choice(['00:34:15', '01:12:43', '00:45:22'])}
-Frame Rate: {random.choice(['15 fps', '30 fps', '25 fps'])}
-Codec: {random.choice(['H.264', 'H.265', 'MPEG-4'])}
-Date: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}
-
-VIDEO QUALITY:
-- Overall quality: {random.choice(['Good', 'Moderate', 'Poor', 'Very poor'])}
-- Resolution: {random.choice(['High', 'Medium', 'Low'])}
-- Frame rate: {random.choice(['Smooth', 'Slightly choppy', 'Choppy'])}
-- Compression: {random.choice(['Minimal', 'Moderate', 'Heavy'])}
-- Artifacts: {random.choice(['None', 'Minor', 'Moderate', 'Severe'])}
-- Lighting: {random.choice(['Good', 'Moderate', 'Poor', 'Very poor'])}
-- Motion blur: {random.choice(['Minimal', 'Moderate', 'High'])}
-- Audio: {random.choice(['Present', 'Missing', 'Poor quality'])}
-- Overall assessment: {random.choice(['Useful', 'Partially useful', 'Limited value', 'Poor'])}
-"""
+        transcript = []
+        transcript.append(f"--- CCTV VIDEO ANALYSIS ---")
+        transcript.append(f"File: {context.get('filename', 'cctv_001.mp4')}")
+        transcript.append(f"Duration: {random.choice(['00:34:15', '01:12:43', '00:45:22'])}")
+        transcript.append(f"Date: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}")
+        transcript.append("")
+        transcript.append("TIMELINE OF EVENTS:")
+        transcript.append("=" * 60)
+        
+        # Generate timeline events
+        times = []
+        base_time = datetime.strptime(context.get('date', datetime.now().strftime('%Y-%m-%d')), '%Y-%m-%d')
+        for i in range(random.randint(3, 8)):
+            minutes = random.randint(0, 59)
+            hours = random.randint(8, 22)
+            times.append(f"{hours:02d}:{minutes:02d}")
+        
+        events = [
+            "Person enters frame from left",
+            "Vehicle stops in parking lot",
+            "Subject exits vehicle",
+            "Subject approaches building entrance",
+            "Subject enters building",
+            "Subject exits building",
+            "Subject returns to vehicle",
+            "Vehicle departs scene",
+            "Multiple individuals visible",
+            "Suspicious activity observed",
+            "Subject loiters near entrance",
+            "Subject makes phone call"
+        ]
+        
+        for time in sorted(set(times))[:random.randint(3, 6)]:
+            transcript.append(f"{time} - {random.choice(events)}")
+        
+        transcript.append("")
+        transcript.append("KEY OBSERVATIONS:")
+        transcript.append("-" * 60)
+        observations = [
+            f"License plate visible: {random.randint(1, 9)}{random.choice(['ABC', 'DEF', 'GHI'])}{random.randint(100, 999)}",
+            f"Subject appears to be {random.choice(['male', 'female'])}, approximately {random.randint(20, 60)} years old",
+            f"Vehicle: {random.choice(['Sedan', 'SUV', 'Truck', 'Van'])} - {random.choice(['Black', 'White', 'Silver', 'Blue'])}",
+            f"Subject wearing {random.choice(['dark clothing', 'hoodie', 'jacket', 'casual attire'])}",
+            f"Duration at location: {random.randint(2, 15)} minutes"
+        ]
+        
+        for obs in random.sample(observations, random.randint(2, 4)):
+            transcript.append(f"- {obs}")
+        
+        transcript.append("=" * 60)
+        
+        return "\n".join(transcript)
     
     elif video_type == "body_cam":
-        return f"""--- VIDEO DESCRIPTION ---
-File: {context.get('filename', 'bodycam_001.mp4')}
-Format: {context.get('format', 'MP4')}
-Resolution: {random.choice(['1280x720', '1920x1080'])}
-Duration: {random.choice(['00:12:34', '00:18:56', '00:25:12'])}
-Frame Rate: 30 fps
-Codec: H.264
-Officer: {context.get('officer', 'Unknown')}
-Date: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}
-
-VIDEO QUALITY:
-- Recording quality: {random.choice(['High', 'Good', 'Moderate'])}
-- Stability: {random.choice(['Stable', 'Some movement', 'Unstable'])}
-- Audio quality: {random.choice(['Clear', 'Moderate', 'Poor'])}
-- Lighting: {random.choice(['Good', 'Variable', 'Poor'])}
-- Field of view: {random.choice(['Wide', 'Normal', 'Narrow'])}
-- Overall assessment: {random.choice(['Excellent', 'Good', 'Adequate'])}
-"""
+        transcript = []
+        transcript.append(f"--- BODY CAMERA FOOTAGE TRANSCRIPT ---")
+        transcript.append(f"File: {context.get('filename', 'bodycam_001.mp4')}")
+        transcript.append(f"Officer: {context.get('officer', 'Unknown')}")
+        transcript.append(f"Date: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}")
+        transcript.append("")
+        transcript.append("TRANSCRIPT:")
+        transcript.append("=" * 60)
+        
+        officer_phrases = [
+            "This is Officer {name}, responding to call",
+            "Show me your hands!",
+            "Stay where you are!",
+            "Put your hands behind your back",
+            "You're under arrest",
+            "Do you understand your rights?",
+            "What's going on here?",
+            "Backup requested"
+        ]
+        
+        subject_phrases = [
+            "I didn't do anything!",
+            "What's this about?",
+            "I have rights!",
+            "You can't do this!",
+            "I want a lawyer",
+            "I'm not resisting",
+            "This is a mistake"
+        ]
+        
+        num_exchanges = random.randint(5, 10)
+        for i in range(num_exchanges):
+            if i % 2 == 0:
+                transcript.append(f"OFFICER: {random.choice(officer_phrases).format(name=context.get('officer', 'Unknown').split()[0])}")
+            else:
+                transcript.append(f"SUBJECT: {random.choice(subject_phrases)}")
+        
+        transcript.append("=" * 60)
+        
+        return "\n".join(transcript)
     
     else:
-        return f"""--- VIDEO DESCRIPTION ---
+        return f"""--- VIDEO ANALYSIS ---
 File: {context.get('filename', 'video_001.mp4')}
-Format: {context.get('format', 'MP4')}
-Duration: {random.choice(['00:10:00', '00:20:00', '00:30:00'])}
-Quality: {random.choice(['Good', 'Moderate', 'Poor'])}
+[Video analysis unavailable]
 """
 
 
-def generate_spreadsheet_description(context: Dict = None) -> str:
-    """Generate a description of spreadsheet data."""
+def generate_spreadsheet_data(data_type: str, context: Dict = None) -> str:
+    """Generate actual spreadsheet/CSV data."""
     context = context or {}
     
-    return f"""--- SPREADSHEET DATA DESCRIPTION ---
+    if data_type == "financial":
+        # Generate financial transaction data
+        data = []
+        data.append("--- FINANCIAL RECORDS (CSV DATA) ---")
+        data.append(f"File: {context.get('filename', 'financial_data_001.xlsx')}")
+        data.append(f"Format: {context.get('format', 'XLSX')}")
+        data.append("")
+        data.append("Date,Description,Amount,Account,Category,Balance")
+        data.append("-" * 80)
+        
+        # Generate transaction rows
+        num_transactions = random.randint(20, 100)
+        balance = random.randint(1000, 50000)
+        
+        for i in range(num_transactions):
+            date = (datetime.now() - timedelta(days=random.randint(0, 90))).strftime('%Y-%m-%d')
+            descriptions = [
+                f"ATM WITHDRAWAL - {fake.city()}",
+                f"PURCHASE - {fake.company()}",
+                f"TRANSFER TO {fake.name()}",
+                f"DEPOSIT - CHECK #{random.randint(1000, 9999)}",
+                f"ONLINE PAYMENT - {fake.company()}",
+                f"CASH DEPOSIT",
+                f"FEE - {random.choice(['MONTHLY', 'OVERDRAFT', 'WIRE'])}"
+            ]
+            amount = random.randint(-5000, 3000)
+            balance += amount
+            account = f"****{random.randint(1000, 9999)}"
+            category = random.choice(['ATM', 'PURCHASE', 'TRANSFER', 'DEPOSIT', 'FEE'])
+            
+            data.append(f"{date},{random.choice(descriptions)},{amount:.2f},{account},{category},{balance:.2f}")
+        
+        return "\n".join(data)
+    
+    elif data_type == "evidence_log":
+        # Generate evidence log spreadsheet
+        data = []
+        data.append("--- EVIDENCE LOG (CSV DATA) ---")
+        data.append(f"File: {context.get('filename', 'evidence_log_001.xlsx')}")
+        data.append("")
+        data.append("Evidence ID,Type,Description,Location Found,Date Collected,Collected By,Status,Storage Location")
+        data.append("-" * 100)
+        
+        # Generate evidence rows
+        evidence_types = ['Physical', 'Digital', 'Document', 'Biological', 'Firearm', 'Drug', 'Vehicle']
+        locations = [fake.address() for _ in range(5)]
+        officers = [fake.name() for _ in range(3)]
+        statuses = ['In Storage', 'At Lab', 'Returned', 'Destroyed']
+        storage = ['Evidence Room A', 'Evidence Room B', 'Lab Storage', 'Secure Vault']
+        
+        num_items = random.randint(10, 50)
+        for i in range(num_items):
+            evid_id = f"EVID-{random.randint(1000, 9999)}"
+            evid_type = random.choice(evidence_types)
+            description = random.choice([
+                f"{random.choice(['Item', 'Substance', 'Device', 'Document'])} recovered from scene",
+                f"Evidence collected during search",
+                f"Item seized from suspect"
+            ])
+            location = random.choice(locations)
+            date = (datetime.now() - timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
+            officer = random.choice(officers)
+            status = random.choice(statuses)
+            storage_loc = random.choice(storage)
+            
+            data.append(f"{evid_id},{evid_type},{description},{location},{date},{officer},{status},{storage_loc}")
+        
+        return "\n".join(data)
+    
+    elif data_type == "phone_records":
+        # Generate phone call records
+        data = []
+        data.append("--- PHONE RECORDS (CSV DATA) ---")
+        data.append(f"File: {context.get('filename', 'phone_records_001.xlsx')}")
+        data.append("")
+        data.append("Date,Time,Duration,From Number,To Number,Call Type,Location")
+        data.append("-" * 100)
+        
+        num_calls = random.randint(50, 200)
+        for i in range(num_calls):
+            date = (datetime.now() - timedelta(days=random.randint(0, 30))).strftime('%Y-%m-%d')
+            time = f"{random.randint(0, 23):02d}:{random.randint(0, 59):02d}"
+            duration = random.randint(10, 3600)  # seconds
+            from_num = f"{random.randint(200, 999)}-{random.randint(200, 999)}-{random.randint(1000, 9999)}"
+            to_num = f"{random.randint(200, 999)}-{random.randint(200, 999)}-{random.randint(1000, 9999)}"
+            call_type = random.choice(['Voice', 'Text', 'Data'])
+            location = f"{fake.city()}, {fake.state_abbr()}"
+            
+            data.append(f"{date},{time},{duration},{from_num},{to_num},{call_type},{location}")
+        
+        return "\n".join(data)
+    
+    else:
+        return f"""--- SPREADSHEET DATA ---
 File: {context.get('filename', 'data_001.xlsx')}
-Format: {context.get('format', 'XLSX')}
-Sheets: {random.randint(1, 5)}
-Rows: {random.randint(100, 10000)}
-Columns: {random.randint(5, 20)}
-Date Created: {context.get('date', datetime.now().strftime('%Y-%m-%d'))}
-
-DATA STRUCTURE:
-- Headers: {random.choice(['Present', 'Missing', 'Partial'])}
-- Data types: {random.choice(['Mixed', 'Numeric', 'Text', 'Dates'])}
-- Formatting: {random.choice(['Formatted', 'Plain', 'Mixed'])}
-- Formulas: {random.choice(['Present', 'None', 'Some'])}
-- Charts: {random.choice(['None', '1-3 charts', 'Multiple charts'])}
-- Overall structure: {random.choice(['Well-organized', 'Moderate', 'Poorly organized'])}
+[Data unavailable]
 """
 
 
@@ -467,13 +626,16 @@ class MultiFormatGenerator:
         content = generate_ransom_note()
         return self.generate_document('ransom_note', content, FileFormat.TXT)
     
-    def generate_image_description_document(self, image_type: str, 
-                                           context: Dict = None) -> Dict:
-        """Generate an image description document."""
+    def generate_image_ocr_document(self, image_type: str, 
+                                    context: Dict = None) -> Dict:
+        """Generate OCR text extraction from images (only when useful)."""
         context = context or {}
         context['filename'] = self._generate_filename('photo', FileFormat.JPEG)
-        content = generate_image_description(image_type, context)
-        return self.generate_document('photo', content, FileFormat.TXT)
+        # Only generate OCR for images that would have extractable text
+        if image_type in ['cctv_still', 'license_plate', 'evidence_photo', 'document_photo']:
+            content = generate_image_ocr_extraction(image_type, context)
+            return self.generate_document('photo', content, FileFormat.TXT)
+        return None  # Skip useless image descriptions
     
     def generate_audio_transcript_document(self, audio_type: str,
                                           context: Dict = None) -> Dict:
@@ -483,18 +645,18 @@ class MultiFormatGenerator:
         content = generate_audio_transcript(audio_type, context)
         return self.generate_document('audio', content, FileFormat.TXT)
     
-    def generate_video_description_document(self, video_type: str,
-                                           context: Dict = None) -> Dict:
-        """Generate a video description document."""
+    def generate_video_transcript_document(self, video_type: str,
+                                          context: Dict = None) -> Dict:
+        """Generate a video transcript document."""
         context = context or {}
         context['filename'] = self._generate_filename('video', FileFormat.MP4)
-        content = generate_video_description(video_type, context)
+        content = generate_video_transcript(video_type, context)
         return self.generate_document('video', content, FileFormat.TXT)
     
-    def generate_spreadsheet_description_document(self, context: Dict = None) -> Dict:
-        """Generate a spreadsheet description document."""
+    def generate_spreadsheet_data_document(self, data_type: str, context: Dict = None) -> Dict:
+        """Generate actual spreadsheet/CSV data."""
         context = context or {}
         context['filename'] = self._generate_filename('spreadsheet', FileFormat.XLSX)
-        content = generate_spreadsheet_description(context)
+        content = generate_spreadsheet_data(data_type, context)
         return self.generate_document('spreadsheet', content, FileFormat.TXT)
 
