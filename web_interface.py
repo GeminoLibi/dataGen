@@ -412,15 +412,15 @@ HTML_TEMPLATE = """
                     </div>
                 </div>
 
-                <div class="form-group" id="subject_clarity_group" style="display: none;">
+                <div class="form-group" id="subject_clarity_group">
                     <label>Subject Identification Approach:</label>
                     <select name="subject_clarity" id="subject_clarity">
                         <option value="Embedded">Embedded Solution (Traditional)</option>
                         <option value="Investigative">Investigative Challenge (Multiple Suspects)</option>
                     </select>
                     <div class="help-text">
-                        <strong>Embedded:</strong> Solution is embedded in case data<br>
-                        <strong>Investigative:</strong> Create multiple persons of interest for analysis
+                        <strong>Embedded:</strong> Solution is embedded in case data (traditional approach)<br>
+                        <strong>Investigative:</strong> Create multiple persons of interest for analysis (realistic scenarios)
                     </div>
                 </div>
             </div>
@@ -613,24 +613,6 @@ HTML_TEMPLATE = """
                     }
                 }
             }
-
-            function toggleSubjectClarity() {
-                const unknownRadio = document.getElementById('unknown');
-                const subjectClarityGroup = document.getElementById('subject_clarity_group');
-                if (unknownRadio.checked) {
-                    subjectClarityGroup.style.display = 'block';
-                } else {
-                    subjectClarityGroup.style.display = 'none';
-                }
-            }
-
-            // Add event listeners to subject status radios
-            document.addEventListener('DOMContentLoaded', function() {
-                const radios = document.querySelectorAll('input[name="subject_status"]');
-                radios.forEach(radio => {
-                    radio.addEventListener('change', toggleSubjectClarity);
-                });
-            });
         </script>
 
         {% if case_path %}
@@ -893,7 +875,7 @@ def index():
             crime_type = request.form.get('crime_type', '')
             complexity = request.form.get('complexity', 'Medium')
             subject_status = request.form.get('subject_status', 'Known')
-            subject_clarity = request.form.get('subject_clarity', 'Embedded') if subject_status == 'Unknown' else None
+            subject_clarity = request.form.get('subject_clarity', 'Embedded')
             modifiers = request.form.getlist('modifiers') if hasattr(request.form, 'getlist') else []
             generate_trend = request.form.get('generate_trend', 'no')
             ai_mode = request.form.get('ai_mode', 'none')

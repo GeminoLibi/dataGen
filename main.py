@@ -102,21 +102,18 @@ def main():
 
         # Subject status for trend
         console.print("\n[bold]Subject Status:[/bold]")
-        console.print("[dim]Note: Selecting 'Unknown' provides additional identification clarity options.[/dim]")
         for key, status in subject_statuses.items():
             console.print(f"{key}. {status}")
 
         subject_choice = Prompt.ask("\nSelect [bold cyan]Subject Status[/bold cyan] (1-3)", default="1")
         subject_status = subject_statuses.get(subject_choice, subject_statuses["1"])
 
-        # Subject identification clarity for unknown cases
-        subject_clarity = None
-        if subject_status == "Unknown":
-            console.print("\n[bold magenta]Subject Identification Clarity:[/bold magenta]")
-            for key, desc in SUBJECT_CLARITY_OPTIONS.items():
-                console.print(f"[cyan]{key}[/cyan]: {desc}")
-            subject_clarity = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta]",
-                                       choices=list(SUBJECT_CLARITY_OPTIONS.keys()), default="Embedded")
+        # Subject identification clarity (applies to all cases)
+        console.print("\n[bold magenta]Subject Identification Approach:[/bold magenta]")
+        for key, desc in SUBJECT_CLARITY_OPTIONS.items():
+            console.print(f"[cyan]{key}[/cyan]: {desc}")
+        subject_clarity = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta]",
+                                   choices=list(SUBJECT_CLARITY_OPTIONS.keys()), default="Embedded")
 
         identification_status = Prompt.ask(
             "\n[bold magenta]Identification Status[/bold magenta]",
@@ -238,21 +235,18 @@ def main():
 
     # Subject status (known vs unknown)
     console.print("\n[bold]Subject Status:[/bold]")
-    console.print("[dim]Note: Selecting 'Unknown' provides additional identification clarity options.[/dim]")
     for key, status in subject_statuses.items():
         console.print(f"{key}. {status}")
 
     subject_choice = Prompt.ask("\nSelect [bold cyan]Subject Status[/bold cyan] (1-3)", default="2")
     subject_status = subject_statuses.get(subject_choice, subject_statuses["2"])
 
-    # Subject identification clarity for unknown cases
-    subject_clarity = None
-    if subject_status == "Unknown":
-        console.print("\n[bold magenta]Subject Identification Clarity:[/bold magenta]")
-        for key, desc in SUBJECT_CLARITY_OPTIONS.items():
-            console.print(f"[cyan]{key}[/cyan]: {desc}")
-        subject_clarity = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta]",
-                                   choices=list(SUBJECT_CLARITY_OPTIONS.keys()), default="Embedded")
+    # Subject identification approach (applies to all cases)
+    console.print("\n[bold magenta]Subject Identification Approach:[/bold magenta]")
+    for key, desc in SUBJECT_CLARITY_OPTIONS.items():
+        console.print(f"[cyan]{key}[/cyan]: {desc}")
+    subject_clarity = Prompt.ask("\nSelect [bold magenta]Identification Approach[/bold magenta]",
+                               choices=list(SUBJECT_CLARITY_OPTIONS.keys()), default="Embedded")
 
     # Available modifiers with descriptions
     modifier_options = {

@@ -460,14 +460,20 @@ class CaseGenerator:
             self._assign_assets()
             self._establish_relationships()
             
-            # Adjust for subject status
+            # Adjust for subject status and clarity approach
             if subject_status == "Unknown":
                 if subject_clarity == "Investigative":
                     self._create_investigative_unknown_subjects()
                 else:
                     self._make_subjects_unknown()
             elif subject_status == "Partially Known":
-                self._make_subjects_partial()
+                if subject_clarity == "Investigative":
+                    self._create_investigative_partial_subjects()
+                else:
+                    self._make_subjects_partial()
+            elif subject_status == "Known":
+                if subject_clarity == "Investigative":
+                    self._create_investigative_known_subjects()
 
             # 3. Generate crime-type-specific documents FIRST (before generic ones)
             try:
@@ -2899,6 +2905,110 @@ Date: {wreck_time.strftime('%Y-%m-%d %H:%M:%S')}
         self.case.description += "\n\nINVESTIGATIVE APPROACH: Multiple persons of interest identified. " \
                                 "None definitively identified as perpetrator. " \
                                 "Requires analysis of multiple leads and elimination of suspects."
+
+    def _create_investigative_known_subjects(self):
+        """Create investigative scenario for known subjects.
+        
+        Even when subject is known, create multiple potential suspects/leads
+        to create realistic investigative challenges where analysts must
+        evaluate evidence and eliminate false leads."""
+        suspects = [p for p in self.case.persons if p.role == Role.SUSPECT]
+        if not suspects:
+            return
+        
+        # Keep the primary suspect but add 2-4 additional persons of interest
+        primary_suspect = suspects[0]
+        num_additional_leads = random.randint(2, 4)
+        
+        for i in range(num_additional_leads):
+            person = generate_person(Role.WITNESS)
+            
+            # Vary suspicion levels
+            suspicion_level = random.random()
+            
+            if suspicion_level < 0.4:  # Low suspicion - possible alibi witness or red herring
+                person.notes = f"Person of interest #{i+1}: Possible connection to case. " \
+                              f"Requires verification of alibi and relationship to primary suspect."
+                person.suspicious_activities = ["Possible association", "Alibi verification needed"]
+            elif suspicion_level < 0.7:  # Medium suspicion - potential accomplice or alternative suspect
+                person.notes = f"Person of interest #{i+1}: Multiple connections to case elements. " \
+                              f"Could be accomplice or alternative suspect. Requires thorough investigation."
+                person.devices.append(generate_device(person.id, "Phone"))
+                person.suspicious_activities = random.sample([
+                    "Association with primary suspect", "Similar modus operandi",
+                    "Financial connections", "Digital communications"
+                ], random.randint(1, 2))
+            else:  # High suspicion - strong alternative suspect
+                person.notes = f"Person of interest #{i+1}: HIGH PRIORITY ALTERNATIVE SUSPECT. " \
+                              f"Strong evidence suggesting possible involvement. " \
+                              f"Must be thoroughly investigated and ruled in/out."
+                person.devices.append(generate_device(person.id, "Phone"))
+                person.vehicles.append(generate_vehicle(person.id, person.address))
+                person.suspicious_activities = random.sample([
+                    "Strong motive", "Opportunity", "Physical evidence links",
+                    "Witness identification", "Prior similar crimes"
+                ], random.randint(2, 3))
+            
+            self.case.add_person(person)
+        
+        # Update case description
+        self.case.description += "\n\nINVESTIGATIVE APPROACH: Primary suspect identified, but multiple " \
+                                "persons of interest require investigation. Must evaluate all leads " \
+                                "and eliminate false suspects through evidence analysis."
+
+    def _create_investigative_partial_subjects(self):
+        """Create investigative scenario for partially known subjects.
+        
+        When subject is partially known, create multiple potential matches
+        and leads that require investigation to confirm identity."""
+        suspects = [p for p in self.case.persons if p.role == Role.SUSPECT]
+        if not suspects:
+            return
+        
+        # Keep partial info but add 2-4 potential matches
+        primary_suspect = suspects[0]
+        num_potential_matches = random.randint(2, 4)
+        
+        for i in range(num_potential_matches):
+            person = generate_person(Role.WITNESS)
+            
+            # Match some characteristics of primary suspect
+            if random.random() < 0.5:
+                person.first_name = primary_suspect.first_name  # Same first name
+            if random.random() < 0.5:
+                person.age = primary_suspect.age + random.randint(-3, 3)  # Similar age
+            if random.random() < 0.5:
+                person.build = primary_suspect.build  # Similar build
+            
+            suspicion_level = random.random()
+            
+            if suspicion_level < 0.4:  # Low match - weak similarity
+                person.notes = f"Potential match #{i+1}: Partial similarity to suspect description. " \
+                              f"Requires further investigation to confirm or rule out."
+                person.suspicious_activities = ["Partial description match"]
+            elif suspicion_level < 0.7:  # Medium match - multiple similarities
+                person.notes = f"Potential match #{i+1}: Multiple characteristics match suspect description. " \
+                              f"Strong candidate requiring verification."
+                person.devices.append(generate_device(person.id, "Phone"))
+                person.suspicious_activities = random.sample([
+                    "Description match", "Location match", "Timeline match"
+                ], random.randint(1, 2))
+            else:  # High match - very similar
+                person.notes = f"Potential match #{i+1}: HIGH PRIORITY - Strong match to suspect description. " \
+                              f"Multiple characteristics align. Requires immediate investigation."
+                person.devices.append(generate_device(person.id, "Phone"))
+                person.vehicles.append(generate_vehicle(person.id, person.address))
+                person.suspicious_activities = random.sample([
+                    "Strong description match", "Location and timeline match",
+                    "Physical evidence links", "Witness identification"
+                ], random.randint(2, 3))
+            
+            self.case.add_person(person)
+        
+        # Update case description
+        self.case.description += "\n\nINVESTIGATIVE APPROACH: Suspect partially identified. Multiple " \
+                                "potential matches identified requiring investigation to confirm " \
+                                "correct suspect identity."
 
     # --- MASSIVE DATA GENERATORS ---
     
