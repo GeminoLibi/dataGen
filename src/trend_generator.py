@@ -177,7 +177,13 @@ class TrendGenerator:
             subject_status: Known/Unknown/Partially Known
             identification_status: Identified (known links) or Unidentified (hidden links)
         """
-        # Generate cases first (we'll create trend ID based on first case)
+        # Create registry with temporary ID first (needed during case generation)
+        temp_id = f"TREND-TEMP-{random.randint(100000, 999999)}"
+        self.trend_registry = TrendRegistry(temp_id)
+        self.trend_registry.trend_type = trend_type
+        self.identification_status = identification_status
+        
+        # Generate cases (registry is now available for trend generation methods)
         trend_generators = {
             "Serial Offender": self._generate_serial_offender_trend,
             "Organized Crime": self._generate_organized_crime_trend,
@@ -190,7 +196,7 @@ class TrendGenerator:
         generator = trend_generators.get(trend_type, self._generate_mixed_trend)
         cases = generator(num_cases, base_complexity, base_modifiers, subject_status, subject_clarity, crime_types)
         
-        # Generate trend ID based on first case's suspect and event date
+        # Generate proper trend ID based on first case's suspect and event date
         if cases:
             first_case = cases[0]
             # Get suspect name (or "UNKNOWN" if no suspect)
@@ -214,10 +220,8 @@ class TrendGenerator:
             # Fallback if no cases generated
             trend_id = generate_trend_id("UNKNOWN", datetime.now())
         
-        # Create registry with generated ID
-        self.trend_registry = TrendRegistry(trend_id)
-        self.trend_registry.trend_type = trend_type
-        self.identification_status = identification_status
+        # Update registry with proper ID
+        self.trend_registry.trend_id = trend_id
         
         # Generate master investigation file (only for Identified trends)
         if identification_status == "Identified":
