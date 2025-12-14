@@ -498,7 +498,9 @@ class TrendGenerator:
             )
             
             cases.append(case)
-            self.trend_registry.shared_entities['locations'][0]['case_ids'].append(case.id)
+            # Add case ID to location entry (defensive check)
+            if self.trend_registry.shared_entities['locations']:
+                self.trend_registry.shared_entities['locations'][0]['case_ids'].append(case.id)
             self.trend_registry.add_to_timeline(case.id, crime_date, crime_type)
             
             # Link cases if Identified
