@@ -1945,26 +1945,50 @@ Status: {random.choice(['Booked', 'Released on Citation', 'Transported to Jail']
         
         script = generate_911_script(self.case.crime_type, location, caller.role.value)
         
+        # Extract consistent phone number from script (if present) or use caller phone
+        ani_phone = caller_phone
+        for speaker, text in script:
+            if "ANI:" in text:
+                # Extract phone from ANI line
+                import re
+                phone_match = re.search(r'\(?\d{3}\)?\s*-?\d{3}-?\d{4}', text)
+                if phone_match:
+                    ani_phone = phone_match.group(0)
+                break
+        
         doc = f"--- 911 DISPATCH TRANSCRIPT ---\n"
         doc += f"Date: {call_time.strftime('%Y-%m-%d %H:%M:%S')}\n"
         doc += f"Caller: {caller_name}\n"
         doc += f"Caller Phone: {caller_phone}\n"
-        doc += f"ANI/ALI: {caller_phone}\n"  # Use actual caller phone for ANI/ALI
+        doc += f"ANI/ALI: {caller_phone}\n"  # Use actual caller phone for ANI/ALI (consistent)
         doc += f"PSAP: {fake.city()} Emergency Communications Center\n"
         doc += f"Dispatcher ID: {fake.random_number(digits=4)}\n"
         doc += f"Dispatcher: {dispatcher_name}\n"
         doc += f"Call Priority: {random.choice(['Priority 1', 'Priority 2', 'Priority 3'])}\n\n"
         doc += f"TRANSCRIPT:\n"
         doc += f"{'='*60}\n"
+        
+        # Update system timestamps to match call_time
         for speaker, text in script:
             if speaker == "SYSTEM":
-                doc += f"[{speaker}] {text}\n"
+                if "Call received:" in text:
+                    doc += f"[{speaker}] Call received: {call_time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+                elif "ANI:" in text:
+                    doc += f"[{speaker}] ANI: {caller_phone}\n"  # Use consistent caller phone
+                else:
+                    doc += f"[{speaker}] {text}\n"
             else:
                 doc += f"{speaker.upper()}: {text}\n"
+        
         doc += f"{'='*60}\n"
         doc += f"\nCALL DISPOSITION: Transferred to responding agency\n"
         doc += f"RESPONDING UNITS: {random.choice(['Patrol Unit 415-ADAM', 'Patrol Unit 415-BOY', 'Patrol Unit 415-CHARLIE'])}\n"
-        doc += f"NOTES: Caller was {random.choice(['calm', 'hysterical', 'upset', 'frightened', 'angry'])}. {random.choice(['Provided detailed description', 'Limited information available', 'Witnessed incident in progress'])}.\n"
+        
+        # Crime-type appropriate notes
+        if self.case.crime_type in ["Fraud", "Scam", "Cybercrime"]:
+            doc += f"NOTES: Caller was {random.choice(['calm', 'upset', 'frustrated', 'embarrassed'])}. Reported {self.case.crime_type.lower()} via phone/email. No immediate threat. Financial information compromised.\n"
+        else:
+            doc += f"NOTES: Caller was {random.choice(['calm', 'hysterical', 'upset', 'frightened', 'angry'])}. {random.choice(['Provided detailed description', 'Limited information available', 'Witnessed incident in progress'])}.\n"
         
         # Apply system errors
         doc = dispatcher_entity.introduce_error(doc)
@@ -2018,6 +2042,9 @@ Status: {random.choice(['Booked', 'Released on Citation', 'Transported to Jail']
         self.case.documents.append(log)
 
     def _generate_incident_report(self):
+        """Generate RMS-style incident report using blueprint-based generator."""
+        from .blueprint_generators import RMSIncidentReportGenerator
+        
         victims = [p for p in self.case.persons if p.role == Role.VICTIM]
         suspects = [p for p in self.case.persons if p.role == Role.SUSPECT]
         base_lat, base_lon = geo_mgr.get_random_city_location()
@@ -2040,73 +2067,30 @@ Status: {random.choice(['Booked', 'Released on Citation', 'Transported to Jail']
                 weather_condition=wx
             )
 
-        # Generate comprehensive narrative based on crime type
-        if not self._should_generate_physical_evidence(self.case.crime_type):
-            # Non-physical crimes (fraud, scams, cybercrime)
-            narrative = self._generate_non_physical_incident_report(victims, suspects)
-        elif "Cyber" in self.case.crime_type or ("Financial" in self.case.crime_type and "Fraud" not in self.case.crime_type):
-            narrative = self._generate_cybercrime_incident_report()
-        else:
-            narrative = self._generate_standard_incident_report(victims, suspects, wx, temp)
+        # Use blueprint-based generator for RMS format
+        entities = getattr(self, 'entities', {})
+        rms_generator = RMSIncidentReportGenerator(
+            case=self.case,
+            crime_datetime=self.crime_datetime,
+            entities=entities
+        )
+        
+        doc = rms_generator.generate()
+        
+        # Store narrative in incident report object
+        if self.case.incident_report:
+            # Extract narrative from generated doc (it's in the narrative section)
+            self.case.incident_report.narrative = doc
 
-        self.case.incident_report.narrative = narrative
-
-        # Get reporting officer entity (create/get consistent officer)
+        # Apply officer errors (typos, grammar mistakes) if entity system is available
         officer_id = f"officer_{self.case.reporting_officer.id}"
-        officer_entity = self._get_or_create_entity(officer_id, "human", self.case.reporting_officer.full_name)
+        if hasattr(self, '_get_or_create_entity') and self._get_or_create_entity:
+            try:
+                officer_entity = self._get_or_create_entity(officer_id, "human", self.case.reporting_officer.full_name)
+                doc = officer_entity.introduce_error(doc)
+            except:
+                pass  # Fallback if entity system not available
         
-        # Officer might misspell suspect/victim names based on attention to detail
-        suspect_names_in_doc = []
-        victim_names_in_doc = []
-        for suspect in suspects:
-            correct_name = suspect.full_name
-            misspelled = officer_entity.misspell_name(correct_name)
-            if misspelled != correct_name:
-                narrative = narrative.replace(correct_name, misspelled)
-                suspect_names_in_doc.append(misspelled)
-            else:
-                suspect_names_in_doc.append(correct_name)
-        
-        for victim in victims:
-            correct_name = victim.full_name
-            misspelled = officer_entity.misspell_name(correct_name)
-            if misspelled != correct_name:
-                narrative = narrative.replace(correct_name, misspelled)
-                victim_names_in_doc.append(misspelled)
-            else:
-                victim_names_in_doc.append(correct_name)
-        
-        doc = f"--- INCIDENT REPORT ---\n"
-        doc += f"INCIDENT REPORT #{fake.random_number(digits=6)}\n"
-        doc += f"DATE/TIME: {self.case.incident_report.incident_date.strftime('%Y-%m-%d %H:%M')}\n"
-        doc += f"LOCATION: {self.case.incident_report.incident_location}\n"
-        doc += f"COORDINATES: {scene_lat:.6f}, {scene_lon:.6f}\n"
-        doc += f"WEATHER CONDITIONS: {wx}, {temp}\n"
-        doc += f"REPORTING OFFICER: {officer_entity.name}\n"
-        doc += f"BADGE #: {fake.random_number(digits=4)}\n"
-        doc += f"INCIDENT TYPE: {self.case.crime_type}\n\n"
-        doc += f"NARRATIVE:\n{narrative}\n\n"
-        doc += f"ACTIONS TAKEN:\n"
-        if self._should_generate_physical_evidence(self.case.crime_type):
-            doc += f"- Scene secured and documented\n"
-            doc += f"- Evidence collection initiated\n"
-            doc += f"- Witness statements obtained\n"
-            doc += f"- Digital forensics requested\n"
-        else:
-            doc += f"- Victim statement obtained and documented\n"
-            doc += f"- Digital evidence preservation initiated\n"
-            doc += f"- Financial records subpoenaed\n"
-            doc += f"- Phone carrier records requested\n"
-        if "Cyber" in self.case.crime_type:
-            doc += f"- Cybersecurity unit notified\n"
-            doc += f"- Network logs preserved\n"
-            doc += f"- Affected systems isolated\n"
-        if "Phone" in self.case.crime_type or "Scam" in self.case.crime_type:
-            doc += f"- VoIP provider contacted\n"
-            doc += f"- Call detail records requested\n"
-
-        # Apply officer errors (typos, grammar mistakes)
-        doc = officer_entity.introduce_error(doc)
         self.case.documents.append(doc)
 
     def _generate_cybercrime_incident_report(self):
@@ -2352,7 +2336,7 @@ Status: {random.choice(['Booked', 'Released on Citation', 'Transported to Jail']
             collected_items.append("Spent Shell Casings")
         
         if "Phone data pull" in modifiers:
-            # self._generate_phone_data()  # TODO: Implement phone data extraction
+            self._generate_phone_carrier_records()
             collected_items.append("Suspect Mobile Phone (Seized later)")
             
         if "Financial Records" in modifiers: 
@@ -2462,6 +2446,115 @@ Firmware Version: 2.4.7"""
         self.case.documents.append(doc_info)
         
         self.case.add_evidence(Evidence(id=fake.uuid4(), type=EvidenceType.DIGITAL, description=f"Vehicle Infotainment/EDR", collected_by="Traffic Homicide", collected_at=warrant_date + timedelta(days=1), location_found="Impound Lot"))
+
+    def _generate_phone_carrier_records(self):
+        """Generate carrier/provider records using blueprint-based generators."""
+        from .blueprint_generators import CarrierRecordGenerator, WarrantGenerator
+        
+        suspects = [p for p in self.case.persons if p.role == Role.SUSPECT]
+        if not suspects:
+            return
+        
+        # Get phone number from suspect or generate one - ensure consistency
+        suspect = suspects[0]
+        phone_number = None
+        
+        # Check if suspect has a phone number in their devices
+        if hasattr(suspect, 'devices') and suspect.devices:
+            for device in suspect.devices:
+                if hasattr(device, 'phone_number') and device.phone_number:
+                    phone_number = device.phone_number.replace('-', '').replace('(', '').replace(')', '').replace(' ', '').replace('.', '')
+                    break
+        
+        # If no device phone, check suspect directly
+        if not phone_number and hasattr(suspect, 'phone_number') and suspect.phone_number:
+            phone_number = suspect.phone_number.replace('-', '').replace('(', '').replace(')', '').replace(' ', '').replace('.', '')
+        
+        # If still no phone, generate one and store it for consistency
+        if not phone_number:
+            phone_number = f"{random.randint(5550100000, 5550199999)}"
+            # Store in case for future reference (could add to suspect device)
+        
+        # Ensure phone number is exactly 10 digits (remove country code if present)
+        if len(phone_number) > 10:
+            phone_number = phone_number[-10:]
+        elif len(phone_number) < 10:
+            phone_number = phone_number.zfill(10)
+        
+        matter_id = f"{random.randint(100000, 999999)}"
+        query_start = self.crime_datetime - timedelta(days=30)
+        query_end = datetime.now()
+        
+        # Store phone number in case for consistency across documents
+        if not hasattr(self.case, '_target_phone_number'):
+            self.case._target_phone_number = phone_number
+        
+        # Generate preservation request first (legal process flow)
+        from .blueprint_generators import PreservationRequestGenerator
+        provider = random.choice(["T-Mobile", "AT&T", "Verizon", "Cricket"])
+        preservation_gen = PreservationRequestGenerator(self.case, phone_number, provider)
+        preservation_doc = preservation_gen.generate()
+        self.case.documents.append(f"--- PRESERVATION REQUEST LETTER ---\n{preservation_doc}")
+        
+        # Generate warrant (comes after preservation request)
+        warrant_gen = WarrantGenerator(self.case, phone_number, "phone")
+        warrant_doc = warrant_gen.generate_warrant_affidavit(provider)
+        self.case.documents.append(f"--- SEARCH WARRANT AFFIDAVIT ---\n{warrant_doc}")
+        
+        # Generate carrier records
+        carrier_gen = CarrierRecordGenerator(
+            self.case, 
+            phone_number, 
+            matter_id, 
+            query_start, 
+            query_end
+        )
+        
+        # Generate all carrier record types
+        stir_shaken = carrier_gen.generate_stir_shaken_log()
+        self.case.documents.append(f"--- AT&T STIR/SHAKEN CALL AUTHENTICATION LOG ---\n{stir_shaken}")
+        
+        subscriber_info = carrier_gen.generate_subscriber_info()
+        self.case.documents.append(f"--- SUBSCRIBER INFORMATION REPORT ---\n{subscriber_info}")
+        
+        # Generate additional carrier records (if complexity is medium or high)
+        if self.case.complexity in ["Medium", "High"]:
+            precision_location = carrier_gen.generate_precision_location_report()
+            self.case.documents.append(f"--- HISTORICAL PRECISION LOCATION REPORT ---\n{precision_location}")
+            
+            timing_advance = carrier_gen.generate_timing_advance_report()
+            self.case.documents.append(f"--- TIMING ADVANCE LOCATION REPORT ---\n{timing_advance}")
+            
+            mac_report = carrier_gen.generate_mac_address_report()
+            self.case.documents.append(f"--- MAC ADDRESS ASSOCIATION REPORT ---\n{mac_report}")
+        
+        # Generate mobility records for high complexity
+        if self.case.complexity == "High":
+            mobility = carrier_gen.generate_mobility_with_cell_location()
+            self.case.documents.append(f"--- MOBILITY WITH CELL LOCATION ---\n{mobility}")
+            
+            wireline = carrier_gen.generate_wireline_cdr()
+            self.case.documents.append(f"--- WIRELINE CALL DETAIL RECORDS ---\n{wireline}")
+        
+        # Generate business records certification (comes after records are provided)
+        from .blueprint_generators import BusinessRecordsCertificationGenerator
+        record_types = ["subscriber information", "call detail records", "location data"]
+        if self.case.complexity in ["Medium", "High"]:
+            record_types.extend(["precision location records", "timing advance records"])
+        cert_gen = BusinessRecordsCertificationGenerator(self.case, provider, matter_id, record_types)
+        cert_doc = cert_gen.generate()
+        self.case.documents.append(f"--- BUSINESS RECORDS CERTIFICATION ---\n{cert_doc}")
+        
+        # Add as evidence
+        phone_ev = Evidence(
+            id=fake.uuid4(),
+            type=EvidenceType.DIGITAL,
+            description=f"Carrier Records - Phone {phone_number}",
+            collected_by="Legal Process",
+            collected_at=query_end,
+            location_found="Carrier Provider"
+        )
+        self.case.add_evidence(phone_ev)
 
     def _generate_forensic_geology(self):
         suspects = [p for p in self.case.persons if p.role == Role.SUSPECT]

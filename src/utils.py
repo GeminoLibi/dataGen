@@ -117,9 +117,33 @@ def generate_discovery_index(case_id: str, defendant: str, charges: str) -> str:
 
 # ... (Previous helper functions maintained below) ...
 
+def _determine_suspect_on_scene(crime_type: str) -> bool:
+    """Use roll system to determine if suspect is likely on scene based on crime type."""
+    # Base probabilities by crime type (higher = more likely suspect on scene)
+    base_thresholds = {
+        "Burglary": 12,      # Often caught in act or fleeing
+        "Robbery": 14,       # Usually in progress or just occurred
+        "Assault": 15,       # Often still present
+        "Homicide": 8,       # Usually gone, but sometimes caught
+        "Theft": 10,         # Often gone, but sometimes caught
+        "Arson": 6,          # Usually gone before fire discovered
+        "Domestic Violence": 16,  # Often still present
+        "Drug Possession": 18,     # Usually caught with evidence
+        "Stalking": 5,       # Rarely on scene
+        "Fraud": 3,          # Almost never on scene
+        "Cybercrime": 2,     # Never on scene
+        "Phone Scam": 2,     # Never on scene
+    }
+    
+    threshold = base_thresholds.get(crime_type, 10)
+    return roll_check(threshold)
+
+
 def generate_cad_log(call_time: datetime, address: str, crime_type: str, 
                      caller_name: Optional[str] = None, caller_gender: Optional[str] = None) -> str:
     """Generate detailed Computer-Aided Dispatch log with realistic codes and actions."""
+    from .utils import roll_check
+    
     incident_num = f"INC-{fake.random_number(digits=8)}"
 
     # Determine signal codes based on crime type
@@ -133,7 +157,9 @@ def generate_cad_log(call_time: datetime, address: str, crime_type: str,
         "Stalking": "10-28 (Suspicious Person)",
         "Arson": "10-70 (Fire Alarm)",
         "Theft": "10-57 (Theft)",
-        "Fraud": "10-28 (Suspicious Person)"
+        "Fraud": "10-28 (Suspicious Person)",
+        "Cybercrime": "10-28 (Suspicious Activity)",
+        "Phone Scam": "10-28 (Suspicious Activity)"
     }
     signal = signal_codes.get(crime_type, "10-28 (Suspicious Activity)")
 
@@ -144,6 +170,12 @@ def generate_cad_log(call_time: datetime, address: str, crime_type: str,
         caller_desc = random.choice(["FEMALE", "MALE"])
     
     caller_state = random.choice(["HYSTERICAL", "CALM", "UPSET", "FRIGHTENED", "ANGRY"])
+
+    # Use roll system to determine if suspect is on scene
+    suspect_on_scene = _determine_suspect_on_scene(crime_type)
+    
+    # Roll for whether caller provides suspect description
+    has_suspect_desc = roll_check(12)
 
     doc = f"--- COMPUTER AIDED DISPATCH (CAD) INCIDENT REPORT ---\n"
     doc += f"Incident #: {incident_num}\n"
@@ -170,7 +202,15 @@ def generate_cad_log(call_time: datetime, address: str, crime_type: str,
     t1 = t0 + timedelta(seconds=45)
     doc += f"[{t1.strftime('%H:%M:%S')}] UNITS ASSIGNED: 415-ADAM (ADAM-{random.randint(100,999)}), 415-BOY (BOY-{random.randint(100,999)})\n"
     doc += f"[{t1.strftime('%H:%M:%S')}] RESPONSE: CODE 2 (URGENT)\n"
-    doc += f"[{t1.strftime('%H:%M:%S')}] RP ADVISES SUSPECT POSSIBLY STILL ON SCENE\n"
+    
+    # Dynamic suspect on scene message based on roll
+    if suspect_on_scene:
+        doc += f"[{t1.strftime('%H:%M:%S')}] RP ADVISES SUSPECT POSSIBLY STILL ON SCENE\n"
+    else:
+        if crime_type in ["Fraud", "Cybercrime", "Phone Scam", "Stalking"]:
+            doc += f"[{t1.strftime('%H:%M:%S')}] RP ADVISES NO SUSPECT ON SCENE - REMOTE INCIDENT\n"
+        else:
+            doc += f"[{t1.strftime('%H:%M:%S')}] RP ADVISES SUSPECT FLED PRIOR TO ARRIVAL\n"
 
     t2 = t0 + timedelta(minutes=2, seconds=15)
     doc += f"[{t2.strftime('%H:%M:%S')}] UNIT 415-ADAM: EN ROUTE FROM {fake.street_name().upper()}\n"
@@ -180,33 +220,126 @@ def generate_cad_log(call_time: datetime, address: str, crime_type: str,
     t3 = t0 + timedelta(minutes=3, seconds=30)
     doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: ARRIVED ON SCENE\n"
     doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: 10-97 (ON SCENE)\n"
-    doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: REPORTS SEEING SUSPECT FLEEING ON FOOT\n"
+    
+    # Dynamic arrival actions based on suspect presence (from roll)
+    if suspect_on_scene:
+        # Roll to see if suspect is caught or flees
+        if roll_check(14):  # 70% chance suspect caught if on scene
+            doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: SUSPECT DETAINED ON SCENE\n"
+        else:
+            doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: REPORTS SEEING SUSPECT FLEEING ON FOOT\n"
+            if roll_check(12):  # 60% chance of direction
+                directions = ["NORTHBOUND", "SOUTHBOUND", "EASTBOUND", "WESTBOUND"]
+                doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: SUSPECT LAST SEEN {random.choice(directions)}\n"
+    else:
+        # No suspect on scene - crime-type appropriate response
+        if crime_type in ["Fraud", "Cybercrime", "Phone Scam"]:
+            doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: CONTACTED RP AT RESIDENCE\n"
+            doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: NO SUSPECT ON SCENE - REMOTE INCIDENT\n"
+        elif crime_type == "Stalking":
+            doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: CONTACTED RP - NO SUSPECT VISIBLE\n"
+        elif crime_type == "Arson":
+            doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: ASSESSING FIRE SCENE - NO SUSPECT ON SCENE\n"
+        else:
+            doc += f"[{t3.strftime('%H:%M:%S')}] UNIT 415-ADAM: ASSESSING SCENE - SUSPECT NOT PRESENT\n"
 
     t4 = t0 + timedelta(minutes=4, seconds=10)
     doc += f"[{t4.strftime('%H:%M:%S')}] UNIT 415-BOY: ARRIVED ON SCENE\n"
     doc += f"[{t4.strftime('%H:%M:%S')}] UNIT 415-BOY: 10-97 (ON SCENE)\n"
-    doc += f"[{t4.strftime('%H:%M:%S')}] UNITS ESTABLISHING PERIMETER\n"
+    
+    # Dynamic response based on suspect presence and crime type
+    if suspect_on_scene and roll_check(12):
+        doc += f"[{t4.strftime('%H:%M:%S')}] UNITS ESTABLISHING PERIMETER\n"
+    elif crime_type in ["Fraud", "Cybercrime", "Phone Scam"]:
+        doc += f"[{t4.strftime('%H:%M:%S')}] UNIT 415-BOY: ASSISTING WITH VICTIM STATEMENT\n"
+    elif crime_type in ["Domestic Violence", "Assault"]:
+        doc += f"[{t4.strftime('%H:%M:%S')}] UNIT 415-BOY: SEPARATING PARTIES\n"
+    else:
+        doc += f"[{t4.strftime('%H:%M:%S')}] UNITS COORDINATING RESPONSE\n"
 
     t5 = t0 + timedelta(minutes=5, seconds=45)
-    doc += f"[{t5.strftime('%H:%M:%S')}] UNIT 415-ADAM: REQUESTING SUPERVISOR - 10-39\n"
-    doc += f"[{t5.strftime('%H:%M:%S')}] SUPERVISOR 415-SAM: 10-39 (SUPERVISOR REQUEST)\n"
+    # Roll for supervisor request (not automatic)
+    if roll_check(15):  # 75% chance supervisor requested for serious crimes
+        if crime_type in ["Fraud", "Cybercrime", "Phone Scam"]:
+            doc += f"[{t5.strftime('%H:%M:%S')}] UNIT 415-ADAM: REQUESTING FINANCIAL CRIMES UNIT\n"
+            doc += f"[{t5.strftime('%H:%M:%S')}] FINANCIAL CRIMES UNIT: NOTIFIED - WILL FOLLOW UP\n"
+        elif crime_type in ["Homicide", "Robbery", "Arson"]:
+            doc += f"[{t5.strftime('%H:%M:%S')}] UNIT 415-ADAM: REQUESTING SUPERVISOR - 10-39\n"
+            doc += f"[{t5.strftime('%H:%M:%S')}] SUPERVISOR 415-SAM: 10-39 (SUPERVISOR REQUEST)\n"
+        else:
+            doc += f"[{t5.strftime('%H:%M:%S')}] UNIT 415-ADAM: REQUESTING SUPERVISOR - 10-39\n"
+            doc += f"[{t5.strftime('%H:%M:%S')}] SUPERVISOR 415-SAM: 10-39 (SUPERVISOR REQUEST)\n"
 
     t6 = t0 + timedelta(minutes=7, seconds=20)
-    doc += f"[{t6.strftime('%H:%M:%S')}] DETECTIVES EN ROUTE - CRIME SCENE UNIT REQUESTED\n"
-    doc += f"[{t6.strftime('%H:%M:%S')}] UNIT 415-ADAM: SECURE - CODE 4\n"
-    doc += f"[{t6.strftime('%H:%M:%S')}] INCIDENT CONTAINED\n"
+    # Dynamic resolution based on crime type and suspect status
+    if crime_type in ["Fraud", "Cybercrime", "Phone Scam"]:
+        doc += f"[{t6.strftime('%H:%M:%S')}] UNIT 415-ADAM: REPORT TAKEN - CASE REFERRED TO DETECTIVES\n"
+        doc += f"[{t6.strftime('%H:%M:%S')}] UNIT 415-ADAM: SECURE - CODE 4\n"
+        doc += f"[{t6.strftime('%H:%M:%S')}] INCIDENT DOCUMENTED - NO IMMEDIATE THREAT\n"
+    elif suspect_on_scene and roll_check(14):
+        doc += f"[{t6.strftime('%H:%M:%S')}] UNIT 415-ADAM: SUSPECT IN CUSTODY\n"
+        doc += f"[{t6.strftime('%H:%M:%S')}] UNIT 415-ADAM: SECURE - CODE 4\n"
+        doc += f"[{t6.strftime('%H:%M:%S')}] INCIDENT CONTAINED\n"
+    else:
+        doc += f"[{t6.strftime('%H:%M:%S')}] DETECTIVES EN ROUTE - CRIME SCENE UNIT REQUESTED\n"
+        doc += f"[{t6.strftime('%H:%M:%S')}] UNIT 415-ADAM: SECURE - CODE 4\n"
+        doc += f"[{t6.strftime('%H:%M:%S')}] INCIDENT CONTAINED\n"
 
     doc += f"\nDISPOSITION: REPORT TAKEN\n"
     doc += f"CLEARANCE CODE: 10-8 (IN SERVICE)\n"
-    doc += f"FOLLOW-UP REQUIRED: DETECTIVES\n"
+    if crime_type in ["Fraud", "Cybercrime", "Scam"]:
+        doc += f"FOLLOW-UP REQUIRED: FINANCIAL CRIMES UNIT / DETECTIVES\n"
+    else:
+        doc += f"FOLLOW-UP REQUIRED: DETECTIVES\n"
     doc += f"CASE NUMBER ASSIGNED: {fake.random_number(digits=8)}\n"
 
     doc += f"\nCAD NOTES:\n"
-    doc += f"• RP PROVIDED DESCRIPTION: MALE, 30S, HOODIE, FLEEING SOUTHBOUND\n"
-    doc += f"• SUSPECT VEHICLE POSSIBLY PARKED NEARBY\n"
-    doc += f"• WITNESSES ON SCENE\n"
-    doc += f"• PROPERTY DAMAGE REPORTED\n"
-    doc += f"• MEDICAL AID NOT REQUIRED\n"
+    # Dynamic notes based on suspect presence and crime type
+    if suspect_on_scene:
+        if has_suspect_desc:
+            desc_ages = ["20S", "30S", "40S", "50S"]
+            desc_gender = random.choice(["MALE", "FEMALE"])
+            desc_clothing = random.choice(["HOODIE", "JACKET", "T-SHIRT", "DARK CLOTHES"])
+            doc += f"• RP PROVIDED DESCRIPTION: {desc_gender}, {random.choice(desc_ages)}, {desc_clothing}\n"
+        if roll_check(12):
+            doc += f"• WITNESSES ON SCENE\n"
+        if crime_type in ["Burglary", "Robbery", "Theft"]:
+            if roll_check(10):
+                doc += f"• PROPERTY DAMAGE REPORTED\n"
+            if roll_check(12):
+                doc += f"• SUSPECT VEHICLE POSSIBLY PARKED NEARBY\n"
+        elif crime_type == "Assault":
+            if roll_check(14):
+                doc += f"• VICTIM REQUIRES MEDICAL ATTENTION\n"
+            if roll_check(12):
+                doc += f"• WITNESSES ON SCENE\n"
+        elif crime_type == "Domestic Violence":
+            doc += f"• PARTIES SEPARATED\n"
+            if roll_check(12):
+                doc += f"• VICTIM REQUIRES MEDICAL ATTENTION\n"
+    else:
+        # No suspect on scene
+        if crime_type in ["Fraud", "Cybercrime", "Phone Scam"]:
+            doc += f"• RP REPORTED {crime_type.upper()} VIA PHONE/EMAIL\n"
+            doc += f"• NO SUSPECT ON SCENE - REMOTE INCIDENT\n"
+            if roll_check(14):
+                doc += f"• VICTIM PROVIDED SUSPECT PHONE NUMBER/EMAIL\n"
+            if roll_check(12):
+                doc += f"• FINANCIAL TRANSACTIONS DOCUMENTED\n"
+            doc += f"• CASE REFERRED FOR INVESTIGATION\n"
+        elif crime_type == "Stalking":
+            doc += f"• NO SUSPECT VISIBLE AT TIME OF RESPONSE\n"
+            if roll_check(12):
+                doc += f"• RP PROVIDED SUSPECT DESCRIPTION FROM PREVIOUS ENCOUNTERS\n"
+        elif crime_type == "Arson":
+            doc += f"• FIRE SCENE SECURED\n"
+            if roll_check(12):
+                doc += f"• ARSON INVESTIGATION UNIT NOTIFIED\n"
+        else:
+            doc += f"• RP PROVIDED DETAILED INFORMATION\n"
+            if roll_check(12):
+                doc += f"• SCENE SECURED FOR EVIDENCE COLLECTION\n"
+            doc += f"• INVESTIGATION ONGOING\n"
 
     return doc
 
@@ -1488,7 +1621,9 @@ def generate_social_posts(motive: str, days_range: int = 30) -> List[str]:
     
     return dated_posts[:num_posts]
 def generate_911_script(crime_type: str, address: str, caller_role: str = "Witness") -> List[Tuple[str, str]]:
-    """Generate realistic 911 call transcript with detailed conversation."""
+    """Generate realistic 911 call transcript with detailed conversation for all crime types."""
+    from .utils import roll_check
+    
     call_time = datetime.now()
 
     # Base script with realistic dialogue
@@ -1498,7 +1633,26 @@ def generate_911_script(crime_type: str, address: str, caller_role: str = "Witne
     ]
 
     if caller_role == "Victim":
-        if crime_type == "Burglary":
+        if crime_type in ["Fraud", "Phone Scam", "Cybercrime"]:
+            script.extend([
+                ("Caller", f"Hi, I need to report a fraud. I think I've been scammed."),
+                ("Dispatch", "Okay, I can help you with that. Can you tell me what happened?"),
+                ("Caller", f"I received a phone call from someone claiming to be from {random.choice(['Microsoft', 'the IRS', 'Social Security', 'my bank', 'Amazon'])}. They said I owed money and needed to pay immediately."),
+                ("Dispatch", "I understand. Did you give them any money or personal information?"),
+                ("Caller", f"Yes, I... I'm embarrassed, but I gave them my bank account information. They said I needed to wire {random.choice(['$500', '$1,000', '$2,500', '$5,000'])} to resolve this."),
+                ("Dispatch", "Okay, we're going to help you. First, I need you to contact your bank immediately to freeze your accounts. Can you do that?"),
+                ("Caller", "Yes, I can do that. Should I call them now?"),
+                ("Dispatch", "Yes, call them right after we hang up. Now, can you give me the phone number they called from?"),
+                ("Caller", f"The number was {fake.phone_number()}. I looked it up online and it says it's a scam number."),
+                ("Dispatch", "Good, you did the right thing by checking. Did they give you any email addresses or websites?"),
+                ("Caller", f"Yes, they sent me an email to {fake.email()}. I haven't clicked on anything in it."),
+                ("Dispatch", "That's good. Don't click on anything. An officer will come to your location to take a report. What's your address?"),
+                ("Caller", f"I'm at {address}."),
+                ("Dispatch", "Okay, an officer will be there shortly. In the meantime, contact your bank and credit card companies to report the fraud."),
+                ("Caller", "Thank you. I feel so stupid for falling for this."),
+                ("Dispatch", "Don't feel bad - these scammers are very convincing. You're doing the right thing by reporting it."),
+            ])
+        elif crime_type == "Burglary":
             script.extend([
                 ("Caller", f"I'm at {address}. Someone just broke into my house!"),
                 ("Dispatch", f"Okay, stay calm. Are you safe right now? Can you describe what happened?"),
@@ -1523,6 +1677,68 @@ def generate_911_script(crime_type: str, address: str, caller_role: str = "Witne
                 ("Dispatch", "Did you know this person?"),
                 ("Caller", "No, he came up from behind. I was walking home from work."),
                 ("Dispatch", "Alright, stay where you are. Officers are responding."),
+            ])
+        elif crime_type == "Robbery":
+            script.extend([
+                ("Caller", f"I was just robbed at {address}!"),
+                ("Dispatch", "Are you safe? Are you injured?"),
+                ("Caller", "I'm okay, but they took my wallet and phone. They had a gun!"),
+                ("Dispatch", "Okay, stay calm. Can you describe the person who robbed you?"),
+                ("Caller", "Male, maybe 20s or 30s, wearing a mask. Dark clothes. They ran that way."),
+                ("Dispatch", "Which direction did they go?"),
+                ("Caller", "They went north, toward Main Street. Please hurry!"),
+                ("Dispatch", "Officers are on the way. Stay where you are."),
+            ])
+        elif crime_type == "Theft":
+            script.extend([
+                ("Caller", f"Someone stole my {random.choice(['car', 'bike', 'purse', 'laptop'])} at {address}!"),
+                ("Dispatch", "When did this happen?"),
+                ("Caller", f"Just now, maybe {random.randint(5, 30)} minutes ago. I turned around and it was gone!"),
+                ("Dispatch", "Did you see who took it?"),
+                ("Caller", "No, I didn't see anyone. I was inside the store."),
+                ("Dispatch", "Okay, an officer will be there shortly to take a report."),
+            ])
+        elif crime_type == "Homicide":
+            script.extend([
+                ("Caller", f"There's someone... there's blood everywhere at {address}!"),
+                ("Dispatch", "Okay, stay calm. Are you safe right now?"),
+                ("Caller", "I think so, but... I think they're dead. Oh my god."),
+                ("Dispatch", "Don't touch anything. Are you inside or outside?"),
+                ("Caller", "I'm outside. I came home and found them like this."),
+                ("Dispatch", "Okay, stay outside. Don't go back in. Officers are on the way."),
+            ])
+        elif crime_type == "Domestic Violence":
+            script.extend([
+                ("Caller", f"Please help, my {random.choice(['husband', 'wife', 'boyfriend', 'girlfriend'])} is {random.choice(['hitting me', 'threatening me', 'breaking things'])} at {address}!"),
+                ("Dispatch", "Are you safe right now? Can you get to a safe place?"),
+                ("Caller", "I'm in the bathroom, they're banging on the door!"),
+                ("Dispatch", "Stay where you are. Officers are on the way. Can you tell me your name?"),
+                ("Caller", f"My name is {fake.first_name()}. Please hurry!"),
+                ("Dispatch", "Help is coming. Stay on the line with me."),
+            ])
+        elif crime_type == "Stalking":
+            script.extend([
+                ("Caller", f"I think I'm being followed. There's someone watching my house at {address}."),
+                ("Dispatch", "Are they there right now?"),
+                ("Caller", "Yes, I can see them from my window. They've been there for hours."),
+                ("Dispatch", "Can you describe them?"),
+                ("Caller", "Male, wearing dark clothes. I can't see their face clearly."),
+                ("Dispatch", "Okay, an officer will come check it out. Stay inside and lock your doors."),
+            ])
+        elif crime_type == "Arson":
+            script.extend([
+                ("Caller", f"There's a fire at {address}! I think someone set it!"),
+                ("Dispatch", "Is the fire department on the way?"),
+                ("Caller", "I don't know, I just called you! The building is on fire!"),
+                ("Dispatch", "I'm transferring you to fire dispatch. Stay back from the building."),
+            ])
+        elif crime_type == "Drug Possession":
+            # Usually called in by witness or during traffic stop
+            script.extend([
+                ("Caller", f"I saw someone dealing drugs at {address}."),
+                ("Dispatch", "Can you describe what you saw?"),
+                ("Caller", "There were people exchanging money and small bags. It looked suspicious."),
+                ("Dispatch", "An officer will investigate. Thank you for calling."),
             ])
 
     elif caller_role == "Witness":
